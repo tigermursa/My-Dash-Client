@@ -10,29 +10,35 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme | null>(null); // Start with null to wait for the theme load
 
+  // Set theme from localStorage or system preference on initial load
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme") as Theme | null;
     if (storedTheme) {
-      setTheme(storedTheme);
+      setTheme(storedTheme); // If theme is stored in localStorage, use it
     } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setTheme("dark");
+      setTheme("dark"); // Default to dark theme if system prefers dark
+    } else {
+      setTheme("light"); // Otherwise, default to light theme
     }
   }, []);
 
+  // Apply the theme class to <html> element and save to localStorage when theme changes
   useEffect(() => {
-    localStorage.setItem("theme", theme);
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
+    if (theme) {
+      document.documentElement.classList.remove("light", "dark");
+      document.documentElement.classList.add(theme);
+      localStorage.setItem("theme", theme);
     }
   }, [theme]);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
+
+  // Wait until the theme is loaded before rendering children
+  if (theme === null) return null;
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
