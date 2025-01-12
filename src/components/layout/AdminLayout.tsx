@@ -3,9 +3,14 @@ import Sidebar from "./Sidebar";
 
 const AdminLayout = () => {
   return (
-    <div>
-      <Sidebar />
-      <Outlet />
+    <div className="flex">
+      <div className="flex-1">
+        <Sidebar />
+      </div>
+
+      <div className="flex-[10]">
+        <Outlet />
+      </div>
     </div>
   );
 };
