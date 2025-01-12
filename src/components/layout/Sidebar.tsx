@@ -27,10 +27,10 @@ export default function Sidebar() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden w-64 bg-white dark:bg-gray-800 shadow-md lg:flex flex-col transition-colors duration-200">
+      <aside className="hidden w-64 bg-white dark:bg-gray-950 shadow-md lg:flex flex-col transition-colors duration-200">
         <div className="p-4">
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
-            Dashboard
+            My Dash
           </h1>
         </div>
         <nav className="px-2 flex-1 overflow-y-auto">
