@@ -27,7 +27,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden w-64 bg-white dark:bg-gray-950 shadow-md lg:flex flex-col transition-colors duration-200">
+      <aside className="hidden w-64 bg-white dark:bg-indigo-800 shadow-md lg:flex flex-col transition-colors duration-200">
         <div className="p-4">
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
             My Dash
@@ -40,7 +40,7 @@ export default function Sidebar() {
               to={item.href}
               className={`mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md transition-colors duration-200 ${
                 pathname === item.href
-                  ? "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
+                  ? "bg-gray-100 dark:bg-gray-200 dark:bg-opacity-10 text-gray-900 dark:text-white"
                   : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white"
               }`}
             >
@@ -52,7 +52,7 @@ export default function Sidebar() {
       </aside>
 
       {/* Mobile Header */}
-      <header className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-md lg:hidden transition-colors duration-200 z-10">
+      <header className="fixed top-0 left-0 right-0 bg-white dark:bg-indigo-800 shadow-md lg:hidden transition-colors duration-200 z-10">
         <div className="p-4 flex justify-between items-center">
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
             Dashboard
@@ -62,7 +62,7 @@ export default function Sidebar() {
       </header>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-md lg:hidden transition-colors duration-200">
+      <nav className="fixed bottom-0 left-0 right-0 dark:bg-indigo-800  shadow-md lg:hidden transition-colors duration-200">
         <div className="overflow-x-auto scrollbar-hide">
           <ul className="flex whitespace-nowrap py-2">
             {navItems.map((item) => (
@@ -71,7 +71,7 @@ export default function Sidebar() {
                   to={item.href}
                   className={`flex flex-col items-center p-2 transition-colors duration-200 ${
                     pathname === item.href
-                      ? "text-blue-600 dark:text-blue-400"
+                      ? "text-blue-600 dark:text-blue-100"
                       : "text-gray-600 dark:text-gray-400"
                   }`}
                 >
