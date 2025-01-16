@@ -1,7 +1,8 @@
 import { Icon } from "@iconify/react";
 import { Link, useLocation } from "react-router-dom";
 import ThemeToggle from "../ThemeToggle";
-import navItems from "../../data/sidebarData";
+import { fetchNavItems } from "../../lib/api";
+import { useQuery } from "@tanstack/react-query";
 
 // Define the type for navigation items
 interface NavItem {
@@ -15,6 +16,28 @@ interface NavItem {
 export default function Sidebar() {
   const location = useLocation();
   const pathname = location.pathname;
+
+  // Fetching nav items from the backend with React Query
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["navitems"],
+    queryFn: fetchNavItems,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnWindowFocus: false,
+    refetchOnMount: "always",
+    refetchOnReconnect: true,
+  });
+
+  // Handle loading and error states
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    console.error("Error fetching nav items:", error);
+    return <div>Error loading navigation items</div>;
+  }
+
+  const navItems: NavItem[] = data?.data || [];
 
   // Group navItems by 'group' key
   const groupedNavItems: Record<string, NavItem[]> = navItems.reduce(
