@@ -1,12 +1,10 @@
+import { Outlet } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
-import Home from "./pages/Home";
 
-const App = () => {
+export default function App() {
   return (
     <MainLayout>
-      <Home />
+      <Outlet /> {/* This will be replaced by PageHandler */}
     </MainLayout>
   );
-};
-
-export default App;
+}

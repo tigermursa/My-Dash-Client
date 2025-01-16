@@ -1,16 +1,18 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import Home from "../pages/Home";
+import PageHandler from "../pages/PageHandler";
+import navItems from "../data/sidebarData";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      {
-        index: true,
-        element: <Home />,
-      },
+      // Dynamically create routes based on navItems
+      ...navItems.map((item) => ({
+        path: item.href,
+        element: <PageHandler />, // Component for dynamic pages
+      })),
     ],
   },
 ]);
