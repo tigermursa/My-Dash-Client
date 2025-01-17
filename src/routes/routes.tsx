@@ -17,6 +17,8 @@ import Page13 from "../FixedPages/Page13";
 import Page14 from "../FixedPages/Page14";
 import Page15 from "../FixedPages/Page15";
 import Settings from "../FixedPages/Settings";
+import SignIn from "../components/auth/signin";
+import SignUp from "../components/auth/signup";
 
 const router = createBrowserRouter([
   {
@@ -92,6 +94,14 @@ const router = createBrowserRouter([
         element: <Settings />,
       },
     ],
+  },
+  {
+    path: "/sign-in",
+    element: <SignIn />,
+  },
+  {
+    path: "/sign-up",
+    element: <SignUp />,
   },
   {
     path: "/*",
