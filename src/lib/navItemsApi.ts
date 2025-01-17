@@ -51,3 +51,12 @@ export const updateNavItems = (
     },
     body: JSON.stringify(updatedData),
   });
+
+// Toggle delete video
+export const isShow = (id: string) =>
+  apiRequest(`/toggle-show/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });

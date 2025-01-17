@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import { Link, useLocation } from "react-router-dom";
 import ThemeToggle from "../ThemeToggle";
-import { fetchNavItems } from "../../lib/api";
+import { fetchNavItems } from "../../lib/navItemsApi";
 import { useQuery } from "@tanstack/react-query";
 
 // Define the type for navigation items
@@ -11,8 +11,9 @@ interface NavItem {
   icon: string;
   href: string;
   group: string;
+  status: string;
+  isShow: boolean;
 }
-
 export default function Sidebar() {
   const location = useLocation();
   const pathname = location.pathname;
@@ -37,8 +38,9 @@ export default function Sidebar() {
     return <div>Error loading navigation items</div>;
   }
 
-  const navItems: NavItem[] = data?.data || [];
+  const navData: NavItem[] = data?.data || [];
 
+  const navItems = navData.filter((item) => item.isShow);
   // Group navItems by 'group' key
   const groupedNavItems: Record<string, NavItem[]> = navItems.reduce(
     (acc: Record<string, NavItem[]>, item: NavItem) => {

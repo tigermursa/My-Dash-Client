@@ -11,3 +11,13 @@
     display: none; /* Chrome, Safari and Opera */
   }
 }
+
+.scroll-block {
+  overflow-y: scroll; /* Enables vertical scrolling */
+  scrollbar-width: none; /* Hides the scrollbar in Firefox */
+  -ms-overflow-style: none; /* Hides the scrollbar in Internet Explorer/Edge */
+}
+
+.scroll-block::-webkit-scrollbar {
+  display: none; /* Hides the scrollbar in Chrome, Safari, and Edge */
+}
