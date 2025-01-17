@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import ThemeToggle from "../ThemeToggle";
 import { fetchNavItems } from "../../lib/navItemsApi";
 import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../hooks/useAuth";
 
 // Define the type for navigation items
 interface NavItem {
@@ -17,6 +18,8 @@ interface NavItem {
 export default function Sidebar() {
   const location = useLocation();
   const pathname = location.pathname;
+  const userId = "678aae7c61767a9a409156a0";
+  const { user } = useAuth(userId);
 
   // Fetching nav items from the backend with React Query
   const { data, error, isLoading } = useQuery({
@@ -51,6 +54,7 @@ export default function Sidebar() {
     {}
   );
 
+  console.log(user);
   return (
     <>
       {/* Desktop Sidebar */}
@@ -108,9 +112,16 @@ export default function Sidebar() {
             className="w-12 h-12 rounded-full object-cover border-2 border-light_green"
           />
           <div className="flex items-center space-x-2">
-            <span className="text-xl truncate font-semibold text-gray-900 dark:text-white">
-              Nazuku Uzia
-            </span>
+            {user ? (
+              <span className="text-xl truncate font-semibold text-gray-900 dark:text-white">
+                {user?.username}
+              </span>
+            ) : (
+              <span className="text-xl truncate font-semibold text-gray-900 dark:text-white">
+                Nazuku Uzia
+              </span>
+            )}
+
             <Link to={"/settings"}>
               <span>
                 <Icon

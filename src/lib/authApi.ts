@@ -16,6 +16,12 @@ export interface IUser {
   isDeleted: boolean;
 }
 
+interface GetUserResponse {
+  success: boolean;
+  message: string;
+  data: IUser;
+}
+
 // Centralized API request handler
 const apiRequest = async <T>(
   endpoint: string,
@@ -64,9 +70,10 @@ export const signoutUser = async (): Promise<{ message: string }> => {
 };
 
 // **Get User by ID API Call**
-export const getUserById = async (id: string): Promise<IUser> => {
-  return apiRequest<IUser>(`/get-user/${id}`, {
+export const getUserById = async (userId: string): Promise<GetUserResponse> => {
+  return await apiRequest<GetUserResponse>(`/get-user/${userId}`, {
     method: "GET",
+    headers: { "Content-Type": "application/json" },
   });
 };
 

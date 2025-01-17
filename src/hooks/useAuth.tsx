@@ -1,18 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUserById, IUser } from "../lib/authApi";
+import { getUserById } from "../lib/authApi";
 
 const useAuth = (userId: string) => {
-  const { data, error, isLoading, refetch } = useQuery<IUser>({
-    queryKey: ["user", userId], // Unique query key per user
-    queryFn: () => getUserById(userId), // Fetch user by ID
-    staleTime: 5 * 60 * 1000, // 5 minutes
+  const { data, error, isLoading, refetch } = useQuery({
+    queryKey: ["user", userId],
+    queryFn: () => getUserById(userId),
+    staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
     refetchOnMount: "always",
     refetchOnReconnect: true,
-    enabled: !!userId, // Only fetch if userId exists
+    enabled: !!userId,
   });
 
-  return { user: data, error, isLoading, refetch };
+  // Extract only the necessary fields
+  const user = data?.data
+    ? {
+        _id: data.data._id,
+        username: data.data.username,
+        email: data.data.email,
+      }
+    : null;
+
+  return { user, error, isLoading, refetch };
 };
 
 export default useAuth;
