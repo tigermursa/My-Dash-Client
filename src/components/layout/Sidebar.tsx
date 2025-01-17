@@ -54,7 +54,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden w-64 bg-white dark:bg-indigo-800 shadow-md lg:flex flex-col transition-colors duration-200">
+      <aside className="hidden w-64 bg-white dark:bg-primarydarkbg shadow-md lg:flex flex-col transition-colors duration-200">
         <div className="p-4">
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
             My Dash
@@ -78,7 +78,10 @@ export default function Sidebar() {
                       : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white"
                   }`}
                 >
-                  <Icon icon={item.icon} className="mr-4 h-6 w-6" />
+                  <Icon
+                    icon={item.icon}
+                    className="mr-4 h-6 w-6 text-darker_green dark:text-lighter_green"
+                  />
                   {item.name}
                 </Link>
               ))}
