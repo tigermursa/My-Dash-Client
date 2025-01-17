@@ -6,3 +6,4 @@ Ready Pages will be add here
 4. NotePad
 5. Streak Manger
 6. Private Tabs
+7. Goals Manager
