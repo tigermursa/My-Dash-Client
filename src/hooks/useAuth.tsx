@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "../lib/authApi";
 
-const useAuth = (userId: string) => {
+const useAuth = () => {
+  const userId = "678aae7c61767a9a409156a0";
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["user", userId],
     queryFn: () => getUserById(userId),

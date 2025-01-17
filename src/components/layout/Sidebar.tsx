@@ -18,8 +18,8 @@ interface NavItem {
 export default function Sidebar() {
   const location = useLocation();
   const pathname = location.pathname;
-  const userId = "678aae7c61767a9a409156a0";
-  const { user } = useAuth(userId);
+
+  const { user } = useAuth();
 
   // Fetching nav items from the backend with React Query
   const { data, error, isLoading } = useQuery({

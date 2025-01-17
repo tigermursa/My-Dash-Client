@@ -19,11 +19,16 @@ import Page15 from "../FixedPages/Page15";
 import Settings from "../FixedPages/Settings";
 import SignIn from "../components/auth/signin";
 import SignUp from "../components/auth/signup";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <PrivateRoute>
+        <App />
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,
