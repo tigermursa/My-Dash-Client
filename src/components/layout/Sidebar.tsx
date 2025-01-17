@@ -54,7 +54,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden w-64 bg-white dark:bg-primarydarkbg shadow-md lg:flex flex-col transition-colors duration-200 m-5 border border-dark_green rounded-3xl">
+      <aside className="hidden w-64 bg-gray-50 dark:bg-primarydarkbg shadow-md lg:flex flex-col transition-colors duration-200 m-5 border dark:border-dark_green rounded-3xl">
         <div className="p-4 ">
           <div className="flex items-center  gap-1">
             <img
