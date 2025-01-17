@@ -55,7 +55,7 @@ export default function Sidebar() {
     <>
       {/* Desktop Sidebar */}
       <aside className="hidden w-64 bg-white dark:bg-primarydarkbg shadow-md lg:flex flex-col transition-colors duration-200 m-5 border border-dark_green rounded-3xl">
-        <div className="p-4">
+        <div className="p-4 ">
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
             My Dash
           </h1>
@@ -93,6 +93,16 @@ export default function Sidebar() {
             </div>
           ))}
         </nav>
+        <div className="p-4 flex items-center space-x-4 border-t border-gray-600">
+          <img
+            src="https://img.freepik.com/premium-photo/cute-girl-with-pretty-face-creative-ai_634423-2799.jpg"
+            alt="User"
+            className="w-12 h-12 rounded-full object-cover border-2 border-light_green"
+          />
+          <span className="text-xl truncate font-semibold text-gray-900 dark:text-white">
+            Nazuku Uzia
+          </span>
+        </div>
       </aside>
 
       {/* Mobile Header */}

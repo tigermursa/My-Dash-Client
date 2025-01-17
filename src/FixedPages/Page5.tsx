@@ -86,20 +86,20 @@ const Page5 = () => {
       {/* Responsive Table */}
       <div className="p-6 bg-gray-50 dark:bg-gray-900  text-gray-800 dark:text-gray-100 ">
         {/* Responsive Table */}
-        <div className="">
-          <table className="min-w-full table-auto border-collapse border border-gray-300 dark:border-gray-700 text-sm">
+        <div className=" rounded-3xl border border-gray-600 dark:border-gray-700 overflow-hidden border-b-0 ">
+          <table className="min-w-full table-auto border-collapse  text-sm ">
             <thead>
               <tr className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
-                <th className="px-6 py-3 text-left w-1/6 border-b border-gray-300 dark:border-gray-700">
+                <th className="px-6 py-3 text-left w-1/6 border-b border-gray-600 dark:border-gray-700">
                   ID
                 </th>
-                <th className="px-6 py-3 text-left w-2/5 border-b border-gray-300 dark:border-gray-700">
+                <th className="px-6 py-3 text-left w-2/5 border-b border-gray-600 dark:border-gray-700">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left w-1/5 border-b border-gray-300 dark:border-gray-700">
+                <th className="px-6 py-3 text-left w-1/5 border-b border-gray-600 dark:border-gray-700">
                   Group
                 </th>
-                <th className="px-6 py-3 text-center w-1/5 border-b border-gray-300 dark:border-gray-700">
+                <th className="px-6 py-3 text-center w-1/5 border-b border-gray-600 dark:border-gray-700">
                   Actions
                 </th>
               </tr>
@@ -110,16 +110,16 @@ const Page5 = () => {
                   key={item.id}
                   className="even:bg-gray-100 dark:even:bg-gray-800"
                 >
-                  <td className="px-6 py-3 border-b border-gray-300 dark:border-gray-700">
+                  <td className="px-6 py-3 border-b border-gray-600 dark:border-gray-700">
                     {item.id}
                   </td>
-                  <td className="px-6 py-3 border-b border-gray-300 dark:border-gray-700">
+                  <td className="px-6 py-3 border-b border-gray-600 dark:border-gray-700">
                     {item.name}
                   </td>
-                  <td className="px-6 py-3 border-b border-gray-300 dark:border-gray-700">
+                  <td className="px-6 py-3 border-b border-gray-600 dark:border-gray-700">
                     {item.group}
                   </td>
-                  <td className="px-6 py-3 border-b border-gray-300 dark:border-gray-700 text-center">
+                  <td className="px-6 py-3 border-b border-gray-600 dark:border-gray-700 text-center">
                     <div className="flex justify-center space-x-4">
                       <FaEdit
                         className="cursor-pointer text-blue-500 hover:text-blue-700"
