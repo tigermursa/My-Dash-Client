@@ -54,7 +54,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden w-64 bg-white dark:bg-primarydarkbg shadow-md lg:flex flex-col transition-colors duration-200">
+      <aside className="hidden w-64 bg-white dark:bg-primarydarkbg shadow-md lg:flex flex-col transition-colors duration-200 m-5 border border-dark_green rounded-3xl">
         <div className="p-4">
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
             My Dash
