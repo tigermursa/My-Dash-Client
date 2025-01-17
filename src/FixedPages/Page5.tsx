@@ -5,6 +5,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
 import ToggleButton from "../components/Ui/Buttons/ToggleButton/ToggleButton";
+import ThemeToggle from "../components/ThemeToggle";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 // Define your NavItem interface
 interface NavItem {
@@ -70,11 +72,19 @@ const Page5 = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 dark:bg-gray-900  text-gray-800 dark:text-gray-100  ">
-      <h1 className="text-2xl font-bold mb-6">Setting Page</h1>
+    <div className="p-6 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 ">
+      <div className=" p-6  flex justify-between items-center">
+        <h1 className="text-xl font-semibold flex items-center gap-1 ">
+          Setting Page{" "}
+          <span className="animate-spin">
+            <Icon icon={"mdi:cog"} className="h-6 w-6" />
+          </span>
+        </h1>
+        <ThemeToggle />
+      </div>
 
       {/* Responsive Table */}
-      <div className="p-6 bg-gray-50 dark:bg-gray-900  text-gray-800 dark:text-gray-100">
+      <div className="p-6 bg-gray-50 dark:bg-gray-900  text-gray-800 dark:text-gray-100 ">
         {/* Responsive Table */}
         <div className="">
           <table className="min-w-full table-auto border-collapse border border-gray-300 dark:border-gray-700 text-sm">

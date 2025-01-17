@@ -2,22 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hide scrollbar globally */
+@layer base {
+  html,
+  body {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+}
+
+/* Add a reusable utility for selectively hiding scrollbars */
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
   .scrollbar-hide::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
+    display: none; /* Chrome, Safari, and Opera */
   }
 }
 
-.scroll-block {
-  overflow-y: scroll; /* Enables vertical scrolling */
-  scrollbar-width: none; /* Hides the scrollbar in Firefox */
-  -ms-overflow-style: none; /* Hides the scrollbar in Internet Explorer/Edge */
+/* Ensures all elements (not just body) don't show scrollbars */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
-.scroll-block::-webkit-scrollbar {
-  display: none; /* Hides the scrollbar in Chrome, Safari, and Edge */
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
 }
