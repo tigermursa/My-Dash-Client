@@ -100,15 +100,26 @@ export default function Sidebar() {
             </div>
           ))}
         </nav>
+        {/* user info */}
         <div className="p-4 flex items-center space-x-4 border-t border-gray-600">
           <img
             src="https://img.freepik.com/premium-photo/cute-girl-with-pretty-face-creative-ai_634423-2799.jpg"
             alt="User"
             className="w-12 h-12 rounded-full object-cover border-2 border-light_green"
           />
-          <span className="text-xl truncate font-semibold text-gray-900 dark:text-white">
-            Nazuku Uzia
-          </span>
+          <div className="flex items-center space-x-2">
+            <span className="text-xl truncate font-semibold text-gray-900 dark:text-white">
+              Nazuku Uzia
+            </span>
+            <Link to={"/settings"}>
+              <span>
+                <Icon
+                  icon="mdi:cog"
+                  className="w-6 h-6 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 cursor-pointer hover:animate-spin"
+                />
+              </span>
+            </Link>
+          </div>
         </div>
       </aside>
 

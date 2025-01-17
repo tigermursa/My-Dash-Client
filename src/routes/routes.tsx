@@ -16,6 +16,7 @@ import Page12 from "../FixedPages/Page12";
 import Page13 from "../FixedPages/Page13";
 import Page14 from "../FixedPages/Page14";
 import Page15 from "../FixedPages/Page15";
+import Settings from "../FixedPages/Settings";
 
 const router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
       {
         path: "/page-15",
         element: <Page15 />,
+      },
+      {
+        path: "/settings",
+        element: <Settings />,
       },
     ],
   },
