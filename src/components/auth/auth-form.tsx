@@ -38,7 +38,7 @@ export default function AuthForm({ type }: AuthFormProps) {
       }
 
       if (response && response._id) {
-        localStorage.setItem("userIdMydah", response._id);
+        localStorage.setItem("userIdMydash", response._id);
       }
 
       navigate("/");

@@ -5,6 +5,7 @@ import { fetchNavItems } from "../../lib/navItemsApi";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import { NavItem } from "../../types/NavTypes";
+import LogoutButton from "../Ui/Buttons/LogoutButton/LogoutButton";
 
 export default function Sidebar() {
   const location = useLocation();
@@ -51,15 +52,20 @@ export default function Sidebar() {
       {/* Desktop Sidebar */}
       <aside className="hidden w-64 bg-gray-50 dark:bg-primarydarkbg shadow-md lg:flex flex-col transition-colors duration-200 m-5 border dark:border-dark_green rounded-3xl">
         <div className="p-4 ">
-          <div className="flex items-center  gap-1">
-            <img
-              src="/logo.png"
-              alt="User"
-              className="w-8 h-8 rounded-full object-cover"
-            />
-            <h1 className="text-2xl font-extrabold bebas-neue-regular text-gray-900 dark:text-white">
-              My D<span className="text-dark_green">a</span>sh
-            </h1>
+          <div className="flex items-center  gap-1 border">
+            <div>
+              <img
+                src="/logo.png"
+                alt="User"
+                className="w-8 h-8 rounded-full object-cover"
+              />
+              <h1 className="text-2xl font-extrabold bebas-neue-regular text-gray-900 dark:text-white">
+                My D<span className="text-dark_green">a</span>sh
+              </h1>
+            </div>
+            <div>
+              <LogoutButton />
+            </div>
           </div>
         </div>
         <nav className="px-2 flex-1 overflow-y-auto scrollbar-hide">

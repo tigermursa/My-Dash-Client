@@ -3,7 +3,7 @@ import { getUserById } from "../lib/authApi";
 
 const useAuth = () => {
   // Get userId from localStorage
-  const userId = localStorage.getItem("userIdMydah");
+  const userId = localStorage.getItem("userIdMydash");
 
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["user", userId],
