@@ -45,3 +45,9 @@ export const isShow = (id: string) =>
       "Content-Type": "application/json",
     },
   });
+
+// Fetch all navigation items for a specific user
+export const fetchNavItemsByUser = (
+  userId: string
+): Promise<ApiResponse<NavItem[]>> =>
+  apiRequest<ApiResponse<NavItem[]>>(`/get-nav-items-by-user/${userId}`);

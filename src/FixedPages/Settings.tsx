@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchNavItems, updateNavItems } from "../lib/navItemsApi";
+import { fetchNavItemsByUser, updateNavItems } from "../lib/navItemsApi";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -8,11 +8,14 @@ import ToggleButton from "../components/Ui/Buttons/ToggleButton/ToggleButton";
 import ThemeToggle from "../components/ThemeToggle";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { NavItem } from "../types/NavTypes";
+import useAuth from "../hooks/useAuth";
 
 const Settings = () => {
+  const { user } = useAuth();
+  // Fetching nav items from the backend with React Query
   const { data, error, isLoading, refetch } = useQuery({
-    queryKey: ["navitems"],
-    queryFn: fetchNavItems,
+    queryKey: ["navitems", user?._id], // Use user ID as part of the query key
+    queryFn: () => fetchNavItemsByUser(user?._id as string), // Function that calls the API
     staleTime: 5 * 60 * 1000, // 5 minutes
     refetchOnWindowFocus: false,
     refetchOnMount: "always",

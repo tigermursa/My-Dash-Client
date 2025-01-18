@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import { Link, useLocation } from "react-router-dom";
 import ThemeToggle from "../ThemeToggle";
-import { fetchNavItems } from "../../lib/navItemsApi";
+import { fetchNavItemsByUser } from "../../lib/navItemsApi";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import { NavItem } from "../../types/NavTypes";
@@ -15,8 +15,8 @@ export default function Sidebar() {
 
   // Fetching nav items from the backend with React Query
   const { data, error, isLoading } = useQuery({
-    queryKey: ["navitems"],
-    queryFn: fetchNavItems,
+    queryKey: ["navitems", user?._id], // Use user ID as part of the query key
+    queryFn: () => fetchNavItemsByUser(user?._id as string), // Function that calls the API
     staleTime: 5 * 60 * 1000, // 5 minutes
     refetchOnWindowFocus: false,
     refetchOnMount: "always",
@@ -28,7 +28,7 @@ export default function Sidebar() {
     return <div>Loading...</div>;
   }
 
-  if (error) {
+  if (error instanceof Error) {
     console.error("Error fetching nav items:", error);
     return <div>Error loading navigation items</div>;
   }
@@ -36,6 +36,7 @@ export default function Sidebar() {
   const navData: NavItem[] = data?.data ?? [];
 
   const navItems = navData.filter((item) => item.isShow);
+
   // Group navItems by 'group' key
   const groupedNavItems: Record<string, NavItem[]> = navItems.reduce(
     (acc: Record<string, NavItem[]>, item: NavItem) => {
@@ -46,7 +47,6 @@ export default function Sidebar() {
     {}
   );
 
-  console.log(data);
   return (
     <>
       {/* Desktop Sidebar */}
