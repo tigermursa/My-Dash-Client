@@ -41,7 +41,7 @@ export default function Sidebar() {
     return <div>Error loading navigation items</div>;
   }
 
-  const navData: NavItem[] = data?.data || [];
+  const navData: NavItem[] = data?.data ?? [];
 
   const navItems = navData.filter((item) => item.isShow);
   // Group navItems by 'group' key
@@ -54,7 +54,7 @@ export default function Sidebar() {
     {}
   );
 
-  console.log(user);
+  console.log(data);
   return (
     <>
       {/* Desktop Sidebar */}

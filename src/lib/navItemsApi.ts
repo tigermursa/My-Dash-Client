@@ -15,6 +15,15 @@ export interface INavItems {
   icon: string;
   href: string;
   group: string;
+  status: string;
+  isShow: boolean;
+}
+
+export interface ApiResponse {
+  success: boolean;
+  message: string;
+  total: number;
+  data: INavItems[];
 }
 
 // Centralized API request handler
@@ -36,8 +45,8 @@ const apiRequest = async <T>(
 };
 
 // Fetch all navigation items
-export const fetchNavItems = (): Promise<INavItems[]> =>
-  apiRequest<INavItems[]>("/get-all-nav-items");
+export const fetchNavItems = (): Promise<ApiResponse> =>
+  apiRequest<ApiResponse>("/get-all-nav-items");
 
 // Update navigation item by ID
 export const updateNavItems = (
