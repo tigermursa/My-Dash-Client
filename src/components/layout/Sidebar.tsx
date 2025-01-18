@@ -4,17 +4,8 @@ import ThemeToggle from "../ThemeToggle";
 import { fetchNavItems } from "../../lib/navItemsApi";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
+import { NavItem } from "../../types/NavTypes";
 
-// Define the type for navigation items
-interface NavItem {
-  id: string;
-  name: string;
-  icon: string;
-  href: string;
-  group: string;
-  status: string;
-  isShow: boolean;
-}
 export default function Sidebar() {
   const location = useLocation();
   const pathname = location.pathname;

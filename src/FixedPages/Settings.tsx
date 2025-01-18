@@ -7,16 +7,7 @@ import { toast } from "react-toastify";
 import ToggleButton from "../components/Ui/Buttons/ToggleButton/ToggleButton";
 import ThemeToggle from "../components/ThemeToggle";
 import { Icon } from "@iconify/react/dist/iconify.js";
-
-// Define your NavItem interface
-interface NavItem {
-  id: string;
-  name: string;
-  icon: string;
-  href: string;
-  group: string;
-  isShow: boolean;
-}
+import { NavItem } from "../types/NavTypes";
 
 const Settings = () => {
   const { data, error, isLoading, refetch } = useQuery({

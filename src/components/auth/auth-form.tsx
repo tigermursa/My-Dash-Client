@@ -2,17 +2,10 @@ import React, { useState } from "react";
 import { FaChrome, FaFacebook } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { signinUser, signupUser } from "../../lib/authApi";
+import { responseType } from "../../types/AuthTypes";
 
 interface AuthFormProps {
   type: "sign-in" | "sign-up";
-}
-
-interface responseType {
-  message?: string;
-  _id?: string;
-  username?: string;
-  email?: string;
-  password?: string;
 }
 
 export default function AuthForm({ type }: AuthFormProps) {

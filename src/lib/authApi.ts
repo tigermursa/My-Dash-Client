@@ -1,26 +1,6 @@
+import { ApiOptions, GetUserResponse, IUser } from "../types/AuthTypes";
+
 const baseURL = "http://localhost:5000/api/v2/user";
-
-// Interface for API options
-interface ApiOptions {
-  method?: string;
-  headers?: Record<string, string>;
-  body?: string;
-}
-
-// User Interface
-export interface IUser {
-  _id: string;
-  username: string;
-  email: string;
-  password: string;
-  isDeleted: boolean;
-}
-
-interface GetUserResponse {
-  success: boolean;
-  message: string;
-  data: IUser;
-}
 
 // Centralized API request handler
 const apiRequest = async <T>(
