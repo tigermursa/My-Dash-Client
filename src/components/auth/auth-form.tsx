@@ -1,20 +1,60 @@
 import React, { useState } from "react";
 import { FaChrome, FaFacebook } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signinUser, signupUser } from "../../lib/authApi";
 
 interface AuthFormProps {
   type: "sign-in" | "sign-up";
+}
+
+interface responseType {
+  message?: string;
+  _id?: string;
+  username?: string;
+  email?: string;
+  password?: string;
 }
 
 export default function AuthForm({ type }: AuthFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", { email, password, name });
+    setError(null);
+    setLoading(true);
+    try {
+      let response: responseType | null = null;
+
+      if (type === "sign-up") {
+        const user = await signupUser({ username: name, email, password });
+        response = {
+          ...user,
+          message: "Signup successful", // Add a default message
+        };
+      } else {
+        const user = await signinUser({ email, password });
+        response = {
+          ...user,
+          message: "Signin successful", // Add a default message
+        };
+      }
+
+      if (response && response._id) {
+        localStorage.setItem("userIdMydah", response._id);
+      }
+
+      navigate("/");
+    } catch (error) {
+      console.error("Auth API Error:", error);
+      setError("Error calling the auth API");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSocialLogin = (provider: string) => {
@@ -37,13 +77,13 @@ export default function AuthForm({ type }: AuthFormProps) {
                 : "Create an account"}
             </h2>
           </div>
-
           <p className="text-center text-gray-400">
             {type === "sign-in"
               ? "Enter your email below to sign in to your account"
               : "Enter your information below to create your account"}
           </p>
         </div>
+        {error && <p className="text-red-500 text-center">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           {type === "sign-up" && (
             <div className="space-y-2">
@@ -104,8 +144,13 @@ export default function AuthForm({ type }: AuthFormProps) {
           <button
             type="submit"
             className="w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+            disabled={loading}
           >
-            {type === "sign-in" ? "Sign in" : "Sign up"}
+            {loading
+              ? "Processing..."
+              : type === "sign-in"
+              ? "Sign in"
+              : "Sign up"}
           </button>
         </form>
         <div className="relative">

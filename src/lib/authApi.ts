@@ -28,11 +28,16 @@ const apiRequest = async <T>(
   options: ApiOptions = {}
 ): Promise<T> => {
   try {
-    const response = await fetch(`${baseURL}${endpoint}`, options);
+    const response = await fetch(`${baseURL}${endpoint}`, {
+      ...options,
+      credentials: "include", // Automatically include the cookies
+    });
+
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || "API request failed");
     }
+
     return await response.json();
   } catch (error) {
     console.error(`Error in API request to ${endpoint}:`, error);

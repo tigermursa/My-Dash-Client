@@ -2,15 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "../lib/authApi";
 
 const useAuth = () => {
-  const userId = "678aae7c61767a9a409156a0";
+  // Get userId from localStorage
+  const userId = localStorage.getItem("userIdMydah");
+
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["user", userId],
-    queryFn: () => getUserById(userId),
+    queryFn: () => (userId ? getUserById(userId) : Promise.resolve(null)),
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
     refetchOnMount: "always",
     refetchOnReconnect: true,
-    enabled: !!userId,
+    enabled: !!userId, // Only enable the query if userId exists
   });
 
   // Extract only the necessary fields
