@@ -8,11 +8,16 @@ const apiRequest = async <T>(
   options: ApiOptions = {}
 ): Promise<T> => {
   try {
-    const response = await fetch(`${baseURL}${endpoint}`, options);
+    const response = await fetch(`${baseURL}${endpoint}`, {
+      ...options,
+      credentials: "include", // Ensures cookies are included with the request
+    });
+
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || "API request failed");
     }
+
     return await response.json();
   } catch (error) {
     console.error(`Error in API request to ${endpoint}:`, error);
@@ -22,7 +27,12 @@ const apiRequest = async <T>(
 
 // Fetch all navigation items
 export const fetchNavItems = (): Promise<ApiResponse> =>
-  apiRequest<ApiResponse>("/get-all-nav-items");
+  apiRequest<ApiResponse>("/get-all-nav-items", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
 // Update navigation item by ID
 export const updateNavItems = (
@@ -34,12 +44,13 @@ export const updateNavItems = (
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(updatedData),
+    credentials: "include", // Ensures cookies are sent with the request
+    body: JSON.stringify(updatedData), // Send only the data that needs to be updated
   });
 
-// Toggle delete video
-export const isShow = (id: string) =>
-  apiRequest(`/toggle-show/${id}`, {
+// Toggle visibility of a nav item
+export const isShow = (id: string): Promise<void> =>
+  apiRequest<void>(`/toggle-show/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -50,4 +61,9 @@ export const isShow = (id: string) =>
 export const fetchNavItemsByUser = (
   userId: string
 ): Promise<ApiResponse<NavItem[]>> =>
-  apiRequest<ApiResponse<NavItem[]>>(`/get-nav-items-by-user/${userId}`);
+  apiRequest<ApiResponse<NavItem[]>>(`/get-nav-items-by-user/${userId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
