@@ -1,3 +1,8 @@
+The done list,
+
+1. Dashboard layout done with night mood,
+2. auth done and new user getting their own data to update
+
 Ready Pages will be add here
 
 1. TodoList

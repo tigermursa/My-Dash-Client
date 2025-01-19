@@ -3,6 +3,7 @@ import { FaChrome, FaFacebook } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { signinUser, signupUser } from "../../lib/authApi";
 import { responseType } from "../../types/AuthTypes";
+import { toast } from "react-toastify";
 
 interface AuthFormProps {
   type: "sign-in" | "sign-up";
@@ -29,12 +30,14 @@ export default function AuthForm({ type }: AuthFormProps) {
           ...user,
           message: "Signup successful", // Add a default message
         };
+        toast.success("Welcome to MyDash!");
       } else {
         const user = await signinUser({ email, password });
         response = {
           ...user,
           message: "Signin successful", // Add a default message
         };
+        toast.success("Welcome back to MyDash!");
       }
 
       if (response && response._id) {
@@ -84,13 +87,14 @@ export default function AuthForm({ type }: AuthFormProps) {
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-200"
               >
-                Name
+                Nick Name
               </label>
               <input
                 id="name"
                 name="name"
+                maxLength={12}
                 type="text"
-                placeholder="Mursalin Hossain"
+                placeholder="Mursalin"
                 required
                 className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 value={name}
