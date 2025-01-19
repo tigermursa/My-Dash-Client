@@ -1,0 +1,54 @@
+/* Background and general colors */
+.custom-calendar {
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 8px;
+}
+
+.custom-calendar .react-calendar__navigation button {
+  color: #00bfff; /* Light blue navigation buttons */
+}
+
+/* Weekday headers (like MON, TUE, WED) */
+.custom-calendar .react-calendar__month-view__weekdays {
+  color: #00bfff; /* Weekday names in blue */
+  border-bottom: none !important;
+  border: none !important; /* Ensure there's no underline or border */
+}
+
+.custom-calendar .react-calendar__month-view__weekdays__weekday {
+  text-decoration: none !important; /* Remove underline or dotted styles */
+  border-bottom: none !important; /* Prevent borders or dots */
+}
+
+/* Default tile styles (calendar days) */
+.custom-calendar .react-calendar__tile {
+  background: transparent;
+  color: #00bfff; /* Default blue for all dates */
+  border-radius: 4px;
+}
+
+/* Hover effect for tiles */
+.custom-calendar .react-calendar__tile:hover {
+  background: #1f1f1f; /* Darker background on hover */
+}
+
+/* Red color for Fridays */
+.red-day {
+  color: #ff4d4d !important; /* Red for off days */
+}
+
+/* Blue color for all other dates */
+.blue-day {
+  color: #00bfff !important; /* Default blue */
+}
+
+/* Highlight today's date with a circle */
+.today-circle {
+  position: relative;
+  color: #ffffff !important; /* Text in white */
+  background-color: #00bfff; /* Blue background */
+  border-radius: 50%; /* Fully round outline */
+  padding: 0.5em; /* Padding for the circle effect */
+  font-weight: bold;
+}
