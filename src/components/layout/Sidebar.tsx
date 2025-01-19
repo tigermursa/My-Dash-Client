@@ -59,12 +59,9 @@ export default function Sidebar() {
                 alt="User"
                 className="w-8 h-8 rounded-full object-cover"
               />
-              <h1 className="text-2xl font-extrabold bebas-neue-regular text-gray-900 dark:text-white">
+              <h1 className="text-2xl  bebas-neue-regular text-gray-900 dark:text-white">
                 My D<span className="text-dark_green">a</span>sh
               </h1>
-            </div>
-            <div>
-              <LogoutButton />
             </div>
           </div>
         </div>
@@ -108,7 +105,7 @@ export default function Sidebar() {
             alt="User"
             className="w-12 h-12 rounded-full object-cover border-2 border-light_green"
           />
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 ">
             {user ? (
               <span className="text-xl truncate font-semibold text-gray-900 dark:text-white">
                 {user?.username}
@@ -127,6 +124,9 @@ export default function Sidebar() {
                 />
               </span>
             </Link>
+            <div>
+              <LogoutButton />
+            </div>
           </div>
         </div>
       </aside>
