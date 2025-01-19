@@ -55,6 +55,7 @@ export const isShow = (id: string): Promise<void> =>
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include", // Ensures cookies are sent with the request
   });
 
 // Fetch all navigation items for a specific user
