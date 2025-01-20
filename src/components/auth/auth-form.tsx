@@ -92,7 +92,7 @@ export default function AuthForm({ type }: AuthFormProps) {
               <input
                 id="name"
                 name="name"
-                maxLength={12}
+                maxLength={10}
                 type="text"
                 placeholder="Mursalin"
                 required
