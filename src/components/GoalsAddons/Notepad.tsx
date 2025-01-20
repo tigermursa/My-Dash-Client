@@ -24,8 +24,8 @@ const Notepad: React.FC<NotepadProps> = ({ title, storageKey }) => {
 
   return (
     <div className="flex items-center justify-center h-full bg-gray-100 rounded-3xl overflow-hidden">
-      <div className="w-full h-full bg-white shadow-lg rounded-lg border-gray-400 relative">
-        <h2 className="text-sm pt-2 pb-1 font-bold text-center text-gray-700">
+      <div className="w-full h-full bg-white dark:bg-gray-800  shadow-lg rounded-lg relative">
+        <h2 className="text-sm pt-2 pb-1 font-bold text-center text-gray-700 dark:text-white">
           📝 {title}
         </h2>
         {/* ReactQuill Component */}
@@ -40,7 +40,7 @@ const Notepad: React.FC<NotepadProps> = ({ title, storageKey }) => {
               [{ color: [] }], // Text color
             ],
           }}
-          className="w-full h-full font-medium bg-yellow-50 border-gray-300 shadow-sm focus:outline-none resize-none leading-loose"
+          className="w-full h-full font-medium  bg-yellow-50 dark:bg-gray-900 dark:text-white  shadow-sm focus:outline-none resize-none leading-loose"
         />
       </div>
       {/* Inline CSS for scrolling without visible scrollbar */}
@@ -51,6 +51,7 @@ const Notepad: React.FC<NotepadProps> = ({ title, storageKey }) => {
           max-height: 80vh;
           overflow-y: auto;
           padding-bottom: 20px;
+          color:white;
         }
         /* Hide scrollbar */
         .ql-editor::-webkit-scrollbar {
