@@ -10,7 +10,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
-    return <div>Loading...</div>; // Optional: Show a loading indicator while checking auth
+    return <div> from Private route Loading...</div>; // Optional: Show a loading indicator while checking auth
   }
 
   if (!user) {
