@@ -1,7 +1,11 @@
-import Notepad from "../components/GoalsAddons/Notepad";
+import Idea from "../components/GoalsAddons/Idea";
 
 const Page14 = () => {
-  return <Notepad title="Write Your Ideas" storageKey="userIdeas" />;
+  return (
+    <div className="border-[2px] h-full border-gray-400  rounded-3xl">
+      <Idea />
+    </div>
+  );
 };
 
 export default Page14;

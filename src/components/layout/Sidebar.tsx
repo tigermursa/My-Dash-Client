@@ -105,14 +105,14 @@ export default function Sidebar() {
             alt="User"
             className="w-12 h-12 rounded-full object-cover border-2 border-light_green"
           />
-          <div className="flex items-center space-x-2 ">
+          <div className="flex items-center space-x-2 truncate ">
             {user ? (
-              <span className="text-xl truncate font-semibold text-gray-900 dark:text-white">
+              <span className="text-base truncate font-semibold text-gray-900 dark:text-white ">
                 {user?.username}
               </span>
             ) : (
               <span className="text-xl truncate font-semibold text-gray-900 dark:text-white">
-                Nazuku Uzia
+                Nazuku
               </span>
             )}
 

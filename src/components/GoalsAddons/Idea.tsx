@@ -4,21 +4,21 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import {
-  getContentNotePad,
-  updateContentNotePad,
-  clearContentNotePad,
+  getContentIdea,
+  updateContentIdea,
+  clearContentIdea,
 } from "../../lib/notepadApi";
 import useAuth from "../../hooks/useAuth";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-const Notepad: React.FC = () => {
+const Idea: React.FC = () => {
   const [note, setNote] = useState<string>(""); // State for note content
   const { user } = useAuth();
 
   // Fetch note content from API
-  const { data } = useQuery<{ contentNotePad: string }, Error>({
+  const { data } = useQuery<{ contentIdea: string }, Error>({
     queryKey: ["notepad", user?._id],
-    queryFn: () => getContentNotePad(user?._id as string),
+    queryFn: () => getContentIdea(user?._id as string),
     enabled: !!user?._id,
     staleTime: 0, // Always refetch if cache is invalidated
     refetchOnWindowFocus: true, // Refetch if window regains focus
@@ -27,34 +27,34 @@ const Notepad: React.FC = () => {
 
   // Ensure note is updated when `data` changes
   useEffect(() => {
-    if (data?.contentNotePad) {
-      setNote(data.contentNotePad); // Sync state with fetched data
+    if (data?.contentIdea) {
+      setNote(data.contentIdea); // Sync state with fetched data
     }
   }, [data]);
 
   // Mutation for saving note content
   const saveMutation = useMutation({
     mutationFn: (newContent: string) =>
-      updateContentNotePad(user?._id as string, newContent),
+      updateContentIdea(user?._id as string, newContent),
     onSuccess: () => {
-      toast.success("Note saved successfully!");
+      toast.success("Idea saved successfully!");
     },
     onError: (error) => {
-      console.error("Error saving note:", error);
-      toast.error("Failed to save the note.");
+      console.error("Error saving idea:", error);
+      toast.error(`${error}`);
     },
   });
 
   // Mutation for clearing note content
   const clearMutation = useMutation({
-    mutationFn: () => clearContentNotePad(user?._id as string),
+    mutationFn: () => clearContentIdea(user?._id as string),
     onSuccess: () => {
       setNote(""); // Clear the note content in state
-      toast.success("Note cleared successfully!");
+      toast.success("Idea cleared successfully!");
     },
     onError: (error) => {
       console.error("Error clearing note:", error);
-      toast.error("Failed to clear the note.");
+      toast.error(`${error}`);
     },
   });
 
@@ -76,10 +76,10 @@ const Notepad: React.FC = () => {
         <div className="flex justify-start items-center px-4 pt-2">
           <h2 className="text-sm font-bold text-gray-950 dark:text-white flex items-center me-2">
             <Icon
-              icon="ph:pencil-line-bold"
+              icon="icons8:idea"
               className="text-2xl text-gray-800 dark:text-gray-100"
             />{" "}
-            {"Notepad"}
+            {"ideas"}
           </h2>
           <div className="flex ">
             <button
@@ -142,4 +142,4 @@ const Notepad: React.FC = () => {
   );
 };
 
-export default Notepad;
+export default Idea;
