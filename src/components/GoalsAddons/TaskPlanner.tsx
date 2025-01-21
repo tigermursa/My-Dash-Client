@@ -50,6 +50,19 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
   const pendingTasks = tasks.filter((task) => !task.completed).length;
   const completedTasks = tasks.length - pendingTasks;
 
+  // interface AllTasks {
+  //   id: string;
+  //   text: string;
+  //   important: boolean;
+  //   isCompleted: boolean;
+  // }
+
+  // interface Tasks {
+  //   userID: string;
+  //   title: string; //todo, week, month, year (will be these type for now 4)
+  //   tasks: AllTasks;
+  // }
+
   return (
     <div className="max-w-full mx-auto p-6 bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden">
       <h1 className="text-2xl font-bold mb-4 text-center text-gray-800 dark:text-white">
