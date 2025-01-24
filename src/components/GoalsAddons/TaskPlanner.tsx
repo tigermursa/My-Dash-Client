@@ -66,7 +66,7 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
   return (
     <div className="max-w-full mx-auto p-6 bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden">
       <h1 className="text-2xl font-bold mb-4 text-center text-gray-800 dark:text-white">
-        {title}
+        {title} plan
       </h1>
 
       <div className="flex justify-between mb-4 text-sm text-gray-600 dark:text-gray-300">
