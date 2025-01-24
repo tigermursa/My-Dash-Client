@@ -7,7 +7,7 @@ import Page3 from "../FixedPages/Page3";
 import Page4 from "../FixedPages/Page4";
 import Page5 from "../FixedPages/Page5";
 import Page6 from "../FixedPages/Page6";
-import Page7 from "../FixedPages/Page7";
+
 import Page8 from "../FixedPages/Page8";
 import Page9 from "../FixedPages/Page9";
 import Page10 from "../FixedPages/Page10";
@@ -20,6 +20,7 @@ import Settings from "../pages/Settings";
 import SignIn from "../components/auth/signin";
 import SignUp from "../components/auth/signup";
 import PrivateRoute from "./PrivateRoute";
+import Skills from "../FixedPages/Page7";
 
 const router = createBrowserRouter([
   {
@@ -60,7 +61,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/page-7",
-        element: <Page7 />,
+        element: <Skills />,
       },
       {
         path: "/page-8",
