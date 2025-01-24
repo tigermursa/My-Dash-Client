@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import { taskAPI } from "../../lib/planApi";
 import { useState } from "react";
 import { AllTasks } from "../../types/PlanTypes";
+import { toast } from "react-toastify";
 
 interface TaskPlannerProps {
   title: string;
@@ -41,7 +42,7 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks", storageKey] });
-      alert("Task created successfully!");
+      toast.success("Task created successfully!");
     },
     onError: (error: Error) => alert(error.message),
   });
@@ -81,9 +82,9 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks", storageKey] });
-      alert("Task deleted successfully!");
+      toast.success("Task deleted successfully!");
     },
-    onError: (error: Error) => alert(error.message),
+    onError: (error: Error) => toast.error(error.message),
   });
 
   const addTask = () => {
@@ -109,8 +110,22 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
       </h1>
 
       <div className="flex justify-between mb-4 text-sm text-gray-600 dark:text-gray-300">
-        <span>📥 Pending: {pendingTasks}</span>
-        <span>✅ Completed: {completedTasks}</span>
+        <span className="flex gap-1 text-lg items-center">
+          <Icon
+            icon="mdi:receipt-text-pending"
+            className=" text-gray-800 dark:text-gray-100"
+          />{" "}
+          Pending:
+          <span>{pendingTasks}</span>
+        </span>
+
+        <span className="flex gap-1 text-lg items-center">
+          <Icon
+            icon="fluent-mdl2:completed-solid"
+            className=" text-green-800 dark:text-green-400"
+          />
+          Completed :<span> {completedTasks}</span>
+        </span>
       </div>
 
       <div className="flex mb-4">
