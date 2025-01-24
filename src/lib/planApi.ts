@@ -52,7 +52,14 @@ export const taskAPI = {
   },
 
   toggleComplete: async (payload: TaskBody): Promise<AllTasks> => {
-    return handleRequest("/tasks/complete", {
+    return handleRequest("/tasks/completed", {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    });
+  },
+
+  toggleImportant: async (payload: TaskBody): Promise<AllTasks> => {
+    return handleRequest("/tasks/important", {
       method: "PATCH",
       body: JSON.stringify(payload),
     });
