@@ -1,11 +1,6 @@
-import { AllTasks, Tasks } from "../types/PlanTypes";
+import { AllTasks } from "../types/PlanTypes";
 
 const BASE_URL = "http://localhost:5000/api/v3/plan";
-
-type ApiResponse<T> = {
-  data?: T;
-  error?: string;
-};
 
 type TaskBody = {
   userID: string;
@@ -15,7 +10,7 @@ type TaskBody = {
 const handleRequest = async <T>(
   url: string,
   options: RequestInit
-): Promise<ApiResponse<T>> => {
+): Promise<T> => {
   try {
     const response = await fetch(`${BASE_URL}${url}`, {
       ...options,
@@ -26,56 +21,45 @@ const handleRequest = async <T>(
       credentials: "include",
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.json();
-      return { error: errorData.message || "Request failed" };
+      throw new Error(data.message || "Request failed");
     }
 
-    return { data: await response.json() };
+    return data.data as T;
   } catch (error) {
     console.error(`API Error at ${url}:`, error);
-    return { error: "Network error occurred" };
+    throw new Error((error as Error).message || "Network error occurred");
   }
 };
 
-// Task Operations
 export const taskAPI = {
   createTask: async (payload: {
     userID: string;
     task: Omit<AllTasks, "id">;
-  }): Promise<ApiResponse<Tasks>> => {
+  }): Promise<AllTasks> => {
     return handleRequest("/create", {
       method: "POST",
       body: JSON.stringify(payload),
     });
   },
 
-  getTasks: async (userID: string): Promise<ApiResponse<AllTasks[]>> => {
+  getTasks: async (userID: string): Promise<AllTasks[]> => {
     return handleRequest(`/tasks/${userID}`, {
       method: "GET",
     });
   },
 
-  toggleImportant: async (
-    payload: TaskBody
-  ): Promise<ApiResponse<AllTasks>> => {
-    return handleRequest("/tasks/important", {
-      method: "PATCH",
-      body: JSON.stringify(payload),
-    });
-  },
-
-  toggleComplete: async (payload: TaskBody): Promise<ApiResponse<AllTasks>> => {
+  toggleComplete: async (payload: TaskBody): Promise<AllTasks> => {
     return handleRequest("/tasks/complete", {
-      // Changed endpoint
       method: "PATCH",
       body: JSON.stringify(payload),
     });
   },
 
-  deleteTask: async (payload: TaskBody): Promise<ApiResponse<void>> => {
+  deleteTask: async (payload: TaskBody): Promise<void> => {
     return handleRequest("/tasks/delete", {
-      // Changed endpoint
       method: "DELETE",
       body: JSON.stringify(payload),
     });

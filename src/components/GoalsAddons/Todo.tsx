@@ -1,5 +1,5 @@
 import TaskPlanner from "./TaskPlanner";
 
-const Todo = () => <TaskPlanner title="todo" storageKey="month_tasks" />;
+const TodoPage = () => <TaskPlanner title="Daily Tasks" storageKey="todo" />;
 
-export default Todo;
+export default TodoPage;

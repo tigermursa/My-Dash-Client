@@ -1,77 +1,103 @@
-import { useEffect, useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Icon } from "@iconify/react";
-
-type Task = {
-  id: number;
-  text: string;
-  completed: boolean;
-};
+import useAuth from "../../hooks/useAuth";
+import { taskAPI } from "../../lib/planApi";
+import { useState } from "react";
+import { AllTasks } from "../../types/PlanTypes";
 
 interface TaskPlannerProps {
   title: string;
-  storageKey: string;
+  storageKey: "todo" | "week" | "month" | "year";
 }
 
 const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
   const [newTask, setNewTask] = useState("");
 
-  // Load tasks from localStorage on mount
-  useEffect(() => {
-    const savedTasks = localStorage.getItem(storageKey);
-    if (savedTasks) {
-      setTasks(JSON.parse(savedTasks));
-    }
-  }, [storageKey]);
+  // Fetch tasks from API
+  const {
+    data: tasks = [],
+    isLoading,
+    isError,
+  } = useQuery<AllTasks[]>({
+    queryKey: ["tasks", storageKey, user?._id],
+    queryFn: () => taskAPI.getTasks(user?._id || ""),
+    enabled: !!user?._id,
+    select: (data) => data.filter((task) => task.title === storageKey),
+  });
 
-  // Save tasks to localStorage whenever tasks change
-  useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify(tasks));
-  }, [tasks, storageKey]);
+  // Create task mutation
+  const createMutation = useMutation({
+    mutationFn: (text: string) =>
+      taskAPI.createTask({
+        userID: user?._id || "",
+        task: {
+          text,
+          title: storageKey,
+          important: false,
+          isCompleted: false,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks", storageKey] });
+      alert("Task created successfully!");
+    },
+    onError: (error: Error) => alert(error.message),
+  });
+
+  // Toggle task completion
+  const toggleMutation = useMutation({
+    mutationFn: (taskId: string) =>
+      taskAPI.toggleComplete({
+        userID: user?._id || "",
+        taskId,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks", storageKey] });
+    },
+    onError: (error: Error) => alert(error.message),
+  });
+
+  // Delete task mutation
+  const deleteMutation = useMutation({
+    mutationFn: (taskId: string) =>
+      taskAPI.deleteTask({
+        userID: user?._id || "",
+        taskId,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks", storageKey] });
+      alert("Task deleted successfully!");
+    },
+    onError: (error: Error) => alert(error.message),
+  });
 
   const addTask = () => {
     if (newTask.trim()) {
-      setTasks([
-        ...tasks,
-        { id: Date.now(), text: newTask.trim(), completed: false },
-      ]);
+      createMutation.mutate(newTask.trim());
       setNewTask("");
     }
   };
 
-  const toggleTask = (id: number) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
-  };
-
-  const pendingTasks = tasks.filter((task) => !task.completed).length;
+  const pendingTasks = tasks.filter((task) => !task.isCompleted).length;
   const completedTasks = tasks.length - pendingTasks;
 
-  // interface AllTasks {
-  //   id: string;
-  //   text: string;
-  //   important: boolean;
-  //   isCompleted: boolean;
-  // }
-
-  // interface Tasks {
-  //   userID: string;
-  //   title: string; //todo, week, month, year (will be these type for now 4)
-  //   tasks: AllTasks;
-  // }
+  if (isLoading) return <div className="p-4 text-center">Loading tasks...</div>;
+  if (isError)
+    return (
+      <div className="p-4 text-center text-red-500">Error loading tasks</div>
+    );
 
   return (
     <div className="max-w-full mx-auto p-6 bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden">
       <h1 className="text-2xl font-bold mb-4 text-center text-gray-800 dark:text-white">
-        {title} plan
+        {title} Plan
       </h1>
 
       <div className="flex justify-between mb-4 text-sm text-gray-600 dark:text-gray-300">
-        <span>Pending tasks: {pendingTasks}</span>
-        <span>Completed tasks: {completedTasks}</span>
+        <span>📥 Pending: {pendingTasks}</span>
+        <span>✅ Completed: {completedTasks}</span>
       </div>
 
       <div className="flex mb-4">
@@ -82,47 +108,58 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
           onKeyPress={(e) => e.key === "Enter" && addTask()}
           className="flex-grow p-2 border border-gray-300 rounded-l-md focus:outline-none dark:bg-gray-700 dark:text-white dark:border-gray-600"
           placeholder="Add a new task"
+          disabled={createMutation.isPending}
         />
         <button
           onClick={addTask}
-          className="p-2 bg-darker_green text-white rounded-r-md hover:bg-blue-600 focus:outline-none dark:bg-darker_green dark:hover:bg-dark_green"
+          disabled={createMutation.isPending}
+          className="p-2 bg-darker_green text-white rounded-r-md hover:bg-blue-600 focus:outline-none dark:bg-darker_green dark:hover:bg-dark_green disabled:opacity-50 transition-colors"
         >
-          Add
+          {createMutation.isPending ? "Adding..." : "Add Task"}
         </button>
       </div>
 
       {tasks.length === 0 ? (
-        <div className="flex justify-center items-center h-32 text-gray-400 dark:text-gray-600">
-          <Icon icon="mdi:plus-circle-outline" width={48} />
+        <div className="flex flex-col items-center justify-center h-32 text-gray-400 dark:text-gray-600">
+          <Icon icon="mdi:clipboard-text-outline" width={48} />
+          <p className="mt-2">No tasks found</p>
         </div>
       ) : (
-        <ul className="space-y-2 overflow-y-auto max-h-[calc(100vh-200px)]">
+        <ul className="space-y-2 overflow-y-auto max-h-[calc(100vh-300px)]">
           {tasks.map((task) => (
             <li
               key={task.id}
-              className="flex items-center p-2 border border-gray-200 rounded-md dark:border-gray-600"
+              className="flex items-center p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md hover:shadow-md transition-shadow"
             >
               <button
-                onClick={() => toggleTask(task.id)}
-                className={`w-6 h-6 mr-2 flex items-center justify-center border rounded-md ${
-                  task.completed
+                onClick={() => toggleMutation.mutate(task.id)}
+                className={`w-6 h-6 mr-3 flex items-center justify-center border rounded-md transition-colors ${
+                  task.isCompleted
                     ? "bg-green-500 border-green-500"
-                    : "border-gray-300 dark:border-gray-500"
+                    : "border-gray-300 dark:border-gray-500 hover:border-green-500"
                 }`}
+                disabled={toggleMutation.isPending}
               >
-                {task.completed && (
-                  <Icon icon="mdi:check" width={16} color="white" />
+                {task.isCompleted && (
+                  <Icon icon="mdi:check" width={16} className="text-white" />
                 )}
               </button>
               <span
                 className={`flex-grow ${
-                  task.completed
+                  task.isCompleted
                     ? "line-through text-gray-400"
                     : "text-gray-700 dark:text-gray-300"
                 }`}
               >
                 {task.text}
               </span>
+              <button
+                onClick={() => deleteMutation.mutate(task.id)}
+                className="text-red-500 hover:text-red-700 ml-2 p-1 rounded-full hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"
+                disabled={deleteMutation.isPending}
+              >
+                <Icon icon="mdi:delete-outline" width={20} />
+              </button>
             </li>
           ))}
         </ul>

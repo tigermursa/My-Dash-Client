@@ -1,5 +1,7 @@
 import TaskPlanner from "./TaskPlanner";
 
-const YearPlan = () => <TaskPlanner title="year" storageKey="month_tasks" />;
+const YearPlanPage = () => (
+  <TaskPlanner title="Monthly Objectives" storageKey="year" />
+);
 
-export default YearPlan;
+export default YearPlanPage;
