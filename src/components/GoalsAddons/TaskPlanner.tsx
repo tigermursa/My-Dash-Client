@@ -59,6 +59,19 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
     onError: (error: Error) => alert(error.message),
   });
 
+  // Toggle important mutation
+  const toggleImportantMutation = useMutation({
+    mutationFn: (taskId: string) =>
+      taskAPI.toggleImportant({
+        userID: user?._id || "",
+        taskId,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks", storageKey] });
+    },
+    onError: (error: Error) => alert(error.message),
+  });
+
   // Delete task mutation
   const deleteMutation = useMutation({
     mutationFn: (taskId: string) =>
@@ -129,7 +142,11 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
           {tasks.map((task) => (
             <li
               key={task.id}
-              className="flex items-center p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md hover:shadow-md transition-shadow"
+              className={`flex items-center p-3 bg-white dark:bg-gray-800 border-2 rounded-md hover:shadow-md transition-shadow ${
+                task.important
+                  ? "border-yellow-400 dark:border-yellow-600"
+                  : "border-gray-200 dark:border-gray-700"
+              }`}
             >
               <button
                 onClick={() => toggleMutation.mutate(task.id)}
@@ -153,6 +170,16 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
               >
                 {task.text}
               </span>
+              <button
+                onClick={() => toggleImportantMutation.mutate(task.id)}
+                className="text-yellow-400 hover:text-yellow-500 ml-2 p-1"
+                disabled={toggleImportantMutation.isPending}
+              >
+                <Icon
+                  icon={task.important ? "mdi:star" : "mdi:star-outline"}
+                  width={20}
+                />
+              </button>
               <button
                 onClick={() => deleteMutation.mutate(task.id)}
                 className="text-red-500 hover:text-red-700 ml-2 p-1 rounded-full hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"
