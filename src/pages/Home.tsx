@@ -109,21 +109,21 @@ const Home = () => {
             {totals.completed}
           </p>
         </div>
-        <div className="bg-dark_green/10 dark:bg-dark_green/30 p-4 rounded-lg border border-dark_green/20">
-          <h3 className="text-dark_green dark:text-light_green">
+        <div className="bg-dark_green/10 dark:bg-red-700 p-4 rounded-lg border border-dark_green/20">
+          <h3 className="text-dark_green dark:text-gray-50">
             <Icon icon="mdi:alert-circle" className="inline mr-2" />
             Pending Tasks
           </h3>
-          <p className="text-2xl font-bold text-dark_green dark:text-light_green">
+          <p className="text-2xl font-bold text-dark_green dark:text-gray-50">
             {totals.pending}
           </p>
         </div>
         <div className="bg-light_green/10 dark:bg-light_green/30 p-4 rounded-lg border border-light_green/20">
-          <h3 className="text-light_green dark:text-darker_green">
+          <h3 className="text-light_green dark:text-yellow-500">
             <Icon icon="mdi:star" className="inline mr-2" />
             Important Tasks
           </h3>
-          <p className="text-2xl font-bold text-light_green dark:text-darker_green">
+          <p className="text-2xl font-bold text-light_green dark:text-yellow-500">
             {totals.important}
           </p>
         </div>
@@ -253,7 +253,7 @@ const Home = () => {
                 <p className="text-sm text-darker_green dark:text-light_green">
                   Completed: {category.completed}
                 </p>
-                <p className="text-sm text-dark_green dark:text-light_green/80">
+                <p className="text-sm text-dark_green dark:text-red-600">
                   Pending: {category.pending}
                 </p>
               </div>
