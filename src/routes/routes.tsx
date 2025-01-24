@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
-import Page1 from "../FixedPages/Page1";
+
 import Page2 from "../FixedPages/Page2";
 import Page3 from "../FixedPages/Page3";
 import Page4 from "../FixedPages/Page4";
@@ -36,7 +36,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/page-1",
-        element: <Page1 />,
+        element: <Home />,
       },
       {
         path: "/page-2",
