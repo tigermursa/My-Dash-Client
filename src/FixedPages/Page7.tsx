@@ -2,74 +2,93 @@ import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, staggerContainer } from "../utils/motions";
+import { toast } from "react-toastify";
 
-type Skill = {
-  id: string;
-  skillName: string;
-  category: "frontend" | "backend" | "tool" | "plan-to-learn";
-  level: "beginner" | "medium" | "advanced";
-};
+import {
+  fetchSkills,
+  createSkill,
+  updateSkill,
+  deleteSkill,
+} from "../lib/skillApi";
+import useAuth from "../hooks/useAuth";
+import { Skill } from "../types/SkillTypes";
 
 const Skills = () => {
+  const { user } = useAuth();
   const [skills, setSkills] = useState<Skill[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingSkill, setEditingSkill] = useState<Skill | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Load skills from localStorage
+  // Fetch skills from API
   useEffect(() => {
-    const savedSkills = localStorage.getItem("skills");
-    if (savedSkills) {
-      setSkills(JSON.parse(savedSkills));
-    } else {
-      const initialSkills: Skill[] = [
-        {
-          id: "1",
-          skillName: "React",
-          category: "frontend",
-          level: "advanced",
-        },
-        {
-          id: "2",
-          skillName: "Node.js",
-          category: "backend",
-          level: "advanced",
-        },
-        {
-          id: "3",
-          skillName: "TypeScript",
-          category: "tool",
-          level: "medium",
-        },
-        {
-          id: "4",
-          skillName: "Python",
-          category: "plan-to-learn",
-          level: "beginner",
-        },
-        {
-          id: "5",
-          skillName: "AWS",
-          category: "backend",
-          level: "beginner",
-        },
-        {
-          id: "6",
-          skillName: "Docker",
-          category: "tool",
-          level: "medium",
-        },
-      ];
-      setSkills(initialSkills);
-      localStorage.setItem("skills", JSON.stringify(initialSkills));
+    const loadSkills = async () => {
+      try {
+        if (user?._id) {
+          const skillsData = await fetchSkills(user._id);
+          setSkills(skillsData);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to load skills");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadSkills();
+  }, [user?._id]);
+
+  const handleCreateSkill = async (
+    skillData: Omit<Skill, "_id" | "userID">
+  ) => {
+    try {
+      if (!user?._id) return;
+
+      const newSkill = await createSkill({
+        ...skillData,
+        userID: user._id,
+      });
+      setSkills((prev) => [...prev, newSkill as Skill]);
+      toast.success("Skill created successfully");
+      setIsModalOpen(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to create skill");
     }
-  }, []);
+  };
 
-  // Save skills to localStorage
-  useEffect(() => {
-    localStorage.setItem("skills", JSON.stringify(skills));
-  }, [skills]);
+  const handleUpdateSkill = async (skillData: Omit<Skill, "userID">) => {
+    try {
+      const updatedSkill: Skill = await updateSkill(skillData._id, {
+        ...skillData,
+        userID: user!._id,
+      });
 
-  const addSkill = (newSkill: Omit<Skill, "id">) => {
-    setSkills((prev) => [...prev, { ...newSkill, id: Date.now().toString() }]);
+      setSkills((prev: Skill[]) =>
+        prev.map((skill) =>
+          skill._id === updatedSkill._id ? updatedSkill : skill
+        )
+      );
+
+      toast.success("Skill updated successfully");
+      setIsModalOpen(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to update skill");
+    }
+  };
+
+  const handleDeleteSkill = async (skillId: string) => {
+    try {
+      if (!user?._id) return;
+
+      await deleteSkill(user._id, skillId);
+      setSkills((prev) => prev.filter((skill) => skill._id !== skillId));
+      toast.success("Skill deleted successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to delete skill");
+    }
   };
 
   const getCategoryIcon = (category: string) => {
@@ -106,7 +125,7 @@ const Skills = () => {
         beginner: 1,
         medium: 2,
         advanced: 3,
-      }[level] ?? 1; // Fixed TypeScript error with default value
+      }[level] ?? 1;
 
     return Array.from({ length: 3 }).map((_, i) => (
       <Icon
@@ -116,6 +135,17 @@ const Skills = () => {
       />
     ));
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen dark:bg-primarydarkbg flex items-center justify-center">
+        <Icon
+          icon="mdi:loading"
+          className="animate-spin text-4xl text-darker_green"
+        />
+      </div>
+    );
+  }
 
   return (
     <motion.div
@@ -135,7 +165,10 @@ const Skills = () => {
           </motion.h1>
           <motion.button
             variants={fadeIn("left", 0.4)}
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              setEditingSkill(null);
+              setIsModalOpen(true);
+            }}
             className="bg-darker_green hover:bg-dark_green text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2 group"
           >
             <Icon
@@ -172,7 +205,7 @@ const Skills = () => {
                   .filter((s) => s.category === category)
                   .map((skill) => (
                     <motion.div
-                      key={skill.id}
+                      key={skill._id}
                       variants={fadeIn("up", 0.2)}
                       className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg group hover:bg-gradient-to-r from-darker_green/5 to-dark_green/5 transition-all"
                     >
@@ -192,6 +225,23 @@ const Skills = () => {
                               {getLevelStars(skill.level)}
                             </div>
                           )}
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => {
+                              setEditingSkill(skill);
+                              setIsModalOpen(true);
+                            }}
+                            className="text-gray-400 hover:text-darker_green transition-colors"
+                          >
+                            <Icon icon="mdi:pencil" className="text-lg" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteSkill(skill._id)}
+                            className="text-gray-400 hover:text-red-500 transition-colors"
+                          >
+                            <Icon icon="mdi:delete" className="text-lg" />
+                          </button>
                         </div>
                       </div>
                     </motion.div>
@@ -216,10 +266,13 @@ const Skills = () => {
               >
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-bold dark:text-white">
-                    Add New Skill
+                    {editingSkill ? "Edit Skill" : "Add New Skill"}
                   </h2>
                   <button
-                    onClick={() => setIsModalOpen(false)}
+                    onClick={() => {
+                      setIsModalOpen(false);
+                      setEditingSkill(null);
+                    }}
                     className="text-gray-500 hover:text-darker_green transition-colors"
                   >
                     <Icon icon="mdi:close" className="text-2xl" />
@@ -230,13 +283,20 @@ const Skills = () => {
                   onSubmit={(e) => {
                     e.preventDefault();
                     const formData = new FormData(e.currentTarget);
-                    const newSkill = {
+                    const skillData = {
                       skillName: formData.get("skillName") as string,
                       category: formData.get("category") as Skill["category"],
                       level: formData.get("level") as Skill["level"],
                     };
-                    addSkill(newSkill);
-                    setIsModalOpen(false);
+
+                    if (editingSkill) {
+                      handleUpdateSkill({
+                        ...skillData,
+                        _id: editingSkill._id,
+                      });
+                    } else {
+                      handleCreateSkill(skillData);
+                    }
                   }}
                 >
                   <div className="space-y-6">
@@ -249,6 +309,7 @@ const Skills = () => {
                         name="skillName"
                         type="text"
                         required
+                        defaultValue={editingSkill?.skillName}
                         className="w-full p-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl dark:bg-gray-900 dark:text-white focus:border-darker_green focus:ring-2 focus:ring-dark_green"
                       />
                     </div>
@@ -260,7 +321,7 @@ const Skills = () => {
                       </label>
                       <select
                         name="category"
-                        defaultValue="frontend"
+                        defaultValue={editingSkill?.category || "frontend"}
                         className="w-full p-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl dark:bg-gray-900 dark:text-white focus:border-darker_green focus:ring-2 focus:ring-dark_green"
                       >
                         <option value="frontend">Frontend</option>
@@ -277,7 +338,7 @@ const Skills = () => {
                       </label>
                       <select
                         name="level"
-                        defaultValue="medium"
+                        defaultValue={editingSkill?.level || "medium"}
                         className="w-full p-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl dark:bg-gray-900 dark:text-white focus:border-darker_green focus:ring-2 focus:ring-dark_green"
                       >
                         <option value="beginner">Beginner</option>
@@ -292,7 +353,7 @@ const Skills = () => {
                         className="px-6 py-3 bg-gradient-to-r from-darker_green to-dark_green text-white rounded-xl hover:shadow-lg transition-all flex items-center gap-2"
                       >
                         <Icon icon="mdi:check" className="text-xl" />
-                        Add Skill
+                        {editingSkill ? "Update Skill" : "Add Skill"}
                       </button>
                     </div>
                   </div>

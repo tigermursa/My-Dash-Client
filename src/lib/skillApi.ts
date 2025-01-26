@@ -30,11 +30,19 @@ const apiRequest = async <T>(
 };
 
 // Skill API functions
-export const getSkills = async (userID: string): Promise<Skill[]> => {
-  const response = await apiRequest<SkillResponse>(`/get-skills/${userID}`, {
-    method: "GET",
-  });
-  return response.skills || [];
+export const fetchSkills = async (userID: string): Promise<Skill[]> => {
+  return apiRequest<{ message: string; skills: Skill[] }>(
+    `/get-skills/${userID}`
+  ).then((response) =>
+    response.skills.map((skill) => ({
+      ...skill,
+      category: skill.category as
+        | "frontend"
+        | "backend"
+        | "tool"
+        | "plan-to-learn",
+    }))
+  );
 };
 
 export const createSkill = async (
