@@ -8,9 +8,6 @@ import Page4 from "../FixedPages/Page4";
 import Page5 from "../FixedPages/Page5";
 import Page6 from "../FixedPages/Page6";
 
-import Page8 from "../FixedPages/Page8";
-import Page9 from "../FixedPages/Page9";
-import Page10 from "../FixedPages/Page10";
 import Page11 from "../FixedPages/Page11";
 import Page12 from "../FixedPages/Page12";
 import Page13 from "../FixedPages/Page13";
@@ -21,6 +18,9 @@ import SignIn from "../components/auth/signin";
 import SignUp from "../components/auth/signup";
 import PrivateRoute from "./PrivateRoute";
 import Skills from "../FixedPages/Page7";
+import JobTracker from "../FixedPages/Page8";
+import BookList from "../FixedPages/Page9";
+import Experience from "../FixedPages/Page10";
 
 const router = createBrowserRouter([
   {
@@ -65,15 +65,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/page-8",
-        element: <Page8 />,
+        element: <JobTracker />,
       },
       {
         path: "/page-9",
-        element: <Page9 />,
+        element: <BookList />,
       },
       {
         path: "/page-10",
-        element: <Page10 />,
+        element: <Experience />,
       },
       {
         path: "/page-11",
