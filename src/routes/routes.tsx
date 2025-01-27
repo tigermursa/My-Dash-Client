@@ -8,11 +8,6 @@ import Page4 from "../FixedPages/Page4";
 import Page5 from "../FixedPages/Page5";
 import Page6 from "../FixedPages/Page6";
 
-import Page11 from "../FixedPages/Page11";
-import Page12 from "../FixedPages/Page12";
-import Page13 from "../FixedPages/Page13";
-import Page14 from "../FixedPages/Page14";
-import Page15 from "../FixedPages/Page15";
 import Settings from "../pages/Settings";
 import SignIn from "../components/auth/signin";
 import SignUp from "../components/auth/signup";
@@ -21,6 +16,11 @@ import Skills from "../FixedPages/Page7";
 import JobTracker from "../FixedPages/Page8";
 import BookList from "../FixedPages/Page9";
 import Experience from "../FixedPages/Page10";
+import Projects from "../FixedPages/Page11";
+import Bookmarks from "../FixedPages/Page12";
+import Dates from "../FixedPages/Page13";
+import Help from "../FixedPages/Page15";
+import Page14 from "../FixedPages/Page14";
 
 const router = createBrowserRouter([
   {
@@ -77,15 +77,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/page-11",
-        element: <Page11 />,
+        element: <Projects />,
       },
       {
         path: "/page-12",
-        element: <Page12 />,
+        element: <Bookmarks />,
       },
       {
         path: "/page-13",
-        element: <Page13 />,
+        element: <Dates />,
       },
       {
         path: "/page-14",
@@ -93,7 +93,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/page-15",
-        element: <Page15 />,
+        element: <Help />,
       },
       {
         path: "/settings",
