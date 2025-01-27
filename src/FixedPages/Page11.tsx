@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
@@ -29,6 +29,19 @@ const Projects = () => {
     },
   });
 
+  // Load projects from localStorage on component mount
+  useEffect(() => {
+    const storedProjects = localStorage.getItem("projects");
+    if (storedProjects) {
+      setProjects(JSON.parse(storedProjects));
+    }
+  }, []);
+
+  // Save projects to localStorage whenever projects state changes
+  useEffect(() => {
+    localStorage.setItem("projects", JSON.stringify(projects));
+  }, [projects]);
+
   const onSubmit = (data: Project) => {
     const project: Project = {
       ...data,
@@ -39,9 +52,9 @@ const Projects = () => {
     setIsModalOpen(false);
   };
 
-  // const deleteProject = (id: number) => {
-  //   setProjects(projects.filter((project) => project.id !== id));
-  // };
+  const deleteProject = (id: number) => {
+    setProjects(projects.filter((project) => project.id !== id));
+  };
 
   return (
     <div className="min-h-screen p-4 md:p-8 bg-primarydarkbg">
@@ -69,7 +82,7 @@ const Projects = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
             onClick={() => setIsModalOpen(false)}
           >
             {/* Modal Content */}
@@ -77,7 +90,7 @@ const Projects = () => {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl p-4"
+              className="w-full max-w-2xl p-4"
               onClick={(e) => e.stopPropagation()}
             >
               <form
@@ -271,8 +284,69 @@ const Projects = () => {
         )}
       </AnimatePresence>
 
-      {/* Project List - Keep existing list code here */}
-      {/* ... (Keep the project list code from previous implementation) ... */}
+      {/* Project List */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {projects.map((project) => (
+          <motion.div
+            key={project.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="p-4 rounded-lg bg-primary_dark/10 backdrop-blur-sm border border-primary_dark/30"
+          >
+            <div className="flex justify-between items-center mb-2">
+              <h3 className="text-lg font-semibold text-primary_light">
+                {project.projectName}
+              </h3>
+              <button
+                onClick={() => deleteProject(project.id)}
+                className="text-primary_light/50 hover:text-primary_light"
+              >
+                <Icon icon="mdi:delete" className="text-xl" />
+              </button>
+            </div>
+            <p className="text-sm text-primary_light/80 mb-2">
+              Category: {project.category}
+            </p>
+            <p className="text-sm text-primary_light/80 mb-2">
+              Priority: {project.priority}
+            </p>
+            <p className="text-sm text-primary_light/80 mb-2">
+              Status: {project.status}
+            </p>
+            {project.githubClient && (
+              <a
+                href={project.githubClient}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-primary_light/80 hover:text-primary_light"
+              >
+                GitHub Client
+              </a>
+            )}
+            {project.githubServer && (
+              <a
+                href={project.githubServer}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-primary_light/80 hover:text-primary_light"
+              >
+                GitHub Server
+              </a>
+            )}
+            {project.liveLink && (
+              <a
+                href={project.liveLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-primary_light/80 hover:text-primary_light"
+              >
+                Live Link
+              </a>
+            )}
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 };
