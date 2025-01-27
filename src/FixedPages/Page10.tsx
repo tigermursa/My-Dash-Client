@@ -20,6 +20,7 @@ const Experience = () => {
     endDate: "",
     isCurrent: false,
   });
+  const [showModal, setShowModal] = useState(false);
 
   // Calculate total experience duration
   const calculateTotalExperience = () => {
@@ -72,6 +73,7 @@ const Experience = () => {
       endDate: "",
       isCurrent: false,
     });
+    setShowModal(false); // Close modal after submission
   };
 
   const deleteExperience = (id: number) => {
@@ -133,7 +135,20 @@ const Experience = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-primarydarkbg">
+    <div className="min-h-screen p-4 md:p-8 bg-primarydarkbg relative">
+      {/* Add Experience Button */}
+      <div className="flex justify-end mb-8">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="flex items-center gap-2 px-6 py-3 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
+          onClick={() => setShowModal(true)}
+        >
+          <Icon icon="mdi:plus" className="text-xl" />
+          Add Experience
+        </motion.button>
+      </div>
+
       {/* Total Experience Counter */}
       <motion.div
         className="mb-8 p-6 rounded-xl bg-primary_dark/10 backdrop-blur-sm border border-primary_dark/30"
@@ -155,116 +170,151 @@ const Experience = () => {
         </div>
       </motion.div>
 
-      {/* Add Experience Form */}
-      <motion.form
-        onSubmit={handleSubmit}
-        className="mb-8 p-6 rounded-xl bg-primary_dark/10 backdrop-blur-sm border border-primary_dark/30"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-          {/* Company Name */}
-          <div className="relative">
-            <Icon
-              icon="mdi:office-building"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
-            />
-            <input
-              type="text"
-              placeholder="Company Name"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
-              value={newExperience.companyName}
-              onChange={(e) =>
-                setNewExperience({
-                  ...newExperience,
-                  companyName: e.target.value,
-                })
-              }
-            />
-          </div>
-
-          {/* Position */}
-          <div className="relative">
-            <Icon
-              icon="mdi:briefcase"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
-            />
-            <input
-              type="text"
-              placeholder="Position"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
-              value={newExperience.position}
-              onChange={(e) =>
-                setNewExperience({ ...newExperience, position: e.target.value })
-              }
-            />
-          </div>
-
-          {/* Start Date */}
-          <div className="relative">
-            <Icon
-              icon="mdi:calendar-start"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
-            />
-            <input
-              type="date"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
-              value={newExperience.startDate}
-              max={new Date().toISOString().split("T")[0]} // Cannot select future dates
-              onChange={(e) =>
-                setNewExperience({
-                  ...newExperience,
-                  startDate: e.target.value,
-                })
-              }
-            />
-          </div>
-
-          {/* End Date */}
-          <div className="relative">
-            <Icon
-              icon="mdi:calendar-end"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
-            />
-            <input
-              type="date"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter disabled:opacity-50"
-              value={newExperience.endDate}
-              min={newExperience.startDate} // End date cannot be before start date
-              onChange={(e) =>
-                setNewExperience({ ...newExperience, endDate: e.target.value })
-              }
-              disabled={newExperience.isCurrent}
-            />
-          </div>
-
-          {/* Current Job Checkbox */}
-          <div className="flex items-center gap-3">
-            <label className="flex items-center gap-2 text-primary_light cursor-pointer">
-              <input
-                type="checkbox"
-                className="w-4 h-4 accent-primary_dark"
-                checked={newExperience.isCurrent}
-                onChange={(e) =>
-                  setNewExperience({
-                    ...newExperience,
-                    isCurrent: e.target.checked,
-                  })
-                }
-              />
-              Currently Working
-            </label>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="ml-auto px-6 py-2 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
-              type="submit"
+      {/* Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
+            onClick={() => setShowModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-primarydarkbg rounded-xl p-6 w-full max-w-md border border-primary_dark/30"
+              onClick={(e) => e.stopPropagation()}
             >
-              Add
-            </motion.button>
-          </div>
-        </div>
-      </motion.form>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-semibold text-primary_light">
+                  Add New Experience
+                </h2>
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="text-primary_light/50 hover:text-primary_light"
+                >
+                  <Icon icon="mdi:close" className="text-2xl" />
+                </button>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Company Name */}
+                <div className="relative">
+                  <Icon
+                    icon="mdi:office-building"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Company Name"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                    value={newExperience.companyName}
+                    onChange={(e) =>
+                      setNewExperience({
+                        ...newExperience,
+                        companyName: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                {/* Position */}
+                <div className="relative">
+                  <Icon
+                    icon="mdi:briefcase"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Position"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                    value={newExperience.position}
+                    onChange={(e) =>
+                      setNewExperience({
+                        ...newExperience,
+                        position: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                {/* Start Date */}
+                <div className="relative">
+                  <Icon
+                    icon="mdi:calendar-start"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                  />
+                  <input
+                    type="date"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                    value={newExperience.startDate}
+                    max={new Date().toISOString().split("T")[0]}
+                    onChange={(e) =>
+                      setNewExperience({
+                        ...newExperience,
+                        startDate: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                {/* End Date */}
+                <div className="relative">
+                  <Icon
+                    icon="mdi:calendar-end"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                  />
+                  <input
+                    type="date"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter disabled:opacity-50"
+                    value={newExperience.endDate}
+                    min={newExperience.startDate}
+                    onChange={(e) =>
+                      setNewExperience({
+                        ...newExperience,
+                        endDate: e.target.value,
+                      })
+                    }
+                    disabled={newExperience.isCurrent}
+                  />
+                </div>
+
+                {/* Current Job Checkbox */}
+                <div className="flex items-center gap-3">
+                  <label className="flex items-center gap-2 text-primary_light cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 accent-primary_dark"
+                      checked={newExperience.isCurrent}
+                      onChange={(e) =>
+                        setNewExperience({
+                          ...newExperience,
+                          isCurrent: e.target.checked,
+                        })
+                      }
+                    />
+                    Currently Working
+                  </label>
+                </div>
+
+                {/* Submit Button */}
+                <div className="flex justify-end gap-3 mt-6">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-6 py-2 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
+                    type="submit"
+                  >
+                    Add Experience
+                  </motion.button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Experience List */}
       <AnimatePresence>
