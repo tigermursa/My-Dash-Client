@@ -16,6 +16,7 @@ const BookList = () => {
     totalPages: "",
     targetDate: "",
   });
+  const [showModal, setShowModal] = useState(false);
 
   const calculateDailyPages = (
     totalPages: number,
@@ -42,6 +43,7 @@ const BookList = () => {
 
     setBooks([book, ...books]);
     setNewBook({ name: "", totalPages: "", targetDate: "" });
+    setShowModal(false);
   };
 
   const deleteBook = (id: number) => {
@@ -49,74 +51,119 @@ const BookList = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-primarydarkbg">
-      <motion.form
-        onSubmit={handleSubmit}
-        className="mb-8 p-6 rounded-xl bg-primary_dark/10 backdrop-blur-sm border border-primary_dark/30"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-      >
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="relative">
-            <Icon
-              icon="mdi:book-outline"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
-            />
-            <input
-              type="text"
-              placeholder="Book Name"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
-              value={newBook.name}
-              onChange={(e) => setNewBook({ ...newBook, name: e.target.value })}
-            />
-          </div>
+    <div className="min-h-screen p-4 md:p-8 bg-primarydarkbg relative">
+      {/* Add Book Button */}
+      <div className="flex justify-end mb-8">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="flex items-center gap-2 px-6 py-3 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
+          onClick={() => setShowModal(true)}
+        >
+          <Icon icon="mdi:plus" className="text-xl" />
+          Add Book
+        </motion.button>
+      </div>
 
-          <div className="relative">
-            <Icon
-              icon="mdi:page-layout-header"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
-            />
-            <input
-              type="number"
-              placeholder="Total Pages"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
-              value={newBook.totalPages}
-              onChange={(e) =>
-                setNewBook({ ...newBook, totalPages: e.target.value })
-              }
-              min="1"
-            />
-          </div>
-
-          <div className="relative">
-            <Icon
-              icon="mdi:calendar"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
-            />
-            <input
-              type="date"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
-              value={newBook.targetDate}
-              min={new Date().toISOString().split("T")[0]}
-              onChange={(e) =>
-                setNewBook({ ...newBook, targetDate: e.target.value })
-              }
-            />
-          </div>
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center justify-center gap-2 p-2 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
-            type="submit"
+      {/* Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
+            onClick={() => setShowModal(false)}
           >
-            <Icon icon="mdi:plus" className="text-xl" />
-            Add Book
-          </motion.button>
-        </div>
-      </motion.form>
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-primarydarkbg rounded-xl p-6 w-full max-w-md border border-primary_dark/30"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-semibold text-primary_light">
+                  Add New Book
+                </h2>
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="text-primary_light/50 hover:text-primary_light"
+                >
+                  <Icon icon="mdi:close" className="text-2xl" />
+                </button>
+              </div>
 
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="relative">
+                  <Icon
+                    icon="mdi:book-outline"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Book Name"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                    value={newBook.name}
+                    onChange={(e) =>
+                      setNewBook({ ...newBook, name: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="relative">
+                  <Icon
+                    icon="mdi:page-layout-header"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Total Pages"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                    value={newBook.totalPages}
+                    onChange={(e) =>
+                      setNewBook({ ...newBook, totalPages: e.target.value })
+                    }
+                    min="1"
+                  />
+                </div>
+
+                <div className="relative">
+                  <Icon
+                    icon="mdi:calendar"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                  />
+                  <input
+                    type="date"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                    value={newBook.targetDate}
+                    min={new Date().toISOString().split("T")[0]}
+                    onChange={(e) =>
+                      setNewBook({ ...newBook, targetDate: e.target.value })
+                    }
+                  />
+                  <span className="text-xs text-primary_light/50 mt-1 block">
+                    Minimum date: Today
+                  </span>
+                </div>
+
+                <div className="flex justify-end gap-3 mt-6">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-6 py-2 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
+                    type="submit"
+                  >
+                    Add Book
+                  </motion.button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Book List */}
       <AnimatePresence>
         {books.length === 0 ? (
           <motion.div
