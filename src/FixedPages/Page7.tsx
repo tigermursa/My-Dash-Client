@@ -141,7 +141,7 @@ const Skills = () => {
       <div className="min-h-screen dark:bg-primarydarkbg flex items-center justify-center">
         <Icon
           icon="mdi:loading"
-          className="animate-spin text-4xl text-darker_green"
+          className="animate-spin text-4xl text-primary_darker"
         />
       </div>
     );
@@ -158,9 +158,12 @@ const Skills = () => {
         <div className="flex justify-between items-center mb-8">
           <motion.h1
             variants={fadeIn("down", 0.2)}
-            className="text-3xl font-bold bg-gradient-to-r from-dark_green to-light_green bg-clip-text text-transparent"
+            className="text-3xl font-bold bg-gradient-to-r from-primary_dark to-primary_light bg-clip-text text-transparent"
           >
-            <Icon icon="mdi:brain" className="inline mr-2 text-darker_green" />
+            <Icon
+              icon="mdi:brain"
+              className="inline mr-2 text-primary_darker"
+            />
             Technical Expertise
           </motion.h1>
           <motion.button
@@ -169,7 +172,7 @@ const Skills = () => {
               setEditingSkill(null);
               setIsModalOpen(true);
             }}
-            className="bg-darker_green hover:bg-dark_green text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2 group"
+            className="bg-primary_darker hover:bg-primary_dark text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2 group"
           >
             <Icon
               icon="mdi:plus"
@@ -184,16 +187,16 @@ const Skills = () => {
             <motion.div
               key={category}
               variants={fadeIn("up", 0.4)}
-              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl border border-darker_green/20"
+              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl border border-primary_darker/20"
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-darker_green/10 rounded-lg">
+                <div className="p-3 bg-primary_darker/10 rounded-lg">
                   <Icon
                     icon={getCategoryIcon(category)}
-                    className="text-3xl text-darker_green"
+                    className="text-3xl text-primary_darker"
                   />
                 </div>
-                <h2 className="text-xl font-semibold dark:text-light_green">
+                <h2 className="text-xl font-semibold dark:text-primary_light">
                   {category === "plan-to-learn"
                     ? "Plan to Learn"
                     : `${category} Stack`}
@@ -207,13 +210,13 @@ const Skills = () => {
                     <motion.div
                       key={skill._id}
                       variants={fadeIn("up", 0.2)}
-                      className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg group hover:bg-gradient-to-r from-darker_green/5 to-dark_green/5 transition-all"
+                      className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg group hover:bg-gradient-to-r from-primary_darker/5 to-primary_dark/5 transition-all"
                     >
                       <div className="flex items-center gap-4">
                         <div className="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
                           <Icon
                             icon={getSkillIcon(skill.skillName)}
-                            className="text-2xl text-darker_green"
+                            className="text-2xl text-primary_darker"
                           />
                         </div>
                         <div className="flex-1">
@@ -232,7 +235,7 @@ const Skills = () => {
                               setEditingSkill(skill);
                               setIsModalOpen(true);
                             }}
-                            className="text-gray-400 hover:text-darker_green transition-colors"
+                            className="text-gray-400 hover:text-primary_darker transition-colors"
                           >
                             <Icon icon="mdi:pencil" className="text-lg" />
                           </button>
@@ -273,7 +276,7 @@ const Skills = () => {
                       setIsModalOpen(false);
                       setEditingSkill(null);
                     }}
-                    className="text-gray-500 hover:text-darker_green transition-colors"
+                    className="text-gray-500 hover:text-primary_darker transition-colors"
                   >
                     <Icon icon="mdi:close" className="text-2xl" />
                   </button>
@@ -302,7 +305,7 @@ const Skills = () => {
                   <div className="space-y-6">
                     <div className="space-y-1">
                       <label className="flex items-center gap-2 text-sm font-medium dark:text-gray-300">
-                        <Icon icon="mdi:tag" className="text-darker_green" />
+                        <Icon icon="mdi:tag" className="text-primary_darker" />
                         Skill Name
                       </label>
                       <input
@@ -310,19 +313,22 @@ const Skills = () => {
                         type="text"
                         required
                         defaultValue={editingSkill?.skillName}
-                        className="w-full p-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl dark:bg-gray-900 dark:text-white focus:border-darker_green focus:ring-2 focus:ring-dark_green"
+                        className="w-full p-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl dark:bg-gray-900 dark:text-white focus:border-primary_darker focus:ring-2 focus:ring-primary_dark"
                       />
                     </div>
 
                     <div className="space-y-1">
                       <label className="flex items-center gap-2 text-sm font-medium dark:text-gray-300">
-                        <Icon icon="mdi:shape" className="text-darker_green" />
+                        <Icon
+                          icon="mdi:shape"
+                          className="text-primary_darker"
+                        />
                         Category
                       </label>
                       <select
                         name="category"
                         defaultValue={editingSkill?.category || "frontend"}
-                        className="w-full p-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl dark:bg-gray-900 dark:text-white focus:border-darker_green focus:ring-2 focus:ring-dark_green"
+                        className="w-full p-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl dark:bg-gray-900 dark:text-white focus:border-primary_darker focus:ring-2 focus:ring-primary_dark"
                       >
                         <option value="frontend">Frontend</option>
                         <option value="backend">Backend</option>
@@ -333,13 +339,13 @@ const Skills = () => {
 
                     <div className="space-y-1">
                       <label className="flex items-center gap-2 text-sm font-medium dark:text-gray-300">
-                        <Icon icon="mdi:star" className="text-darker_green" />
+                        <Icon icon="mdi:star" className="text-primary_darker" />
                         Proficiency Level
                       </label>
                       <select
                         name="level"
                         defaultValue={editingSkill?.level || "medium"}
-                        className="w-full p-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl dark:bg-gray-900 dark:text-white focus:border-darker_green focus:ring-2 focus:ring-dark_green"
+                        className="w-full p-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl dark:bg-gray-900 dark:text-white focus:border-primary_darker focus:ring-2 focus:ring-primary_dark"
                       >
                         <option value="beginner">Beginner</option>
                         <option value="medium">Medium</option>
@@ -350,7 +356,7 @@ const Skills = () => {
                     <div className="flex justify-end gap-3 mt-8">
                       <button
                         type="submit"
-                        className="px-6 py-3 bg-gradient-to-r from-darker_green to-dark_green text-white rounded-xl hover:shadow-lg transition-all flex items-center gap-2"
+                        className="px-6 py-3 bg-gradient-to-r from-primary_darker to-primary_dark text-white rounded-xl hover:shadow-lg transition-all flex items-center gap-2"
                       >
                         <Icon icon="mdi:check" className="text-xl" />
                         {editingSkill ? "Update Skill" : "Add Skill"}

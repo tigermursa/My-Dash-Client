@@ -54,7 +54,7 @@ const Projects = () => {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 px-6 py-2 bg-dark_green text-primarydarkbg rounded-lg hover:bg-darker_green transition-colors"
+          className="flex items-center gap-2 px-6 py-2 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
           onClick={() => setIsModalOpen(true)}
         >
           <Icon icon="mdi:plus" className="text-xl" />
@@ -82,15 +82,15 @@ const Projects = () => {
             >
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="p-6 rounded-xl bg-dark_green/10 backdrop-blur-sm border border-dark_green/30"
+                className="p-6 rounded-xl bg-primary_dark/10 backdrop-blur-sm border border-primary_dark/30"
               >
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-semibold text-light_green">
+                  <h2 className="text-xl font-semibold text-primary_light">
                     Add New Project
                   </h2>
                   <button
                     type="button"
-                    className="text-light_green/50 hover:text-light_green"
+                    className="text-primary_light/50 hover:text-primary_light"
                     onClick={() => setIsModalOpen(false)}
                   >
                     <Icon icon="mdi:close" className="text-2xl" />
@@ -102,7 +102,7 @@ const Projects = () => {
                   <div className="relative">
                     <Icon
                       icon="mdi:folder-outline"
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
                     />
                     <Controller
                       name="projectName"
@@ -113,7 +113,7 @@ const Projects = () => {
                           {...field}
                           type="text"
                           placeholder="Project Name"
-                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green"
+                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
                         />
                       )}
                     />
@@ -123,7 +123,7 @@ const Projects = () => {
                   <div className="relative">
                     <Icon
                       icon="mdi:tag-outline"
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
                     />
                     <Controller
                       name="category"
@@ -131,7 +131,7 @@ const Projects = () => {
                       render={({ field }) => (
                         <select
                           {...field}
-                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green"
+                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
                         >
                           <option value="frontend">Frontend</option>
                           <option value="backend">Backend</option>
@@ -145,7 +145,7 @@ const Projects = () => {
                   <div className="relative">
                     <Icon
                       icon="mdi:git"
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
                     />
                     <Controller
                       name="githubClient"
@@ -155,7 +155,7 @@ const Projects = () => {
                           {...field}
                           type="url"
                           placeholder="GitHub Client (optional)"
-                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green"
+                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
                         />
                       )}
                     />
@@ -165,7 +165,7 @@ const Projects = () => {
                   <div className="relative">
                     <Icon
                       icon="mdi:git"
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
                     />
                     <Controller
                       name="githubServer"
@@ -175,7 +175,7 @@ const Projects = () => {
                           {...field}
                           type="url"
                           placeholder="GitHub Server (optional)"
-                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green"
+                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
                         />
                       )}
                     />
@@ -185,7 +185,7 @@ const Projects = () => {
                   <div className="relative">
                     <Icon
                       icon="mdi:web"
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
                     />
                     <Controller
                       name="liveLink"
@@ -195,7 +195,7 @@ const Projects = () => {
                           {...field}
                           type="url"
                           placeholder="Live Link (optional)"
-                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green"
+                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
                         />
                       )}
                     />
@@ -205,7 +205,7 @@ const Projects = () => {
                   <div className="relative">
                     <Icon
                       icon="mdi:priority-high"
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
                     />
                     <Controller
                       name="priority"
@@ -213,7 +213,7 @@ const Projects = () => {
                       render={({ field }) => (
                         <select
                           {...field}
-                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green"
+                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
                         >
                           <option value="low">Low</option>
                           <option value="medium">Medium</option>
@@ -227,7 +227,7 @@ const Projects = () => {
                   <div className="relative">
                     <Icon
                       icon="mdi:progress-check"
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
                     />
                     <Controller
                       name="status"
@@ -235,7 +235,7 @@ const Projects = () => {
                       render={({ field }) => (
                         <select
                           {...field}
-                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green"
+                          className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
                         >
                           <option value="planned">Planned</option>
                           <option value="in-progress">In Progress</option>
@@ -251,7 +251,7 @@ const Projects = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     type="button"
-                    className="px-6 py-2 text-light_green hover:bg-dark_green/20 rounded-lg transition-colors"
+                    className="px-6 py-2 text-primary_light hover:bg-primary_dark/20 rounded-lg transition-colors"
                     onClick={() => setIsModalOpen(false)}
                   >
                     Cancel
@@ -260,7 +260,7 @@ const Projects = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     type="submit"
-                    className="px-6 py-2 bg-dark_green text-primarydarkbg rounded-lg hover:bg-darker_green transition-colors"
+                    className="px-6 py-2 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
                   >
                     Add Project
                   </motion.button>

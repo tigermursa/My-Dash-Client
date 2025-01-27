@@ -6,10 +6,10 @@ export default {
     extend: {
       colors: {
         primarydarkbg: "#1e232f",
-        light_green: "#49e7a5",
-        lighter_green: "#53f5aa",
-        dark_green: "#3ecb6f",
-        darker_green: "#3cbc78",
+        primary_light: "#49e7a5",
+        primary_lighter: "#53f5aa",
+        primary_dark: "#3ecb6f",
+        primary_darker: "#3cbc78",
       },
     },
   },

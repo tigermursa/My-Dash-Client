@@ -98,14 +98,14 @@ const Experience = () => {
   }) => (
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-2">
-        <Icon icon="mdi:calendar-start" className="text-light_green/80" />
-        <span className="text-light_green text-sm">
+        <Icon icon="mdi:calendar-start" className="text-primary_light/80" />
+        <span className="text-primary_light text-sm">
           Start: {formatDate(start)}
         </span>
       </div>
       <div className="flex items-center gap-2">
-        <Icon icon="mdi:calendar-end" className="text-light_green/80" />
-        <span className="text-light_green text-sm">
+        <Icon icon="mdi:calendar-end" className="text-primary_light/80" />
+        <span className="text-primary_light text-sm">
           End: {isCurrent ? "Present" : formatDate(end)}
         </span>
       </div>
@@ -136,17 +136,17 @@ const Experience = () => {
     <div className="min-h-screen p-4 md:p-8 bg-primarydarkbg">
       {/* Total Experience Counter */}
       <motion.div
-        className="mb-8 p-6 rounded-xl bg-dark_green/10 backdrop-blur-sm border border-dark_green/30"
+        className="mb-8 p-6 rounded-xl bg-primary_dark/10 backdrop-blur-sm border border-primary_dark/30"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div className="flex items-center gap-4 text-light_green">
+        <div className="flex items-center gap-4 text-primary_light">
           <Icon icon="mdi:briefcase-clock" className="text-3xl" />
           <div>
             <h2 className="text-xl font-semibold">
               Total Professional Experience
             </h2>
-            <p className="text-lighter_green font-bold text-2xl">
+            <p className="text-primary_lighter font-bold text-2xl">
               {experiences.length > 0
                 ? calculateTotalExperience()
                 : "Add your first experience"}
@@ -158,7 +158,7 @@ const Experience = () => {
       {/* Add Experience Form */}
       <motion.form
         onSubmit={handleSubmit}
-        className="mb-8 p-6 rounded-xl bg-dark_green/10 backdrop-blur-sm border border-dark_green/30"
+        className="mb-8 p-6 rounded-xl bg-primary_dark/10 backdrop-blur-sm border border-primary_dark/30"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
@@ -167,12 +167,12 @@ const Experience = () => {
           <div className="relative">
             <Icon
               icon="mdi:office-building"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
             />
             <input
               type="text"
               placeholder="Company Name"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green"
+              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
               value={newExperience.companyName}
               onChange={(e) =>
                 setNewExperience({
@@ -187,12 +187,12 @@ const Experience = () => {
           <div className="relative">
             <Icon
               icon="mdi:briefcase"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
             />
             <input
               type="text"
               placeholder="Position"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green"
+              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
               value={newExperience.position}
               onChange={(e) =>
                 setNewExperience({ ...newExperience, position: e.target.value })
@@ -204,11 +204,11 @@ const Experience = () => {
           <div className="relative">
             <Icon
               icon="mdi:calendar-start"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
             />
             <input
               type="date"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green"
+              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
               value={newExperience.startDate}
               max={new Date().toISOString().split("T")[0]} // Cannot select future dates
               onChange={(e) =>
@@ -224,11 +224,11 @@ const Experience = () => {
           <div className="relative">
             <Icon
               icon="mdi:calendar-end"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
             />
             <input
               type="date"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green disabled:opacity-50"
+              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter disabled:opacity-50"
               value={newExperience.endDate}
               min={newExperience.startDate} // End date cannot be before start date
               onChange={(e) =>
@@ -240,10 +240,10 @@ const Experience = () => {
 
           {/* Current Job Checkbox */}
           <div className="flex items-center gap-3">
-            <label className="flex items-center gap-2 text-light_green cursor-pointer">
+            <label className="flex items-center gap-2 text-primary_light cursor-pointer">
               <input
                 type="checkbox"
-                className="w-4 h-4 accent-dark_green"
+                className="w-4 h-4 accent-primary_dark"
                 checked={newExperience.isCurrent}
                 onChange={(e) =>
                   setNewExperience({
@@ -257,7 +257,7 @@ const Experience = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="ml-auto px-6 py-2 bg-dark_green text-primarydarkbg rounded-lg hover:bg-darker_green transition-colors"
+              className="ml-auto px-6 py-2 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
               type="submit"
             >
               Add
@@ -272,7 +272,7 @@ const Experience = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center p-8 text-light_green/50"
+            className="text-center p-8 text-primary_light/50"
           >
             <Icon
               icon="mdi:briefcase-remove"
@@ -287,28 +287,28 @@ const Experience = () => {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 50 }}
-              className="group mb-4 p-4 rounded-xl bg-primarydarkbg/80 backdrop-blur-sm border border-dark_green hover:border-lighter_green transition-colors"
+              className="group mb-4 p-4 rounded-xl bg-primarydarkbg/80 backdrop-blur-sm border border-primary_dark hover:border-primary_lighter transition-colors"
             >
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
                 {/* Company Name */}
                 <div className="flex items-center gap-3">
                   <Icon
                     icon="mdi:office-building"
-                    className="text-light_green/80 flex-shrink-0"
+                    className="text-primary_light/80 flex-shrink-0"
                   />
-                  <span className="text-light_green font-semibold truncate">
+                  <span className="text-primary_light font-semibold truncate">
                     {exp.companyName}
                   </span>
                 </div>
 
                 {/* Position */}
-                <div className="flex items-center gap-2 text-light_green">
+                <div className="flex items-center gap-2 text-primary_light">
                   <Icon icon="mdi:briefcase" />
                   {exp.position}
                 </div>
 
                 {/* Dates */}
-                <div className="flex items-center gap-2 text-light_green">
+                <div className="flex items-center gap-2 text-primary_light">
                   <ExperienceDates
                     start={exp.startDate}
                     end={exp.endDate}
@@ -317,7 +317,7 @@ const Experience = () => {
                 </div>
 
                 {/* Duration */}
-                <div className="flex items-center gap-2 text-lighter_green">
+                <div className="flex items-center gap-2 text-primary_lighter">
                   <Icon icon="mdi:clock-time-three-outline" />
                   {calculateDuration(exp.startDate, exp.endDate, exp.isCurrent)}
                 </div>

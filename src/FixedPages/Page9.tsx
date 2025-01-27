@@ -52,7 +52,7 @@ const BookList = () => {
     <div className="min-h-screen p-4 md:p-8 bg-primarydarkbg">
       <motion.form
         onSubmit={handleSubmit}
-        className="mb-8 p-6 rounded-xl bg-dark_green/10 backdrop-blur-sm border border-dark_green/30"
+        className="mb-8 p-6 rounded-xl bg-primary_dark/10 backdrop-blur-sm border border-primary_dark/30"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -61,12 +61,12 @@ const BookList = () => {
           <div className="relative">
             <Icon
               icon="mdi:book-outline"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
             />
             <input
               type="text"
               placeholder="Book Name"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green"
+              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
               value={newBook.name}
               onChange={(e) => setNewBook({ ...newBook, name: e.target.value })}
             />
@@ -75,12 +75,12 @@ const BookList = () => {
           <div className="relative">
             <Icon
               icon="mdi:page-layout-header"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
             />
             <input
               type="number"
               placeholder="Total Pages"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green"
+              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
               value={newBook.totalPages}
               onChange={(e) =>
                 setNewBook({ ...newBook, totalPages: e.target.value })
@@ -92,11 +92,11 @@ const BookList = () => {
           <div className="relative">
             <Icon
               icon="mdi:calendar"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-light_green/80"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
             />
             <input
               type="date"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-light_green border border-dark_green focus:outline-none focus:border-lighter_green"
+              className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
               value={newBook.targetDate}
               min={new Date().toISOString().split("T")[0]}
               onChange={(e) =>
@@ -108,7 +108,7 @@ const BookList = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="flex items-center justify-center gap-2 p-2 bg-dark_green text-primarydarkbg rounded-lg hover:bg-darker_green transition-colors"
+            className="flex items-center justify-center gap-2 p-2 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
             type="submit"
           >
             <Icon icon="mdi:plus" className="text-xl" />
@@ -122,7 +122,7 @@ const BookList = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center p-8 text-light_green/50"
+            className="text-center p-8 text-primary_light/50"
           >
             <Icon icon="mdi:bookshelf" className="text-4xl mb-4 mx-auto" />
             <p>No books added yet</p>
@@ -135,25 +135,25 @@ const BookList = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 50 }}
               layout
-              className="group mb-4 p-4 rounded-xl bg-primarydarkbg/80 backdrop-blur-sm border border-dark_green hover:border-lighter_green transition-colors"
+              className="group mb-4 p-4 rounded-xl bg-primarydarkbg/80 backdrop-blur-sm border border-primary_dark hover:border-primary_lighter transition-colors"
             >
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
                 <div className="flex items-center gap-3">
                   <Icon
                     icon="mdi:book-open-outline"
-                    className="text-light_green/80 flex-shrink-0"
+                    className="text-primary_light/80 flex-shrink-0"
                   />
-                  <span className="text-light_green font-semibold truncate">
+                  <span className="text-primary_light font-semibold truncate">
                     {book.name}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-2 text-light_green">
+                <div className="flex items-center gap-2 text-primary_light">
                   <Icon icon="mdi:page-layout-header" />
                   {book.totalPages}
                 </div>
 
-                <div className="flex items-center gap-2 text-light_green">
+                <div className="flex items-center gap-2 text-primary_light">
                   <Icon icon="mdi:calendar" />
                   {new Date(book.targetDate).toLocaleDateString("en-GB", {
                     day: "numeric",
@@ -162,7 +162,7 @@ const BookList = () => {
                   })}
                 </div>
 
-                <div className="flex items-center gap-2 text-lighter_green font-bold">
+                <div className="flex items-center gap-2 text-primary_lighter font-bold">
                   <Icon icon="mdi:run-fast" />
                   {calculateDailyPages(book.totalPages, book.targetDate)}
                 </div>
