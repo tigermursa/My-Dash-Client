@@ -63,7 +63,7 @@ export default function AuthForm({ type }: AuthFormProps) {
         <div className="space-y-1">
           <div className="flex justify-center items-center gap-1">
             <img
-              src="/logo.png"
+              src="/my-dash-logo.png"
               alt="User"
               className="w-8 h-8 rounded-full object-cover"
             />
