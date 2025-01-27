@@ -19,7 +19,7 @@ import { AllTasks } from "../types/PlanTypes";
 import { Icon } from "@iconify/react";
 
 // Updated color scheme based on your tailwind config
-const COLORS = ["#3cbc78", "#00bfff", "#ffc0cb", "#00bbff"];
+const COLORS = ["#3cbc78", "#00bfff", "#ffa0b4", "#00bfff"];
 
 const Home = () => {
   const { user } = useAuth();
