@@ -10,7 +10,6 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { NavItem } from "../types/NavTypes";
 import useAuth from "../hooks/useAuth";
 import NavItemsUpdateModal from "../components/modals/NavItemsUpdateModal";
-import ThemeSwitcher from "../components/ThemeSwitcher";
 
 const Settings = () => {
   const { user } = useAuth();
@@ -74,7 +73,6 @@ const Settings = () => {
           </span>
         </h1>
         <ThemeToggle />
-        <ThemeSwitcher />
       </div>
 
       <div className="p-6 bg-gray-50 dark:bg-gray-900">
