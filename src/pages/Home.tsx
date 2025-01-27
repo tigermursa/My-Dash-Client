@@ -19,7 +19,7 @@ import { AllTasks } from "../types/PlanTypes";
 import { Icon } from "@iconify/react";
 
 // Updated color scheme based on your tailwind config
-const COLORS = ["#3cbc78", "#49e7a5", "#3ecb6f", "#53f5aa"];
+const COLORS = ["#3cbc78", "#00bfff", "#ffc0cb", "#00bbff"];
 
 const Home = () => {
   const { user } = useAuth();
@@ -90,7 +90,7 @@ const Home = () => {
     );
 
   return (
-    <div className="p-6 dark:bg-primarydarkbg min-h-screen">
+    <div className="p-6 dark:bg-gray-900 min-h-screen">
       <h1 className="text-3xl font-bold mb-8 text-center dark:text-primary_light">
         <Icon
           icon="mdi:chart-box"
@@ -165,7 +165,7 @@ const Home = () => {
               </Pie>
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "#1e232f",
+                  backgroundColor: "#49e7a5",
                   border: "1px solid #3cbc78",
                   borderRadius: "8px",
                   color: "#49e7a5",
