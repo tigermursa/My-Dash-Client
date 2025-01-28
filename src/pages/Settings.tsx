@@ -10,6 +10,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { NavItem } from "../types/NavTypes";
 import useAuth from "../hooks/useAuth";
 import NavItemsUpdateModal from "../components/modals/NavItemsUpdateModal";
+import ColorPicker from "../components/Ui/ColorPicker/ColorPicker";
 
 const Settings = () => {
   const { user } = useAuth();
@@ -64,7 +65,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+    <div className="p-6 bg-gray-50 dark:bg-gray-900  text-gray-800 dark:text-gray-100">
       <div className="p-6 flex justify-between items-center">
         <h1 className="text-xl font-semibold flex items-center gap-1">
           Settings Page{" "}
@@ -73,6 +74,7 @@ const Settings = () => {
           </span>
         </h1>
         <ThemeToggle />
+        <ColorPicker />
       </div>
 
       <div className="p-6 bg-gray-50 dark:bg-gray-900">

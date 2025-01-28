@@ -6,11 +6,17 @@ export default {
     extend: {
       colors: {
         primarydarkbg: "#1e232f",
-        primary_one: "#00bfff",
+        primary_one: "var(--primary-color)",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addBase }) {
+      addBase({
+        ":root": {
+          "--primary-color": "#00bfff",
+        },
+      });
+    },
+  ],
 };
-
-//#ff6347 #32cd32 #ff1493
