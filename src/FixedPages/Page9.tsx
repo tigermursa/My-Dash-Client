@@ -51,7 +51,7 @@ const BookList = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-primarydarkbg relative">
+    <div className="min-h-screen p-4 md:p-8 dark:bg-gray-900relative">
       {/* Add Book Button */}
       <div className="flex justify-end mb-8">
         <motion.button

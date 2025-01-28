@@ -57,7 +57,7 @@ const Projects = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-primarydarkbg">
+    <div className="min-h-screen p-4 md:p-8 dark:bg-gray-900">
       {/* Add Project Button */}
       <motion.div
         className="mb-8 flex justify-end"

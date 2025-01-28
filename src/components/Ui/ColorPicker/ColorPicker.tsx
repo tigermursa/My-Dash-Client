@@ -4,11 +4,11 @@ import { useEffect } from "react";
 const ColorPicker = () => {
   const colors = [
     "#00bfff", // Vibrant blue (sky blue)
+    "#00efae", // Dodger blue (a more subdued blue)
     "#ff6347", // Tomato (red-orange)
     "#32cd32", // Lime green
     "#ff1493", // Deep pink
     "#ffdc00", // Bright yellow (yellow-gold)
-    "#1e90ff", // Dodger blue (a more subdued blue)
     "#8a2be2", // Blue violet (adds a nice purple tone)
   ];
   const savedColor = localStorage.getItem("primaryColor") || "#00bfff";
@@ -33,11 +33,7 @@ const ColorPicker = () => {
           <button
             key={color}
             onClick={() => changeColor(color as string)}
-            className={`w-8 h-8 rounded-full border-2 ${
-              savedColor === color
-                ? "border-gray-800 dark:border-white"
-                : "border-transparent"
-            }`}
+            className={`w-8 h-8 rounded-full border-2`}
             style={{ backgroundColor: color }}
           />
         ))}

@@ -138,7 +138,7 @@ const Skills = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen dark:bg-primarydarkbg flex items-center justify-center">
+      <div className="min-h-screen dark:bg-gray-900 flex items-center justify-center">
         <Icon
           icon="mdi:loading"
           className="animate-spin text-4xl text-primary_one"
@@ -152,7 +152,7 @@ const Skills = () => {
       initial="hidden"
       animate="show"
       variants={staggerContainer(0.1, 0.2)}
-      className="p-6 dark:bg-primarydarkbg min-h-screen"
+      className="p-6 dark:bg-gray-900 min-h-screen"
     >
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">

@@ -135,7 +135,7 @@ const Experience = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-primarydarkbg relative">
+    <div className="min-h-screen p-4 md:p-8 dark:bg-gray-900 relative">
       {/* Add Experience Button */}
       <div className="flex justify-end mb-8">
         <motion.button
