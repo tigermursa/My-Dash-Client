@@ -57,7 +57,7 @@ const Bookmarks = () => {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 px-6 py-2 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
+          className="flex items-center gap-2 px-6 py-2 bg-primary_one text-primarydarkbg rounded-lg hover:bg-primary_one transition-colors"
           onClick={() => setIsModalOpen(true)}
         >
           <Icon icon="mdi:plus" className="text-xl" />
@@ -85,15 +85,15 @@ const Bookmarks = () => {
             >
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="p-6 rounded-xl bg-primary_dark/10 backdrop-blur-sm border border-primary_dark/30"
+                className="p-6 rounded-xl bg-primary_one/10 backdrop-blur-sm border border-primary_one/30"
               >
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-semibold text-primary_light">
+                  <h2 className="text-xl font-semibold text-primary_one">
                     Add New Bookmark
                   </h2>
                   <button
                     type="button"
-                    className="text-primary_light/50 hover:text-primary_light"
+                    className="text-primary_one/50 hover:text-primary_one"
                     onClick={() => setIsModalOpen(false)}
                   >
                     <Icon icon="mdi:close" className="text-2xl" />
@@ -104,7 +104,7 @@ const Bookmarks = () => {
                 <div className="relative mb-4">
                   <Icon
                     icon="mdi:bookmark-outline"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_one/80"
                   />
                   <Controller
                     name="name"
@@ -115,7 +115,7 @@ const Bookmarks = () => {
                         {...field}
                         type="text"
                         placeholder="Bookmark Name"
-                        className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                        className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_one border border-primary_one focus:outline-none focus:border-primary_one"
                       />
                     )}
                   />
@@ -125,7 +125,7 @@ const Bookmarks = () => {
                 <div className="relative mb-4">
                   <Icon
                     icon="mdi:link"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_one/80"
                   />
                   <Controller
                     name="url"
@@ -136,7 +136,7 @@ const Bookmarks = () => {
                         {...field}
                         type="url"
                         placeholder="Bookmark URL"
-                        className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                        className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_one border border-primary_one focus:outline-none focus:border-primary_one"
                       />
                     )}
                   />
@@ -147,7 +147,7 @@ const Bookmarks = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     type="button"
-                    className="px-6 py-2 text-primary_light hover:bg-primary_dark/20 rounded-lg transition-colors"
+                    className="px-6 py-2 text-primary_one hover:bg-primary_one/20 rounded-lg transition-colors"
                     onClick={() => setIsModalOpen(false)}
                   >
                     Cancel
@@ -156,7 +156,7 @@ const Bookmarks = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     type="submit"
-                    className="px-6 py-2 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
+                    className="px-6 py-2 bg-primary_one text-primarydarkbg rounded-lg hover:bg-primary_one transition-colors"
                   >
                     Add Bookmark
                   </motion.button>
@@ -175,15 +175,15 @@ const Bookmarks = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="p-4 rounded-lg bg-primary_dark/10 backdrop-blur-sm border border-primary_dark/30"
+            className="p-4 rounded-lg bg-primary_one/10 backdrop-blur-sm border border-primary_one/30"
           >
             <div className="flex justify-between items-center mb-2">
-              <h3 className="text-lg font-semibold text-primary_light">
+              <h3 className="text-lg font-semibold text-primary_one">
                 {bookmark.name}
               </h3>
               <button
                 onClick={() => deleteBookmark(bookmark.id)}
-                className="text-primary_light/50 hover:text-primary_light"
+                className="text-primary_one/50 hover:text-primary_one"
               >
                 <Icon icon="mdi:delete" className="text-xl" />
               </button>
@@ -197,7 +197,7 @@ const Bookmarks = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-full px-4 py-2 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
+                className="w-full px-4 py-2 bg-primary_one text-primarydarkbg rounded-lg hover:bg-primary_one transition-colors"
               >
                 Visit
               </motion.button>

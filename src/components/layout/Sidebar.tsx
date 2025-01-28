@@ -50,7 +50,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden w-64 bg-gray-50 dark:bg-primarydarkbg shadow-md lg:flex flex-col transition-colors duration-200 m-5 border dark:border-primary_dark rounded-3xl">
+      <aside className="hidden w-64 bg-gray-50 dark:bg-primarydarkbg shadow-md lg:flex flex-col transition-colors duration-200 m-5 border dark:border-primary_one rounded-3xl">
         <div className="p-4 ">
           <div className="flex justify-center items-center gap-1">
             <div className="flex items-center  gap-1">
@@ -60,7 +60,7 @@ export default function Sidebar() {
                 className="w-8 h-8 rounded-full object-cover"
               />
               <h1 className="text-2xl  bebas-neue-regular text-gray-900 dark:text-white">
-                My D<span className="text-primary_dark">a</span>sh
+                My D<span className="text-primary_one">a</span>sh
               </h1>
             </div>
           </div>
@@ -85,7 +85,7 @@ export default function Sidebar() {
                 >
                   <Icon
                     icon={item.icon}
-                    className="mr-4 h-6 w-6 text-primary_darker dark:text-primary_lighter"
+                    className="mr-4 h-6 w-6 text-primary_one dark:text-primary_one"
                   />
                   {item.name}
                 </Link>
@@ -103,7 +103,7 @@ export default function Sidebar() {
           <img
             src="https://img.freepik.com/premium-photo/cute-girl-with-pretty-face-creative-ai_634423-2799.jpg"
             alt="User"
-            className="w-12 h-12 rounded-full object-cover border-2 border-primary_light"
+            className="w-12 h-12 rounded-full object-cover border-2 border-primary_one"
           />
           <div className="flex items-center space-x-2 truncate ">
             {user ? (

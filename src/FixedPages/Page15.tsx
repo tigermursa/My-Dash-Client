@@ -22,7 +22,7 @@ const Help = () => {
   return (
     <div className="min-h-screen p-4 md:p-8 bg-gray-900 flex items-center justify-center">
       <motion.div
-        className="max-w-2xl w-full p-6 md:p-8 rounded-xl bg-primary_dark/10 backdrop-blur-sm border border-primary_dark/30"
+        className="max-w-2xl w-full p-6 md:p-8 rounded-xl bg-primary_one/10 backdrop-blur-sm border border-primary_one/30"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -31,16 +31,16 @@ const Help = () => {
         <motion.div className="text-center mb-6" variants={itemVariants}>
           <Icon
             icon="mdi:help-circle-outline"
-            className="text-6xl text-primary_light mx-auto"
+            className="text-6xl text-primary_one mx-auto"
           />
           <motion.h1
-            className="text-3xl font-bold text-primary_light mt-4"
+            className="text-3xl font-bold text-primary_one mt-4"
             variants={itemVariants}
           >
             Welcome to Mydash
           </motion.h1>
           <motion.p
-            className="text-primary_light/80 mt-2"
+            className="text-primary_one/80 mt-2"
             variants={itemVariants}
           >
             Your personal dashboard to boost and maintain your progress.
@@ -49,13 +49,13 @@ const Help = () => {
 
         {/* Description */}
         <motion.div className="space-y-4" variants={itemVariants}>
-          <motion.p className="text-primary_light/80" variants={itemVariants}>
+          <motion.p className="text-primary_one/80" variants={itemVariants}>
             Mydash is designed to help you stay organized, track your goals, and
             manage your tasks efficiently. Whether you're working on projects,
             tracking important dates, or saving useful links, Mydash is here to
             make your life easier.
           </motion.p>
-          <motion.p className="text-primary_light/80" variants={itemVariants}>
+          <motion.p className="text-primary_one/80" variants={itemVariants}>
             If you ever feel stuck or need assistance, don't hesitate to reach
             out. We're here to help!
           </motion.p>
@@ -64,7 +64,7 @@ const Help = () => {
         {/* Contact Section */}
         <motion.div className="mt-8" variants={itemVariants}>
           <motion.h2
-            className="text-xl font-semibold text-primary_light mb-4"
+            className="text-xl font-semibold text-primary_one mb-4"
             variants={itemVariants}
           >
             Need Help? Contact Us
@@ -77,11 +77,11 @@ const Help = () => {
             >
               <Icon
                 icon="mdi:account"
-                className="text-2xl text-primary_light/80"
+                className="text-2xl text-primary_one/80"
               />
               <div>
-                <p className="text-primary_light">Mursalin Hossain</p>
-                <p className="text-primary_light/80">Developer</p>
+                <p className="text-primary_one">Mursalin Hossain</p>
+                <p className="text-primary_one/80">Developer</p>
               </div>
             </motion.div>
 
@@ -92,11 +92,11 @@ const Help = () => {
             >
               <Icon
                 icon="mdi:email-outline"
-                className="text-2xl text-primary_light/80"
+                className="text-2xl text-primary_one/80"
               />
               <motion.a
                 href="mailto:mursalinhossain377@gmail.com"
-                className="text-primary_light hover:text-primary_lighter transition-colors"
+                className="text-primary_one hover:text-primary_one transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -109,12 +109,12 @@ const Help = () => {
               className="flex items-center gap-4"
               variants={itemVariants}
             >
-              <Icon icon="mdi:web" className="text-2xl text-primary_light/80" />
+              <Icon icon="mdi:web" className="text-2xl text-primary_one/80" />
               <motion.a
                 href="https://mursalinhossain.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary_light hover:text-primary_lighter transition-colors"
+                className="text-primary_one hover:text-primary_one transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -126,7 +126,7 @@ const Help = () => {
 
         {/* Footer */}
         <motion.div
-          className="mt-8 text-center text-primary_light/80"
+          className="mt-8 text-center text-primary_one/80"
           variants={itemVariants}
         >
           <p>© {new Date().getFullYear()} Mydash. All rights reserved.</p>

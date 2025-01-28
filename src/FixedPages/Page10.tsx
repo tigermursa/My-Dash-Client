@@ -100,14 +100,14 @@ const Experience = () => {
   }) => (
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-2">
-        <Icon icon="mdi:calendar-start" className="text-primary_light/80" />
-        <span className="text-primary_light text-sm">
+        <Icon icon="mdi:calendar-start" className="text-primary_one/80" />
+        <span className="text-primary_one text-sm">
           Start: {formatDate(start)}
         </span>
       </div>
       <div className="flex items-center gap-2">
-        <Icon icon="mdi:calendar-end" className="text-primary_light/80" />
-        <span className="text-primary_light text-sm">
+        <Icon icon="mdi:calendar-end" className="text-primary_one/80" />
+        <span className="text-primary_one text-sm">
           End: {isCurrent ? "Present" : formatDate(end)}
         </span>
       </div>
@@ -141,7 +141,7 @@ const Experience = () => {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 px-6 py-3 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
+          className="flex items-center gap-2 px-6 py-3 bg-primary_one text-primarydarkbg rounded-lg hover:bg-primary_one transition-colors"
           onClick={() => setShowModal(true)}
         >
           <Icon icon="mdi:plus" className="text-xl" />
@@ -151,17 +151,17 @@ const Experience = () => {
 
       {/* Total Experience Counter */}
       <motion.div
-        className="mb-8 p-6 rounded-xl bg-primary_dark/10 backdrop-blur-sm border border-primary_dark/30"
+        className="mb-8 p-6 rounded-xl bg-primary_one/10 backdrop-blur-sm border border-primary_one/30"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div className="flex items-center gap-4 text-primary_light">
+        <div className="flex items-center gap-4 text-primary_one">
           <Icon icon="mdi:briefcase-clock" className="text-3xl" />
           <div>
             <h2 className="text-xl font-semibold">
               Total Professional Experience
             </h2>
-            <p className="text-primary_lighter font-bold text-2xl">
+            <p className="text-primary_one font-bold text-2xl">
               {experiences.length > 0
                 ? calculateTotalExperience()
                 : "Add your first experience"}
@@ -184,16 +184,16 @@ const Experience = () => {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-primarydarkbg rounded-xl p-6 w-full max-w-md border border-primary_dark/30"
+              className="bg-primarydarkbg rounded-xl p-6 w-full max-w-md border border-primary_one/30"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-semibold text-primary_light">
+                <h2 className="text-2xl font-semibold text-primary_one">
                   Add New Experience
                 </h2>
                 <button
                   onClick={() => setShowModal(false)}
-                  className="text-primary_light/50 hover:text-primary_light"
+                  className="text-primary_one/50 hover:text-primary_one"
                 >
                   <Icon icon="mdi:close" className="text-2xl" />
                 </button>
@@ -204,12 +204,12 @@ const Experience = () => {
                 <div className="relative">
                   <Icon
                     icon="mdi:office-building"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_one/80"
                   />
                   <input
                     type="text"
                     placeholder="Company Name"
-                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_one border border-primary_one focus:outline-none focus:border-primary_one"
                     value={newExperience.companyName}
                     onChange={(e) =>
                       setNewExperience({
@@ -224,12 +224,12 @@ const Experience = () => {
                 <div className="relative">
                   <Icon
                     icon="mdi:briefcase"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_one/80"
                   />
                   <input
                     type="text"
                     placeholder="Position"
-                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_one border border-primary_one focus:outline-none focus:border-primary_one"
                     value={newExperience.position}
                     onChange={(e) =>
                       setNewExperience({
@@ -244,11 +244,11 @@ const Experience = () => {
                 <div className="relative">
                   <Icon
                     icon="mdi:calendar-start"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_one/80"
                   />
                   <input
                     type="date"
-                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_one border border-primary_one focus:outline-none focus:border-primary_one"
                     value={newExperience.startDate}
                     max={new Date().toISOString().split("T")[0]}
                     onChange={(e) =>
@@ -264,11 +264,11 @@ const Experience = () => {
                 <div className="relative">
                   <Icon
                     icon="mdi:calendar-end"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_one/80"
                   />
                   <input
                     type="date"
-                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter disabled:opacity-50"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_one border border-primary_one focus:outline-none focus:border-primary_one disabled:opacity-50"
                     value={newExperience.endDate}
                     min={newExperience.startDate}
                     onChange={(e) =>
@@ -283,10 +283,10 @@ const Experience = () => {
 
                 {/* Current Job Checkbox */}
                 <div className="flex items-center gap-3">
-                  <label className="flex items-center gap-2 text-primary_light cursor-pointer">
+                  <label className="flex items-center gap-2 text-primary_one cursor-pointer">
                     <input
                       type="checkbox"
-                      className="w-4 h-4 accent-primary_dark"
+                      className="w-4 h-4 accent-primary_one"
                       checked={newExperience.isCurrent}
                       onChange={(e) =>
                         setNewExperience({
@@ -304,7 +304,7 @@ const Experience = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-6 py-2 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
+                    className="px-6 py-2 bg-primary_one text-primarydarkbg rounded-lg hover:bg-primary_one transition-colors"
                     type="submit"
                   >
                     Add Experience
@@ -322,7 +322,7 @@ const Experience = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center p-8 text-primary_light/50"
+            className="text-center p-8 text-primary_one/50"
           >
             <Icon
               icon="mdi:briefcase-remove"
@@ -337,28 +337,28 @@ const Experience = () => {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 50 }}
-              className="group mb-4 p-4 rounded-xl bg-primarydarkbg/80 backdrop-blur-sm border border-primary_dark hover:border-primary_lighter transition-colors"
+              className="group mb-4 p-4 rounded-xl bg-primarydarkbg/80 backdrop-blur-sm border border-primary_one hover:border-primary_one transition-colors"
             >
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
                 {/* Company Name */}
                 <div className="flex items-center gap-3">
                   <Icon
                     icon="mdi:office-building"
-                    className="text-primary_light/80 flex-shrink-0"
+                    className="text-primary_one/80 flex-shrink-0"
                   />
-                  <span className="text-primary_light font-semibold truncate">
+                  <span className="text-primary_one font-semibold truncate">
                     {exp.companyName}
                   </span>
                 </div>
 
                 {/* Position */}
-                <div className="flex items-center gap-2 text-primary_light">
+                <div className="flex items-center gap-2 text-primary_one">
                   <Icon icon="mdi:briefcase" />
                   {exp.position}
                 </div>
 
                 {/* Dates */}
-                <div className="flex items-center gap-2 text-primary_light">
+                <div className="flex items-center gap-2 text-primary_one">
                   <ExperienceDates
                     start={exp.startDate}
                     end={exp.endDate}
@@ -367,7 +367,7 @@ const Experience = () => {
                 </div>
 
                 {/* Duration */}
-                <div className="flex items-center gap-2 text-primary_lighter">
+                <div className="flex items-center gap-2 text-primary_one">
                   <Icon icon="mdi:clock-time-three-outline" />
                   {calculateDuration(exp.startDate, exp.endDate, exp.isCurrent)}
                 </div>

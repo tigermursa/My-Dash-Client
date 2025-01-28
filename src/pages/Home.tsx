@@ -80,7 +80,7 @@ const Home = () => {
 
   if (isLoading)
     return (
-      <div className="text-center p-8 text-primary_darker">
+      <div className="text-center p-8 text-primary_one">
         Loading statistics...
       </div>
     );
@@ -91,42 +91,39 @@ const Home = () => {
 
   return (
     <div className="p-6 dark:bg-gray-900 min-h-screen">
-      <h1 className="text-3xl font-bold mb-8 text-center dark:text-primary_light">
-        <Icon
-          icon="mdi:chart-box"
-          className="inline mr-2 text-primary_darker"
-        />
-        <span className="bg-gradient-to-r from-primary_dark to-primary_light bg-clip-text text-transparent">
+      <h1 className="text-3xl font-bold mb-8 text-center dark:text-primary_one">
+        <Icon icon="mdi:chart-box" className="inline mr-2 text-primary_one" />
+        <span className="bg-gradient-to-r from-primary_one to-primary_one bg-clip-text text-transparent">
           Productivity Dashboard
         </span>
       </h1>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="bg-primary_darker/10 dark:bg-primary_darker/30 p-4 rounded-lg border border-primary_darker/20">
-          <h3 className="text-primary_darker dark:text-primary_light">
+        <div className="bg-primary_one/10 dark:bg-primary_one/30 p-4 rounded-lg border border-primary_one/20">
+          <h3 className="text-primary_one dark:text-primary_one">
             <Icon icon="mdi:check-circle" className="inline mr-2" />
             Completed Tasks
           </h3>
-          <p className="text-2xl font-bold text-primary_darker dark:text-primary_light">
+          <p className="text-2xl font-bold text-primary_one dark:text-primary_one">
             {totals.completed}
           </p>
         </div>
-        <div className="bg-primary_dark/10 dark:bg-red-700 p-4 rounded-lg border border-primary_dark/20">
-          <h3 className="text-primary_dark dark:text-gray-50">
+        <div className="bg-primary_one/10 dark:bg-red-700 p-4 rounded-lg border border-primary_one/20">
+          <h3 className="text-primary_one dark:text-gray-50">
             <Icon icon="mdi:alert-circle" className="inline mr-2" />
             Pending Tasks
           </h3>
-          <p className="text-2xl font-bold text-primary_dark dark:text-gray-50">
+          <p className="text-2xl font-bold text-primary_one dark:text-gray-50">
             {totals.pending}
           </p>
         </div>
-        <div className="bg-primary_light/10 dark:bg-primary_light/30 p-4 rounded-lg border border-primary_light/20">
-          <h3 className="text-primary_light dark:text-yellow-500">
+        <div className="bg-primary_one/10 dark:bg-primary_one/30 p-4 rounded-lg border border-primary_one/20">
+          <h3 className="text-primary_one dark:text-yellow-500">
             <Icon icon="mdi:star" className="inline mr-2" />
             Important Tasks
           </h3>
-          <p className="text-2xl font-bold text-primary_light dark:text-yellow-500">
+          <p className="text-2xl font-bold text-primary_one dark:text-yellow-500">
             {totals.important}
           </p>
         </div>
@@ -135,11 +132,11 @@ const Home = () => {
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Task Distribution Pie Chart */}
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-primary_darker/20">
-          <h2 className="text-xl font-semibold mb-4 dark:text-primary_light">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-primary_one/20">
+          <h2 className="text-xl font-semibold mb-4 dark:text-primary_one">
             <Icon
               icon="mdi:chart-pie"
-              className="inline mr-2 text-primary_dark"
+              className="inline mr-2 text-primary_one"
             />
             Task Distribution
           </h2>
@@ -174,7 +171,7 @@ const Home = () => {
               <Legend
                 wrapperStyle={{ color: "#3cbc78" }}
                 formatter={(value) => (
-                  <span className="dark:text-primary_light">{value}</span>
+                  <span className="dark:text-primary_one">{value}</span>
                 )}
               />
             </PieChart>
@@ -182,11 +179,11 @@ const Home = () => {
         </div>
 
         {/* Progress Bar Chart */}
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-primary_dark/20">
-          <h2 className="text-xl font-semibold mb-4 dark:text-primary_light">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-primary_one/20">
+          <h2 className="text-xl font-semibold mb-4 dark:text-primary_one">
             <Icon
               icon="mdi:chart-bar"
-              className="inline mr-2 text-primary_darker"
+              className="inline mr-2 text-primary_one"
             />
             Progress Overview
           </h2>
@@ -210,7 +207,7 @@ const Home = () => {
               <Legend
                 wrapperStyle={{ color: "#3cbc78" }}
                 formatter={(value) => (
-                  <span className="dark:text-primary_light">{value}</span>
+                  <span className="dark:text-primary_one">{value}</span>
                 )}
               />
               <Bar
@@ -253,10 +250,10 @@ const Home = () => {
                 <p className="text-sm text-gray-600 dark:text-gray-300">
                   Total: {category.total}
                 </p>
-                <p className="text-sm text-primary_darker dark:text-primary_light">
+                <p className="text-sm text-primary_one dark:text-primary_one">
                   Completed: {category.completed}
                 </p>
-                <p className="text-sm text-primary_dark dark:text-red-600">
+                <p className="text-sm text-primary_one dark:text-red-600">
                   Pending: {category.pending}
                 </p>
               </div>

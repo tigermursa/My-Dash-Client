@@ -27,12 +27,11 @@ interface JobApplication {
   location: string;
   type: EmploymentType;
   status: ApplicationStatus;
-  salary?: string;
+  salary: string;
   interest: InterestLevel;
   source: ApplicationSource;
   easyApply: boolean;
   appliedDate: string;
-  notes?: string;
 }
 
 const JobTracker = () => {
@@ -114,18 +113,18 @@ const JobTracker = () => {
         <div className="flex justify-between items-center mb-8">
           <motion.h1
             variants={fadeIn("down", 0.2)}
-            className="text-3xl font-bold bg-gradient-to-r from-primary_dark to-primary_light bg-clip-text text-transparent"
+            className="text-3xl font-bold bg-gradient-to-r from-primary_one to-primary_one bg-clip-text text-transparent"
           >
             <Icon
               icon="mdi:briefcase"
-              className="inline mr-2 text-primary_darker"
+              className="inline mr-2 text-primary_one"
             />
             Job Applications
           </motion.h1>
           <motion.button
             variants={fadeIn("left", 0.4)}
             onClick={() => setIsModalOpen(true)}
-            className="bg-primary_darker hover:bg-primary_dark text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2 group"
+            className="bg-primary_one hover:bg-primary_one text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2 group"
           >
             <Icon
               icon="mdi:plus"
@@ -140,7 +139,7 @@ const JobTracker = () => {
             <motion.div
               key={app.id}
               variants={fadeIn("up", 0.2)}
-              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl border border-primary_darker/20 relative"
+              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl border border-primary_one/20 relative"
             >
               <div className="absolute top-2 right-2">
                 <select
@@ -162,7 +161,7 @@ const JobTracker = () => {
 
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h2 className="text-xl font-semibold dark:text-primary_light">
+                  <h2 className="text-xl font-semibold dark:text-primary_one">
                     {app.company}
                   </h2>
                   <p className="text-gray-600 dark:text-gray-300">
@@ -198,7 +197,7 @@ const JobTracker = () => {
               </div>
 
               {/* Employment Type Badge */}
-              <span className="absolute bottom-2 right-2 px-3 py-1 bg-primary_darker/10 text-primary_darker dark:bg-primary_light/20 dark:text-primary_light rounded-full text-sm">
+              <span className="absolute bottom-2 right-2 px-3 py-1 bg-primary_one/10 text-primary_one dark:bg-primary_one/20 dark:text-primary_one rounded-full text-sm">
                 {app.type.charAt(0).toUpperCase() + app.type.slice(1)}
               </span>
             </motion.div>
@@ -221,7 +220,7 @@ const JobTracker = () => {
                 className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl w-full max-w-md"
                 onClick={(e) => e.stopPropagation()}
               >
-                <h3 className="text-2xl font-bold mb-6 dark:text-primary_light">
+                <h3 className="text-2xl font-bold mb-6 dark:text-primary_one">
                   Add Application
                 </h3>
 
@@ -350,7 +349,7 @@ const JobTracker = () => {
                     </button>
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-primary_darker text-white rounded-lg hover:bg-primary_dark"
+                      className="px-4 py-2 bg-primary_one text-white rounded-lg hover:bg-primary_one"
                     >
                       Add Application
                     </button>

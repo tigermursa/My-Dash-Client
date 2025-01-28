@@ -141,7 +141,7 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
         <button
           onClick={addTask}
           disabled={createMutation.isPending}
-          className="p-2 bg-primary_darker text-white rounded-r-md hover:bg-blue-600 focus:outline-none dark:bg-primary_darker dark:hover:bg-primary_dark disabled:opacity-50 transition-colors"
+          className="p-2 bg-primary_one text-white rounded-r-md hover:bg-blue-600 focus:outline-none dark:bg-primary_one dark:hover:bg-primary_one disabled:opacity-50 transition-colors"
         >
           {createMutation.isPending ? "Adding..." : "Add Task"}
         </button>

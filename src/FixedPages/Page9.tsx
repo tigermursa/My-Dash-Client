@@ -57,7 +57,7 @@ const BookList = () => {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 px-6 py-3 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
+          className="flex items-center gap-2 px-6 py-3 bg-primary_one text-primarydarkbg rounded-lg hover:bg-primary_one transition-colors"
           onClick={() => setShowModal(true)}
         >
           <Icon icon="mdi:plus" className="text-xl" />
@@ -79,16 +79,16 @@ const BookList = () => {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-primarydarkbg rounded-xl p-6 w-full max-w-md border border-primary_dark/30"
+              className="bg-primarydarkbg rounded-xl p-6 w-full max-w-md border border-primary_one/30"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-semibold text-primary_light">
+                <h2 className="text-2xl font-semibold text-primary_one">
                   Add New Book
                 </h2>
                 <button
                   onClick={() => setShowModal(false)}
-                  className="text-primary_light/50 hover:text-primary_light"
+                  className="text-primary_one/50 hover:text-primary_one"
                 >
                   <Icon icon="mdi:close" className="text-2xl" />
                 </button>
@@ -98,12 +98,12 @@ const BookList = () => {
                 <div className="relative">
                   <Icon
                     icon="mdi:book-outline"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_one/80"
                   />
                   <input
                     type="text"
                     placeholder="Book Name"
-                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_one border border-primary_one focus:outline-none focus:border-primary_one"
                     value={newBook.name}
                     onChange={(e) =>
                       setNewBook({ ...newBook, name: e.target.value })
@@ -114,12 +114,12 @@ const BookList = () => {
                 <div className="relative">
                   <Icon
                     icon="mdi:page-layout-header"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_one/80"
                   />
                   <input
                     type="number"
                     placeholder="Total Pages"
-                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_one border border-primary_one focus:outline-none focus:border-primary_one"
                     value={newBook.totalPages}
                     onChange={(e) =>
                       setNewBook({ ...newBook, totalPages: e.target.value })
@@ -131,18 +131,18 @@ const BookList = () => {
                 <div className="relative">
                   <Icon
                     icon="mdi:calendar"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_light/80"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary_one/80"
                   />
                   <input
                     type="date"
-                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_light border border-primary_dark focus:outline-none focus:border-primary_lighter"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-primarydarkbg text-primary_one border border-primary_one focus:outline-none focus:border-primary_one"
                     value={newBook.targetDate}
                     min={new Date().toISOString().split("T")[0]}
                     onChange={(e) =>
                       setNewBook({ ...newBook, targetDate: e.target.value })
                     }
                   />
-                  <span className="text-xs text-primary_light/50 mt-1 block">
+                  <span className="text-xs text-primary_one/50 mt-1 block">
                     Minimum date: Today
                   </span>
                 </div>
@@ -151,7 +151,7 @@ const BookList = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-6 py-2 bg-primary_dark text-primarydarkbg rounded-lg hover:bg-primary_darker transition-colors"
+                    className="px-6 py-2 bg-primary_one text-primarydarkbg rounded-lg hover:bg-primary_one transition-colors"
                     type="submit"
                   >
                     Add Book
@@ -169,7 +169,7 @@ const BookList = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center p-8 text-primary_light/50"
+            className="text-center p-8 text-primary_one/50"
           >
             <Icon icon="mdi:bookshelf" className="text-4xl mb-4 mx-auto" />
             <p>No books added yet</p>
@@ -182,25 +182,25 @@ const BookList = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 50 }}
               layout
-              className="group mb-4 p-4 rounded-xl bg-primarydarkbg/80 backdrop-blur-sm border border-primary_dark hover:border-primary_lighter transition-colors"
+              className="group mb-4 p-4 rounded-xl bg-primarydarkbg/80 backdrop-blur-sm border border-primary_one hover:border-primary_one transition-colors"
             >
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
                 <div className="flex items-center gap-3">
                   <Icon
                     icon="mdi:book-open-outline"
-                    className="text-primary_light/80 flex-shrink-0"
+                    className="text-primary_one/80 flex-shrink-0"
                   />
-                  <span className="text-primary_light font-semibold truncate">
+                  <span className="text-primary_one font-semibold truncate">
                     {book.name}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-2 text-primary_light">
+                <div className="flex items-center gap-2 text-primary_one">
                   <Icon icon="mdi:page-layout-header" />
                   {book.totalPages}
                 </div>
 
-                <div className="flex items-center gap-2 text-primary_light">
+                <div className="flex items-center gap-2 text-primary_one">
                   <Icon icon="mdi:calendar" />
                   {new Date(book.targetDate).toLocaleDateString("en-GB", {
                     day: "numeric",
@@ -209,7 +209,7 @@ const BookList = () => {
                   })}
                 </div>
 
-                <div className="flex items-center gap-2 text-primary_lighter font-bold">
+                <div className="flex items-center gap-2 text-primary_one font-bold">
                   <Icon icon="mdi:run-fast" />
                   {calculateDailyPages(book.totalPages, book.targetDate)}
                 </div>
