@@ -12,3 +12,5 @@ export default {
   },
   plugins: [],
 };
+
+//#ff6347 #32cd32 #ff1493
