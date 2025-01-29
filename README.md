@@ -12,3 +12,5 @@ Ready Pages will be add here
 5. Streak Manger
 6. Private Tabs
 7. Goals Manager
+
+so now the fronendt almost done all i have to make a good readme
