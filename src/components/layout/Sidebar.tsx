@@ -101,7 +101,7 @@ export default function Sidebar() {
         {/* user info */}
         <div className="p-4 flex items-center space-x-4 border-t border-gray-600">
           <img
-            src="https://img.freepik.com/premium-photo/cute-girl-with-pretty-face-creative-ai_634423-2799.jpg"
+            src="https://cdn.pixabay.com/photo/2024/03/15/19/51/ai-generated-8635685_960_720.png"
             alt="User"
             className="w-12 h-12 rounded-full object-cover border-2 border-primary_one"
           />

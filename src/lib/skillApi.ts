@@ -29,7 +29,7 @@ const apiRequest = async <T>(
   }
 };
 
-// Skill API functions
+// Skill API functions (GET)
 export const fetchSkills = async (userID: string): Promise<Skill[]> => {
   return apiRequest<{ message: string; skills: Skill[] }>(
     `/get-skills/${userID}`
@@ -45,6 +45,7 @@ export const fetchSkills = async (userID: string): Promise<Skill[]> => {
   );
 };
 
+//(CREATE)
 export const createSkill = async (
   payload: SkillRequestPayload
 ): Promise<Skill> => {
@@ -56,6 +57,7 @@ export const createSkill = async (
   return response.skill!;
 };
 
+//(Update)
 export const updateSkill = async (
   skillId: string,
   payload: SkillRequestPayload
@@ -68,6 +70,7 @@ export const updateSkill = async (
   return response.skill!;
 };
 
+//(Delete)
 export const deleteSkill = async (
   userID: string,
   skillId: string
