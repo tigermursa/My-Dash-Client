@@ -3,80 +3,118 @@ import { useForm } from "react-hook-form";
 import { Icon } from "@iconify/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, staggerContainer } from "../utils/motions";
-
-type ApplicationSource =
-  | "LinkedIn"
-  | "Company Website"
-  | "Indeed"
-  | "Referral"
-  | "Other";
-type EmploymentType = "remote" | "onsite" | "hybrid";
-type InterestLevel = 1 | 2 | 3 | 4 | 5;
-type ApplicationStatus =
-  | "pending"
-  | "interview"
-  | "rejected"
-  | "no_response"
-  | "offer";
-
-interface JobApplication {
-  id: string;
-  company: string;
-  position: string;
-  skills: string[];
-  location: string;
-  type: EmploymentType;
-  status: ApplicationStatus;
-  salary: string;
-  interest: InterestLevel;
-  source: ApplicationSource;
-  easyApply: boolean;
-  appliedDate: string;
-}
+import { fetchJobs, createJob, updateJob, deleteJob } from "../lib/jobsApi";
+import { JobApplication } from "../types/JobsTypes";
 
 const JobTracker = () => {
   const [applications, setApplications] = useState<JobApplication[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [selectedApp, setSelectedApp] = useState<JobApplication | null>(null);
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Omit<JobApplication, "id">>();
+  } = useForm<JobApplication>();
 
+  const userId = "current_user_id"; // Replace with actual user ID from your auth system
+
+  // Fetch applications on mount
   useEffect(() => {
-    const savedApps = localStorage.getItem("jobApplications");
-    if (savedApps) setApplications(JSON.parse(savedApps));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("jobApplications", JSON.stringify(applications));
-  }, [applications]);
-
-  const addApplication = (newApp: Omit<JobApplication, "id">) => {
-    setApplications((prev) => [
-      ...prev,
-      { ...newApp, id: Date.now().toString() },
-    ]);
-  };
-
-  const updateStatus = (id: string, newStatus: ApplicationStatus) => {
-    setApplications((prev) =>
-      prev.map((app) => (app.id === id ? { ...app, status: newStatus } : app))
-    );
-  };
-
-  const onSubmit = (data: Omit<JobApplication, "id">) => {
-    const newApp = {
-      ...data,
-      appliedDate: new Date().toISOString(),
-      status: data.status || "pending",
+    const loadApplications = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchJobs(userId);
+        setApplications(data);
+      } catch (err) {
+        setError("Failed to load applications");
+      } finally {
+        setLoading(false);
+      }
     };
-    addApplication(newApp);
-    setIsModalOpen(false);
-    reset();
+    loadApplications();
+  }, [userId]);
+
+  // Handle form submission (create or update)
+  const onSubmit = async (formData: JobApplication) => {
+    try {
+      if (selectedApp) {
+        // Update existing application
+        const updatedJob = await updateJob(selectedApp._id!, {
+          ...formData,
+          userId,
+          skills: formData.skills.split(",").map((skill) => skill.trim()),
+        });
+        setApplications((prev) =>
+          prev.map((app) => (app._id === updatedJob._id ? updatedJob : app))
+        );
+      } else {
+        // Create new application
+        const newJob = await createJob({
+          ...formData,
+          userId,
+          skills: formData.skills.split(",").map((skill) => skill.trim()),
+        });
+        setApplications((prev) => [...prev, newJob]);
+      }
+      setIsModalOpen(false);
+      reset();
+      setSelectedApp(null);
+    } catch (err) {
+      setError(
+        selectedApp
+          ? "Failed to update application"
+          : "Failed to create application"
+      );
+    }
   };
 
+  // Handle status update
+  const handleUpdateStatus = async (
+    id: string,
+    newStatus: ApplicationStatus
+  ) => {
+    try {
+      const jobToUpdate = applications.find((app) => app._id === id);
+      if (!jobToUpdate) return;
+
+      const updatedJob = await updateJob(id, {
+        ...jobToUpdate,
+        status: newStatus,
+        userId,
+      });
+      setApplications((prev) =>
+        prev.map((app) => (app._id === id ? updatedJob : app))
+      );
+    } catch (err) {
+      setError("Failed to update application");
+    }
+  };
+
+  // Handle delete
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteJob(userId, id);
+      setApplications((prev) => prev.filter((app) => app._id !== id));
+    } catch (err) {
+      setError("Failed to delete application");
+    }
+  };
+
+  // Open modal for editing
+  const openEditModal = (app: JobApplication) => {
+    setSelectedApp(app);
+    reset({
+      ...app,
+      skills: app.skills.join(", "), // Convert array to comma-separated string
+    });
+    setIsModalOpen(true);
+  };
+
+  // Render interest level stars
   const renderInterestStars = (level: InterestLevel) => {
     return Array.from({ length: 5 }).map((_, i) => (
       <Icon
@@ -87,6 +125,7 @@ const JobTracker = () => {
     ));
   };
 
+  // Get status color class
   const getStatusColor = (status: ApplicationStatus) => {
     switch (status) {
       case "rejected":
@@ -110,6 +149,23 @@ const JobTracker = () => {
       className="p-6 dark:bg-gray-900 min-h-screen"
     >
       <div className="max-w-7xl mx-auto">
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-lg">
+            {error}
+          </div>
+        )}
+
+        {/* Loading State */}
+        {loading && (
+          <div className="text-center p-8">
+            <Icon
+              icon="mdi:loading"
+              className="animate-spin text-4xl text-primary_one"
+            />
+          </div>
+        )}
+
         <div className="flex justify-between items-center mb-8">
           <motion.h1
             variants={fadeIn("down", 0.2)}
@@ -123,7 +179,10 @@ const JobTracker = () => {
           </motion.h1>
           <motion.button
             variants={fadeIn("left", 0.4)}
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              setSelectedApp(null);
+              setIsModalOpen(true);
+            }}
             className="bg-primary_one hover:bg-primary_one text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2 group"
           >
             <Icon
@@ -137,15 +196,35 @@ const JobTracker = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {applications.map((app) => (
             <motion.div
-              key={app.id}
+              key={app._id}
               variants={fadeIn("up", 0.2)}
               className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl border border-primary_one/20 relative"
             >
+              {/* Delete Button */}
+              <button
+                onClick={() => handleDelete(app._id!)}
+                className="absolute top-2 left-2 text-red-500 hover:text-red-700"
+              >
+                <Icon icon="mdi:delete" className="text-xl" />
+              </button>
+
+              {/* Edit Button */}
+              <button
+                onClick={() => openEditModal(app)}
+                className="absolute top-2 left-10 text-blue-500 hover:text-blue-700"
+              >
+                <Icon icon="mdi:pencil" className="text-xl" />
+              </button>
+
+              {/* Status Dropdown */}
               <div className="absolute top-2 right-2">
                 <select
                   value={app.status}
                   onChange={(e) =>
-                    updateStatus(app.id, e.target.value as ApplicationStatus)
+                    handleUpdateStatus(
+                      app._id!,
+                      e.target.value as ApplicationStatus
+                    )
                   }
                   className={`text-sm px-2 py-1 rounded-lg ${getStatusColor(
                     app.status
@@ -204,6 +283,7 @@ const JobTracker = () => {
           ))}
         </div>
 
+        {/* Modal Form */}
         <AnimatePresence>
           {isModalOpen && (
             <motion.div
@@ -221,10 +301,12 @@ const JobTracker = () => {
                 onClick={(e) => e.stopPropagation()}
               >
                 <h3 className="text-2xl font-bold mb-6 dark:text-primary_one">
-                  Add Application
+                  {selectedApp ? "Edit Application" : "Add Application"}
                 </h3>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                  <input type="hidden" {...register("userId")} value={userId} />
+
                   <div>
                     <label className="block text-sm font-medium mb-1 dark:text-gray-300">
                       Company *
@@ -351,7 +433,7 @@ const JobTracker = () => {
                       type="submit"
                       className="px-4 py-2 bg-primary_one text-white rounded-lg hover:bg-primary_one"
                     >
-                      Add Application
+                      {selectedApp ? "Update Application" : "Add Application"}
                     </button>
                   </div>
                 </form>
