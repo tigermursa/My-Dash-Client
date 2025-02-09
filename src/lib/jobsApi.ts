@@ -3,6 +3,7 @@ import {
   JobApplication,
   JobRequestPayload,
   JobResponse,
+  JobResponseGet,
 } from "../types/JobsTypes";
 import { ApiOptions } from "../types/SkillTypes";
 
@@ -32,8 +33,8 @@ const apiRequest = async <T>(
 
 // Job API functions
 export const fetchJobs = async (userID: string): Promise<JobApplication[]> => {
-  return apiRequest<JobResponse>(`/get-job-applications/${userID}`).then(
-    (response) => response.jobs || []
+  return apiRequest<JobResponseGet>(`/get-job-applications/${userID}`).then(
+    (response) => response.jobApplications || []
   );
 };
 

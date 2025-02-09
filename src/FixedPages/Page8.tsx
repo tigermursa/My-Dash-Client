@@ -3,78 +3,83 @@ import { useForm } from "react-hook-form";
 import { Icon } from "@iconify/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, staggerContainer } from "../utils/motions";
-
-type ApplicationSource =
-  | "LinkedIn"
-  | "Company Website"
-  | "Indeed"
-  | "Referral"
-  | "Other";
-type EmploymentType = "remote" | "onsite" | "hybrid";
-type InterestLevel = 1 | 2 | 3 | 4 | 5;
-type ApplicationStatus =
-  | "pending"
-  | "interview"
-  | "rejected"
-  | "no_response"
-  | "offer";
-
-interface JobApplication {
-  id: string;
-  company: string;
-  position: string;
-  skills: string[];
-  location: string;
-  type: EmploymentType;
-  status: ApplicationStatus;
-  salary: string;
-  interest: InterestLevel;
-  source: ApplicationSource;
-  easyApply: boolean;
-  appliedDate: string;
-}
+import {
+  ApplicationStatus,
+  InterestLevel,
+  JobApplication,
+} from "../types/JobsTypes";
+import { fetchJobs, createJob, updateJob, deleteJob } from "../lib/jobsApi";
+import useAuth from "../hooks/useAuth";
 
 const JobTracker = () => {
+  const { user } = useAuth();
   const [applications, setApplications] = useState<JobApplication[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingJob, setEditingJob] = useState<JobApplication | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const userId = user?._id as string;
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Omit<JobApplication, "id">>();
+  } = useForm<JobApplication>();
 
   useEffect(() => {
-    const savedApps = localStorage.getItem("jobApplications");
-    if (savedApps) setApplications(JSON.parse(savedApps));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("jobApplications", JSON.stringify(applications));
-  }, [applications]);
-
-  const addApplication = (newApp: Omit<JobApplication, "id">) => {
-    setApplications((prev) => [
-      ...prev,
-      { ...newApp, id: Date.now().toString() },
-    ]);
-  };
-
-  const updateStatus = (id: string, newStatus: ApplicationStatus) => {
-    setApplications((prev) =>
-      prev.map((app) => (app.id === id ? { ...app, status: newStatus } : app))
-    );
-  };
-
-  const onSubmit = (data: Omit<JobApplication, "id">) => {
-    const newApp = {
-      ...data,
-      appliedDate: new Date().toISOString(),
-      status: data.status || "pending",
+    const loadApplications = async () => {
+      try {
+        setLoading(true);
+        const jobs = await fetchJobs(userId);
+        setApplications(jobs);
+        console.log("from jobs", jobs);
+        setError(null);
+      } catch (err) {
+        console.log(err);
+        setError("Failed to load applications. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
     };
-    addApplication(newApp);
-    setIsModalOpen(false);
-    reset();
+    loadApplications();
+  }, [userId]);
+
+  const handleFormSubmit = async (data: JobApplication) => {
+    try {
+      const payload = {
+        ...data,
+        appliedDate: new Date(data.appliedDate).toISOString(),
+        userId,
+      };
+
+      if (editingJob) {
+        const updatedJob = await updateJob(editingJob._id!, payload);
+        setApplications((prev) =>
+          prev.map((job) => (job._id === updatedJob._id ? updatedJob : job))
+        );
+      } else {
+        const newJob = await createJob(payload);
+        setApplications((prev) => [...prev, newJob]);
+      }
+
+      setIsModalOpen(false);
+      setEditingJob(null);
+      reset();
+    } catch (err) {
+      console.log(err);
+      setError("Failed to save application. Please try again.");
+    }
+  };
+
+  const handleDelete = async (jobId: string) => {
+    try {
+      await deleteJob(userId, jobId);
+      setApplications((prev) => prev.filter((job) => job._id !== jobId));
+    } catch (err) {
+      console.log(err);
+      setError("Failed to delete application. Please try again.");
+    }
   };
 
   const renderInterestStars = (level: InterestLevel) => {
@@ -134,75 +139,105 @@ const JobTracker = () => {
           </motion.button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {applications.map((app) => (
-            <motion.div
-              key={app.id}
-              variants={fadeIn("up", 0.2)}
-              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl border border-primary_one/20 relative"
-            >
-              <div className="absolute top-2 right-2">
-                <select
-                  value={app.status}
-                  onChange={(e) =>
-                    updateStatus(app.id, e.target.value as ApplicationStatus)
-                  }
-                  className={`text-sm px-2 py-1 rounded-lg ${getStatusColor(
-                    app.status
-                  )}`}
-                >
-                  <option value="pending">Pending</option>
-                  <option value="interview">Interview</option>
-                  <option value="rejected">Rejected</option>
-                  <option value="no_response">No Response</option>
-                  <option value="offer">Offer</option>
-                </select>
-              </div>
+        {loading && (
+          <div className="text-center text-gray-500 dark:text-gray-400">
+            Loading applications...
+          </div>
+        )}
 
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h2 className="text-xl font-semibold dark:text-primary_one">
-                    {app.company}
-                  </h2>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    {app.position}
-                  </p>
-                </div>
-              </div>
+        {error && (
+          <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-4">
+            {error}
+          </div>
+        )}
 
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <Icon icon="mdi:map-marker" className="text-gray-500" />
-                  <span className="dark:text-gray-300">{app.location}</span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Icon icon="mdi:source-branch" className="text-gray-500" />
-                  <span className="dark:text-gray-300">{app.source}</span>
+        {!loading && !error && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {applications.map((app) => (
+              <motion.div
+                key={app._id}
+                variants={fadeIn("up", 0.2)}
+                className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl border border-primary_one/20 relative"
+              >
+                <div className="absolute top-2 right-2 flex gap-2">
+                  <button
+                    onClick={() => {
+                      setEditingJob(app);
+                      setIsModalOpen(true);
+                    }}
+                    className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  >
+                    <Icon
+                      icon="mdi:pencil"
+                      className="text-gray-600 dark:text-gray-300"
+                    />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(app._id!)}
+                    className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  >
+                    <Icon icon="mdi:trash" className="text-red-500" />
+                  </button>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <Icon icon="mdi:clock" className="text-gray-500" />
-                  <span className="dark:text-gray-300">
-                    Applied: {new Date(app.appliedDate).toLocaleDateString()}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Icon icon="mdi:heart" className="text-gray-500" />
-                  <div className="flex">
-                    {renderInterestStars(app.interest)}
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h2 className="text-xl font-semibold dark:text-primary_one">
+                      {app?.company}
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      {app?.position}
+                    </p>
+                    <span
+                      className={`inline-block mt-2 text-sm px-3 py-1 rounded-full ${getStatusColor(
+                        app?.status
+                      )}`}
+                    >
+                      {app?.status.replace("_", " ")}
+                    </span>
                   </div>
                 </div>
-              </div>
 
-              {/* Employment Type Badge */}
-              <span className="absolute bottom-2 right-2 px-3 py-1 bg-primary_one/10 text-primary_one dark:bg-primary_one/20 dark:text-primary_one rounded-full text-sm">
-                {app.type.charAt(0).toUpperCase() + app.type.slice(1)}
-              </span>
-            </motion.div>
-          ))}
-        </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Icon icon="mdi:map-marker" className="text-gray-500" />
+                    <span className="dark:text-gray-300">{app?.location}</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Icon icon="mdi:source-branch" className="text-gray-500" />
+                    <span className="dark:text-gray-300">{app?.source}</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Icon icon="mdi:clock" className="text-gray-500" />
+                    <span className="dark:text-gray-300">
+                      Applied: {new Date(app?.appliedDate).toLocaleDateString()}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Icon icon="mdi:heart" className="text-gray-500" />
+                    <div className="flex">
+                      {renderInterestStars(app?.interest)}
+                    </div>
+                  </div>
+
+                  {app?.salary && (
+                    <div className="flex items-center gap-2">
+                      <Icon icon="mdi:cash" className="text-gray-500" />
+                      <span className="dark:text-gray-300">{app?.salary}</span>
+                    </div>
+                  )}
+                </div>
+
+                <span className="absolute bottom-2 right-2 px-3 py-1 bg-primary_one/10 text-primary_one dark:bg-primary_one/20 dark:text-primary_one rounded-full text-sm">
+                  {app.type.charAt(0).toUpperCase() + app.type.slice(1)}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         <AnimatePresence>
           {isModalOpen && (
@@ -212,7 +247,10 @@ const JobTracker = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
-              onClick={() => setIsModalOpen(false)}
+              onClick={() => {
+                setIsModalOpen(false);
+                setEditingJob(null);
+              }}
             >
               <motion.div
                 initial={{ scale: 0.95 }}
@@ -221,10 +259,13 @@ const JobTracker = () => {
                 onClick={(e) => e.stopPropagation()}
               >
                 <h3 className="text-2xl font-bold mb-6 dark:text-primary_one">
-                  Add Application
+                  {editingJob ? "Edit Application" : "Add Application"}
                 </h3>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <form
+                  onSubmit={handleSubmit(handleFormSubmit)}
+                  className="space-y-4"
+                >
                   <div>
                     <label className="block text-sm font-medium mb-1 dark:text-gray-300">
                       Company *
@@ -315,11 +356,11 @@ const JobTracker = () => {
                       })}
                       className="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                     >
-                      <option value={1}>1 Star</option>
-                      <option value={2}>2 Stars</option>
-                      <option value={3}>3 Stars</option>
-                      <option value={4}>4 Stars</option>
-                      <option value={5}>5 Stars</option>
+                      {[1, 2, 3, 4, 5].map((value) => (
+                        <option key={value} value={value}>
+                          {value} Star{value > 1 ? "s" : ""}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -339,10 +380,53 @@ const JobTracker = () => {
                     </select>
                   </div>
 
+                  <div>
+                    <label className="block text-sm font-medium mb-1 dark:text-gray-300">
+                      Salary
+                    </label>
+                    <input
+                      {...register("salary")}
+                      className="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                      placeholder="e.g., $80,000 - $100,000"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1 dark:text-gray-300">
+                      Applied Date *
+                    </label>
+                    <input
+                      type="date"
+                      {...register("appliedDate", { required: true })}
+                      className="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    />
+                    {errors.appliedDate && (
+                      <span className="text-red-500 text-sm">Required</span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      {...register("easyApply")}
+                      className="w-4 h-4 rounded border-gray-300 text-primary_one focus:ring-primary_one"
+                      id="easyApply"
+                    />
+                    <label
+                      htmlFor="easyApply"
+                      className="text-sm font-medium dark:text-gray-300"
+                    >
+                      Easy Apply
+                    </label>
+                  </div>
+
                   <div className="flex justify-end gap-4 mt-6">
                     <button
                       type="button"
-                      onClick={() => setIsModalOpen(false)}
+                      onClick={() => {
+                        setIsModalOpen(false);
+                        setEditingJob(null);
+                      }}
                       className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:text-white"
                     >
                       Cancel
@@ -351,7 +435,7 @@ const JobTracker = () => {
                       type="submit"
                       className="px-4 py-2 bg-primary_one text-white rounded-lg hover:bg-primary_one"
                     >
-                      Add Application
+                      {editingJob ? "Update Application" : "Add Application"}
                     </button>
                   </div>
                 </form>
