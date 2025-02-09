@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
 
 interface Bookmark {
-  id: number;
+  userId: string;
+  id: string;
   name: string;
   url: string;
 }
@@ -35,14 +36,14 @@ const Bookmarks = () => {
   const onSubmit = (data: Bookmark) => {
     const bookmark: Bookmark = {
       ...data,
-      id: Date.now(),
+      id: Date.now().toString(), // Convert to string
     };
     setBookmarks([bookmark, ...bookmarks]);
     reset();
     setIsModalOpen(false);
   };
 
-  const deleteBookmark = (id: number) => {
+  const deleteBookmark = (id: string) => {
     setBookmarks(bookmarks.filter((bookmark) => bookmark.id !== id));
   };
 
