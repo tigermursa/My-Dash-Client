@@ -1,4 +1,3 @@
-// jobTrackerApi.ts
 import {
   JobApplication,
   JobRequestPayload,
