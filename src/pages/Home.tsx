@@ -19,7 +19,12 @@ import { AllTasks } from "../types/PlanTypes";
 import { Icon } from "@iconify/react";
 
 // Updated color scheme based on your tailwind config
-const COLORS = ["#3cbc78", "#00bfff", "#ffa0b4", "#00bfff"];
+const COLORS = [
+  "#FFB6C1", // Light Pink
+  "#ADD8E6", // Light Blue
+  "#90EE90", // Light Green
+  "#E6E6FA", // Lavender
+];
 
 const Home = () => {
   const { user } = useAuth();
@@ -109,7 +114,7 @@ const Home = () => {
             {totals.completed}
           </p>
         </div>
-        <div className="bg-primary_one/10 dark:bg-red-700 p-4 rounded-lg border border-primary_one/20">
+        <div className="bg-primary_one/10 dark:bg-primary_one/30 p-4 rounded-lg border border-primary_one/20">
           <h3 className="text-primary_one dark:text-gray-50">
             <Icon icon="mdi:alert-circle" className="inline mr-2" />
             Pending Tasks
