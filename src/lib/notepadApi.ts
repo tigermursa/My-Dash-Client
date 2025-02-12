@@ -26,23 +26,32 @@ const apiRequest = async <T>(
 };
 
 // API Calls for Notepad
+// Updated API functions with proper typing
 export const getContentNotePad = async (userId: string) => {
-  return await apiRequest<{ contentNotePad: string }>(`/notepad/${userId}`, {
-    method: "GET",
-  });
+  const response = await apiRequest<{ contentNotePad: string }>(
+    `/notepad/${userId}`,
+    {
+      method: "GET",
+    }
+  );
+  return { content: response.contentNotePad };
 };
 
 export const getContentIdea = async (userId: string) => {
-  return await apiRequest<{ contentIdea: string }>(`/idea/${userId}`, {
-    method: "GET",
-  });
+  const response = await apiRequest<{ contentIdea: string }>(
+    `/idea/${userId}`,
+    {
+      method: "GET",
+    }
+  );
+  return { content: response.contentIdea };
 };
 
 export const updateContentNotePad = async (
   userId: string,
   contentNotePad: string
 ) => {
-  return await apiRequest<{ contentNotePad: string }>(`/notepad/${userId}`, {
+  await apiRequest<void>(`/notepad/${userId}`, {
     method: "PATCH",
     body: JSON.stringify({ contentNotePad }),
     headers: { "Content-Type": "application/json" },
@@ -53,7 +62,7 @@ export const updateContentIdea = async (
   userId: string,
   contentIdea: string
 ) => {
-  return await apiRequest<{ contentIdea: string }>(`/idea/${userId}`, {
+  await apiRequest<void>(`/idea/${userId}`, {
     method: "PATCH",
     body: JSON.stringify({ contentIdea }),
     headers: { "Content-Type": "application/json" },
@@ -61,18 +70,15 @@ export const updateContentIdea = async (
 };
 
 export const clearContentNotePad = async (userId: string) => {
-  return await apiRequest<{ contentNotePad: string }>(
-    `/notepad/clear/${userId}`,
-    {
-      method: "PATCH",
-      body: JSON.stringify({ contentNotePad: "" }),
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+  await apiRequest<void>(`/notepad/clear/${userId}`, {
+    method: "PATCH",
+    body: JSON.stringify({ contentNotePad: "" }),
+    headers: { "Content-Type": "application/json" },
+  });
 };
 
 export const clearContentIdea = async (userId: string) => {
-  return await apiRequest<{ contentIdea: string }>(`/idea/clear/${userId}`, {
+  await apiRequest<void>(`/idea/clear/${userId}`, {
     method: "PATCH",
     body: JSON.stringify({ contentIdea: "" }),
     headers: { "Content-Type": "application/json" },
