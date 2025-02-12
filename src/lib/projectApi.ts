@@ -1,92 +1,106 @@
-// projectApi.ts
-import {
-  Project,
-  ProjectRequestPayload,
-  ProjectResponse,
-  ProjectResponseGet,
-} from "../types/ProjectType";
-import { ApiOptions } from "../types/SkillTypes";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-const projectBaseURL = "http://localhost:5000/api/v10/project";
+// Define the Project interfaces matching your schema
+export interface CreateProject {
+  userId: string;
+  projectName: string;
+  category: "frontend" | "backend" | "fullstack";
+  githubClient?: string;
+  githubServer?: string;
+  liveLink?: string;
+  priority: "low" | "medium" | "high";
+  status: "planned" | "in-progress" | "completed";
+}
 
-const apiRequest = async <T>(
+export interface Project extends CreateProject {
+  _id: string;
+}
+
+const BASE_URL = "http://localhost:5000/api/v10/project";
+
+// Generic API request function
+async function apiRequest<T>(
   endpoint: string,
-  options: ApiOptions = {}
-): Promise<T> => {
-  try {
-    const response = await fetch(`${projectBaseURL}${endpoint}`, {
-      ...options,
-      credentials: "include",
-    });
+  method: string,
+  body?: object
+): Promise<T> {
+  const url = `${BASE_URL}${endpoint}`;
+  const response = await fetch(url, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "API request failed");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error(`Error in API request to ${endpoint}:`, error);
-    throw error;
+  if (!response.ok) {
+    throw new Error(`API request failed: ${response.statusText}`);
   }
+
+  return response.json() as Promise<T>;
+}
+
+// API functions
+export const getAllProjects = (userId: string): Promise<Project[]> => {
+  return apiRequest<Project[]>(`/get/${userId}`, "GET");
 };
 
-// Project API functions
-
-/**
- * Fetch all projects for a given user.
- * GET /get/:userId
- */
-export const fetchProjects = async (userId: string): Promise<Project[]> => {
-  return apiRequest<ProjectResponseGet>(`/get/${userId}`).then(
-    (response) => response.projects || []
-  );
+export const createProject = (project: CreateProject): Promise<Project> => {
+  return apiRequest<Project>("/create", "POST", project);
 };
 
-/**
- * Create a new project.
- * POST /create
- */
-export const createProject = async (
-  payload: ProjectRequestPayload
-): Promise<Project> => {
-  const response = await apiRequest<ProjectResponse>(`/create`, {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: { "Content-Type": "application/json" },
-  });
-  return response.project;
-};
-
-/**
- * Update an existing project.
- * PUT /update/:id
- */
-export const updateProject = async (
+export const updateProject = (
   id: string,
-  payload: ProjectRequestPayload
+  project: CreateProject
 ): Promise<Project> => {
-  const response = await apiRequest<ProjectResponse>(`/update/${id}`, {
-    method: "PUT",
-    body: JSON.stringify(payload),
-    headers: { "Content-Type": "application/json" },
-  });
-  return response.project;
+  return apiRequest<Project>(`/update/${id}`, "PUT", project);
 };
 
-/**
- * Delete a project.
- * DELETE /delete/:id
- * Note: The endpoint expects the userId in the request body.
- */
-export const deleteProject = async (
-  userId: string,
-  id: string
-): Promise<boolean> => {
-  const response = await apiRequest<ProjectResponse>(`/delete/${id}`, {
-    method: "DELETE",
-    body: JSON.stringify({ userId }),
-    headers: { "Content-Type": "application/json" },
+export const deleteProject = (id: string, userId: string): Promise<void> => {
+  return apiRequest<void>(`/delete/${id}`, "DELETE", { userId });
+};
+
+// React Query hooks
+
+export const useGetAllProjects = (userId: string) => {
+  return useQuery<Project[], Error>({
+    queryKey: ["projects", userId],
+    queryFn: () => getAllProjects(userId),
+    enabled: !!userId, // Only fetch if a userId is provided
   });
-  return response.success;
+};
+
+export const useCreateProject = () => {
+  const queryClient = useQueryClient();
+  return useMutation<Project, Error, CreateProject>({
+    mutationFn: createProject,
+    onSuccess: (data) => {
+      // Invalidate and refetch projects for the user upon successful creation
+      queryClient.invalidateQueries({ queryKey: ["projects", data.userId] });
+    },
+  });
+};
+
+export const useUpdateProject = () => {
+  const queryClient = useQueryClient();
+  return useMutation<Project, Error, { id: string; data: CreateProject }>({
+    mutationFn: ({ id, data }) => updateProject(id, data),
+    onSuccess: (data) => {
+      // Invalidate projects for the user upon a successful update
+      queryClient.invalidateQueries({ queryKey: ["projects", data.userId] });
+    },
+  });
+};
+
+export const useDeleteProject = () => {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, { id: string; userId: string }>({
+    mutationFn: ({ id, userId }) => deleteProject(id, userId),
+    onSuccess: (_, variables) => {
+      // Invalidate projects for the user upon deletion
+      queryClient.invalidateQueries({
+        queryKey: ["projects", variables.userId],
+      });
+    },
+  });
 };
