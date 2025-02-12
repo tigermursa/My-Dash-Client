@@ -92,16 +92,22 @@ const GenericEditor: React.FC<GenericEditorProps> = ({
             {title}
           </h2>
           <div className="flex">
-            <button
-              onClick={handleSave}
-              className="p-2 text-white rounded-full disabled:bg-gray-300"
-              title="Save (Ctrl/Cmd + S)"
-            >
-              <Icon
-                icon="bx-save"
-                className="text-2xl text-gray-800 dark:text-gray-100"
-              />
-            </button>
+            <div className="flex items-center">
+              <button
+                onClick={handleSave}
+                className="p-2 text-white rounded-full disabled:bg-gray-300"
+                title="Save (Ctrl/Cmd + S)"
+              >
+                <Icon
+                  icon="bx-save"
+                  className="text-2xl text-gray-800 dark:text-gray-100"
+                />
+              </button>
+              <p className="text-gray-900 dark:text-primary_one me-5">
+                ( ctrl + s )
+              </p>
+            </div>
+
             <button
               onClick={handleClear}
               className="text-white rounded-full disabled:bg-gray-300"
