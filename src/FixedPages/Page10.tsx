@@ -1,9 +1,8 @@
-// Experience.tsx
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
-import ExperienceCard from "../components/Experience/ExperienceCard";
 
 import {
   useGetAllExperiences,
@@ -14,6 +13,7 @@ import {
 import useAuth from "../hooks/useAuth";
 import ExperienceForm from "../components/Experience/ExperienceForm";
 import type { Experience } from "../types/ExperienceType";
+import ExperienceCard from "../components/Experience/ExperienceCard";
 
 // Optional: if your API returns an object with an experiences array,
 // you can type it here. Otherwise, if data is simply Experience[], adjust accordingly.
@@ -53,6 +53,30 @@ const Experience: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const isCurrent = watch("isCurrent");
+
+  // Calculate total experience duration
+  const totalExperience = useMemo(() => {
+    let totalMonths = 0;
+
+    experiences.forEach((exp) => {
+      const startDate = new Date(exp.startDate);
+      const endDate = exp.isCurrent ? new Date() : new Date(exp.endDate);
+      const diff =
+        endDate.getMonth() -
+        startDate.getMonth() +
+        12 * (endDate.getFullYear() - startDate.getFullYear());
+      totalMonths += diff;
+    });
+
+    const years = Math.floor(totalMonths / 12);
+    const months = totalMonths % 12;
+
+    const duration = [];
+    if (years > 0) duration.push(`${years} year${years > 1 ? "s" : ""}`);
+    if (months > 0) duration.push(`${months} month${months > 1 ? "s" : ""}`);
+
+    return duration.join(" ") || "0 months";
+  }, [experiences]);
 
   // Opens the modal and pre-fills the form if editing.
   const openModal = (experience?: Experience) => {
@@ -111,15 +135,28 @@ const Experience: React.FC = () => {
           <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
             Work Experience
           </h1>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            onClick={() => openModal()}
-          >
-            <Icon icon="mdi:plus" className="text-xl" />
-            Add Experience
-          </motion.button>
+          <div className="flex items-center gap-4">
+            {/* Total Experience Badge */}
+            <div className="flex items-center gap-2 px-4 py-2 bg-primary_one/10 rounded-full">
+              <Icon
+                icon="mdi:clock-outline"
+                className="text-primary_one text-lg"
+              />
+              <span className="text-primary_one font-semibold">
+                {totalExperience}
+              </span>
+            </div>
+            {/* Add Experience Button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              onClick={() => openModal()}
+            >
+              <Icon icon="mdi:plus" className="text-xl" />
+              Add Experience
+            </motion.button>
+          </div>
         </div>
 
         {/* Experience List */}

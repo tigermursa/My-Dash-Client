@@ -32,7 +32,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
       <div className="relative">
         <Icon
           icon="mdi:office-building"
-          className="absolute left-3 top-4 text-gray-400 dark:text-gray-500"
+          className="absolute left-3 top-4 text-gray-400 dark:text-primary_one"
         />
         <Controller
           name="companyName"
@@ -42,7 +42,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
             <input
               {...field}
               placeholder="Company Name"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 rounded-lg bg-white dark:bg-gray-700 border border-gray-300 dark:text-gray-100 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           )}
         />
@@ -52,7 +52,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
       <div className="relative">
         <Icon
           icon="mdi:briefcase"
-          className="absolute left-3 top-4 text-gray-400 dark:text-gray-500"
+          className="absolute left-3 top-4 text-gray-400 dark:text-primary_one"
         />
         <Controller
           name="position"
@@ -62,7 +62,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
             <input
               {...field}
               placeholder="Position"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 rounded-lg bg-white dark:bg-gray-700 border border-gray-300 dark:text-gray-100 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           )}
         />
@@ -73,7 +73,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
         <div className="relative">
           <Icon
             icon="mdi:calendar-start"
-            className="absolute left-3 top-4 text-gray-400 dark:text-gray-500"
+            className="absolute left-3 top-4 text-gray-400 dark:text-primary_one"
           />
           <Controller
             name="startDate"
@@ -91,7 +91,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
         <div className="relative">
           <Icon
             icon="mdi:calendar-end"
-            className="absolute left-3 top-4 text-gray-400 dark:text-gray-500"
+            className="absolute left-3 top-4 text-gray-400 dark:text-primary_one"
           />
           <Controller
             name="endDate"

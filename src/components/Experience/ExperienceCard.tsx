@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { Experience } from "../../types/ExperienceType";
@@ -14,89 +14,123 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
   onEdit,
   onDelete,
 }) => {
-  // Format a date string to a short month/year format
-  const formatDate = (dateString: string) => {
+  const formatDate = useCallback((dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       month: "short",
       year: "numeric",
     });
-  };
+  }, []);
 
-  // Calculate
-  const calculateDuration = (
-    start: string,
-    end: string,
-    isCurrent: boolean
-  ) => {
-    const startDate = new Date(start);
-    const endDate = isCurrent ? new Date() : new Date(end);
-    const diff =
-      endDate.getMonth() -
-      startDate.getMonth() +
-      12 * (endDate.getFullYear() - startDate.getFullYear());
-    const years = Math.floor(diff / 12);
-    const months = diff % 12;
-    return `${years > 0 ? `${years}y ` : ""}${months}m`;
-  };
+  const calculateDuration = useCallback(
+    (start: string, end: string, isCurrent: boolean) => {
+      const startDate = new Date(start);
+      const endDate = isCurrent ? new Date() : new Date(end);
+      const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+
+      const years = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365));
+      const months = Math.floor(
+        (diffTime % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30)
+      );
+      const days = Math.floor(
+        (diffTime % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24)
+      );
+
+      const duration = [];
+      if (years > 0) duration.push(`${years}year`);
+      if (months > 0) duration.push(`${months} month`);
+      if (days > 0 && years === 0) duration.push(`${days} day`);
+
+      return duration.join(" ") || "0d";
+    },
+    []
+  );
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="group p-6 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700"
+      className="group p-6 rounded-xl bg-white dark:bg-gray-800 shadow-lg border border-primary_one/20 dark:border-primary_one/30 hover:border-primary_one/40 transition-all"
     >
-      <div className="flex justify-between items-start">
-        <div className="flex-1">
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
-            {experience.position}
-          </h3>
-          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-4">
-            <Icon icon="mdi:office-building" className="text-lg" />
-            <span>{experience.companyName}</span>
-          </div>
-          <div className="flex gap-4 text-sm text-gray-600 dark:text-gray-400">
-            <div className="flex items-center gap-2">
-              <Icon icon="mdi:calendar-start" />
-              <span>{formatDate(experience.startDate)}</span>
+      <div className="flex justify-between items-start gap-4">
+        {/* Left Section */}
+        <div className="flex-1 space-y-3">
+          <div className="flex items-center gap-3">
+            <Icon
+              icon="mdi:office-building"
+              className="text-2xl text-primary_one"
+            />
+            <div>
+              <h3 className="text-xl font-bold text-gray-800 dark:text-white">
+                {experience.companyName}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                {experience.position}
+              </p>
             </div>
-            <div className="flex items-center gap-2">
-              <Icon icon="mdi:calendar-end" />
-              <span>
+          </div>
+
+          {/* Duration Highlight */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary_one/10 rounded-full">
+            <Icon
+              icon="mdi:clock-outline"
+              className="text-primary_one text-lg"
+            />
+            <span className="text-primary_one font-semibold">
+              {calculateDuration(
+                experience.startDate,
+                experience.endDate,
+                experience.isCurrent
+              )}
+            </span>
+          </div>
+        </div>
+
+        {/* Right Section */}
+        <div className="flex flex-col items-end gap-4">
+          {/* Date Display */}
+          <div className="text-right space-y-1">
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+              <Icon icon="mdi:calendar-start" className="flex-shrink-0" />
+              <span className="font-medium">
+                {formatDate(experience.startDate)}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+              <Icon icon="mdi:calendar-end" className="flex-shrink-0" />
+              <span className="font-medium">
                 {experience.isCurrent
                   ? "Present"
                   : formatDate(experience.endDate)}
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <Icon icon="mdi:clock-outline" />
-              <span>
-                {calculateDuration(
-                  experience.startDate,
-                  experience.endDate,
-                  experience.isCurrent
-                )}
-              </span>
-            </div>
           </div>
-        </div>
-        <div className="flex gap-2">
-          <button
-            onClick={() => onEdit(experience)}
-            className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full"
-          >
-            <Icon icon="mdi:pencil" className="text-xl" />
-          </button>
-          <button
-            onClick={() => experience._id && onDelete(experience._id)}
-            className="text-gray-400 hover:text-red-600 dark:hover:text-red-400 p-2 rounded-full"
-          >
-            <Icon icon="mdi:trash-can-outline" className="text-xl" />
-          </button>
+
+          {/* Action Buttons */}
+          <div className="flex gap-2">
+            <button
+              onClick={() => onEdit(experience)}
+              className="p-2 hover:bg-primary_one/10 rounded-full transition-colors"
+            >
+              <Icon
+                icon="mdi:pencil"
+                className="text-xl text-gray-500 hover:text-primary_one"
+              />
+            </button>
+            <button
+              onClick={() => experience._id && onDelete(experience._id)}
+              className="p-2 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-full transition-colors"
+            >
+              <Icon
+                icon="mdi:trash-can-outline"
+                className="text-xl text-gray-500 hover:text-red-500"
+              />
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>
   );
 };
 
-export default ExperienceCard;
+export default React.memo(ExperienceCard);
