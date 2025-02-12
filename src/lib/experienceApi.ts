@@ -1,15 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { CreateExperience } from "../types/ExperienceType";
 
 // Define the Experience interfaces
-
-export interface CreateExperience {
-  userId: string;
-  companyName: string;
-  position: string;
-  startDate: string;
-  endDate: string;
-  isCurrent: boolean;
-}
 
 export interface Experience extends CreateExperience {
   _id: string;

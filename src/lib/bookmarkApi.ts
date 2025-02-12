@@ -1,11 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { CreateBookmark } from "../types/BookmarksTypes";
 
 // Define the bookmark interfaces
-export interface CreateBookmark {
-  userId: string;
-  url: string;
-  name: string;
-}
 
 export interface Bookmark extends CreateBookmark {
   _id: string;
