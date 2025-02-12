@@ -1,10 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-
-export interface CreateEvent {
-  userId: string;
-  eventName: string;
-  eventDate: string;
-}
+import { CreateEvent } from "../types/EventTypes";
 
 export interface Event extends CreateEvent {
   _id: string;
