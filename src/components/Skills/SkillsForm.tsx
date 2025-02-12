@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { SkillFormData } from "../../types/SkillTypes";
 
+// Define the form data type for creating/updating a skill.
+
 interface SkillFormProps {
   isOpen: boolean;
   initialValues: SkillFormData;
@@ -20,7 +22,7 @@ const SkillForm: React.FC<SkillFormProps> = ({
     defaultValues: initialValues,
   });
 
-  // Reset form whenever initial values change (e.g. when switching between edit and create)
+  // Reset the form values when the initialValues change (e.g. switching between add and edit)
   useEffect(() => {
     reset(initialValues);
   }, [initialValues, reset]);
@@ -53,7 +55,7 @@ const SkillForm: React.FC<SkillFormProps> = ({
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Skill Name */}
+          {/* Skill Name Field */}
           <div className="space-y-1">
             <label className="flex items-center gap-2 text-sm font-medium dark:text-gray-300">
               <Icon icon="mdi:tag" className="text-primary_one" />
@@ -75,7 +77,7 @@ const SkillForm: React.FC<SkillFormProps> = ({
             />
           </div>
 
-          {/* Category */}
+          {/* Category Field */}
           <div className="space-y-1">
             <label className="flex items-center gap-2 text-sm font-medium dark:text-gray-300">
               <Icon icon="mdi:shape" className="text-primary_one" />
@@ -99,7 +101,7 @@ const SkillForm: React.FC<SkillFormProps> = ({
             />
           </div>
 
-          {/* Proficiency Level */}
+          {/* Proficiency Level Field */}
           <div className="space-y-1">
             <label className="flex items-center gap-2 text-sm font-medium dark:text-gray-300">
               <Icon icon="mdi:star" className="text-primary_one" />
@@ -122,6 +124,7 @@ const SkillForm: React.FC<SkillFormProps> = ({
             />
           </div>
 
+          {/* Form Buttons */}
           <div className="flex justify-end gap-3">
             <button
               type="button"

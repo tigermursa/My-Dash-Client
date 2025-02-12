@@ -10,7 +10,7 @@ interface SkillCardProps {
 }
 
 const SkillCard: React.FC<SkillCardProps> = ({ skill, onEdit, onDelete }) => {
-  // Return an icon name based on the skill name.
+  // Determine the icon for a given skill name.
   const getSkillIcon = (skillName: string) => {
     const icons: Record<string, string> = {
       react: "mdi:react",
@@ -24,15 +24,15 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, onEdit, onDelete }) => {
     return icons[skillName.toLowerCase()] || "mdi:code-brackets";
   };
 
-  // Return star icons based on the proficiency level.
+  // Render star icons based on proficiency level.
   const getLevelStars = (level: string) => {
-    const starsCount = { beginner: 1, medium: 2, advanced: 3 }[level] ?? 1;
+    const starCount = { beginner: 1, medium: 2, advanced: 3 }[level] ?? 1;
     return Array.from({ length: 3 }).map((_, i) => (
       <Icon
         key={i}
-        icon={i < starsCount ? "mdi:star" : "mdi:star-outline"}
+        icon={i < starCount ? "mdi:star" : "mdi:star-outline"}
         className={`text-lg ${
-          i < starsCount ? "text-yellow-400" : "text-gray-300"
+          i < starCount ? "text-yellow-400" : "text-gray-300"
         }`}
       />
     ));
