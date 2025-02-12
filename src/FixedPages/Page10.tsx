@@ -20,6 +20,9 @@ interface Experience {
   isCurrent: boolean;
 }
 
+interface ApiResponse {
+  experiences: Experience[];
+}
 const Experience = () => {
   const { user } = useAuth();
   const userId = user?._id as string;
@@ -39,13 +42,10 @@ const Experience = () => {
   });
 
   // Fetch experiences
-  const {
-    data: response,
-    isLoading,
-    isError,
-    refetch,
-  } = useGetAllExperiences(userId);
-  const experiences = response?.experiences || [];
+  const { data, isLoading, isError, refetch } = useGetAllExperiences(userId);
+
+  //const bookmarks = (data as unknown as ApiResponse)?.bookmarks || [];
+  const experiences = (data as unknown as ApiResponse)?.experiences || [];
 
   // API mutations
   const createMutation = useCreateExperience();
@@ -147,7 +147,7 @@ const Experience = () => {
 
         {/* Experience List */}
         <div className="space-y-6">
-          {experiences.map((exp) => (
+          {experiences.map((exp: Experience) => (
             <motion.div
               key={exp._id}
               initial={{ opacity: 0, y: 20 }}
