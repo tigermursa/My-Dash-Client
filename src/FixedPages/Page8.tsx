@@ -8,6 +8,7 @@ import useAuth from "../hooks/useAuth";
 import { fadeIn, staggerContainer } from "../utils/motions";
 import JobInfoCard from "../components/JobTracker/JobInfoCard";
 import JobForm from "../components/JobTracker/JobForm";
+import { toast } from "react-toastify";
 
 const JobTracker: React.FC = () => {
   const { user } = useAuth();
@@ -69,6 +70,7 @@ const JobTracker: React.FC = () => {
     try {
       await deleteJob(userId, jobId);
       setApplications((prev) => prev.filter((job) => job._id !== jobId));
+      toast.success("Deleted Application");
     } catch (err) {
       console.error(err);
       setError("Failed to delete application. Please try again.");
@@ -137,9 +139,9 @@ const JobTracker: React.FC = () => {
 
         {!loading && !error && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {applications.map((app) => (
+            {applications?.map((app) => (
               <JobInfoCard
-                key={app._id}
+                key={app?._id}
                 job={app}
                 onEdit={openEditModal}
                 onDelete={handleDelete}
