@@ -1,17 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-
-// Define the Project interfaces matching your schema
-export interface CreateProject {
-  _id?: string;
-  userId: string;
-  projectName: string;
-  category: "frontend" | "backend" | "fullstack";
-  githubClient?: string;
-  githubServer?: string;
-  liveLink?: string;
-  priority: "low" | "medium" | "high";
-  status: "planned" | "in-progress" | "completed";
-}
+import { CreateProject } from "../types/ProjectTypes";
 
 export interface Project extends CreateProject {
   _id: string;
