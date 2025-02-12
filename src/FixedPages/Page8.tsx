@@ -9,6 +9,7 @@ import { fadeIn, staggerContainer } from "../utils/motions";
 import JobInfoCard from "../components/JobTracker/JobInfoCard";
 import JobForm from "../components/JobTracker/JobForm";
 import { toast } from "react-toastify";
+import Loader from "../components/Ui/Loader/Loader";
 
 const JobTracker: React.FC = () => {
   const { user } = useAuth();
@@ -125,11 +126,7 @@ const JobTracker: React.FC = () => {
           </motion.button>
         </div>
 
-        {loading && (
-          <div className="text-center text-gray-500 dark:text-gray-400">
-            Loading applications...
-          </div>
-        )}
+        {loading && <Loader />}
 
         {error && (
           <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-4">
