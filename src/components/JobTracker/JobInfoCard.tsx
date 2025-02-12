@@ -68,15 +68,15 @@ const JobInfoCard: React.FC<JobInfoCardProps> = ({ job, onEdit, onDelete }) => {
       <div className="flex justify-between items-start mb-4">
         <div>
           <h2 className="text-xl font-semibold dark:text-primary_one">
-            {job.company}
+            {job?.company}
           </h2>
-          <p className="text-gray-600 dark:text-gray-300">{job.position}</p>
+          <p className="text-gray-600 dark:text-gray-300">{job?.position}</p>
           <span
             className={`inline-block mt-2 text-sm px-3 py-1 rounded-full ${getStatusColor(
-              job.status
+              job?.status
             )}`}
           >
-            {job.status.replace("_", " ")}
+            {job?.status.replace("_", " ")}
           </span>
         </div>
       </div>
@@ -84,36 +84,36 @@ const JobInfoCard: React.FC<JobInfoCardProps> = ({ job, onEdit, onDelete }) => {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <Icon icon="mdi:map-marker" className="text-gray-500" />
-          <span className="dark:text-gray-300">{job.location}</span>
+          <span className="dark:text-gray-300">{job?.location}</span>
         </div>
 
         <div className="flex items-center gap-2">
           <Icon icon="mdi:source-branch" className="text-gray-500" />
-          <span className="dark:text-gray-300">{job.source}</span>
+          <span className="dark:text-gray-300">{job?.source}</span>
         </div>
 
         <div className="flex items-center gap-2">
           <Icon icon="mdi:clock" className="text-gray-500" />
           <span className="dark:text-gray-300">
-            Applied: {new Date(job.appliedDate).toLocaleDateString()}
+            Applied: {new Date(job?.appliedDate).toLocaleDateString()}
           </span>
         </div>
 
         <div className="flex items-center gap-2">
           <Icon icon="mdi:heart" className="text-gray-500" />
-          <div className="flex">{renderInterestStars(job.interest)}</div>
+          <div className="flex">{renderInterestStars(job?.interest)}</div>
         </div>
 
-        {job.salary && (
+        {job?.salary && (
           <div className="flex items-center gap-2">
             <Icon icon="mdi:cash" className="text-gray-500" />
-            <span className="dark:text-gray-300">{job.salary}</span>
+            <span className="dark:text-gray-300">{job?.salary}</span>
           </div>
         )}
       </div>
 
       <span className="absolute bottom-2 right-2 px-3 py-1 bg-primary_one/10 text-primary_one dark:bg-primary_one/20 dark:text-primary_one rounded-full text-sm">
-        {job.type.charAt(0).toUpperCase() + job.type.slice(1)}
+        {job?.type.charAt(0).toUpperCase() + job?.type.slice(1)}
       </span>
     </motion.div>
   );

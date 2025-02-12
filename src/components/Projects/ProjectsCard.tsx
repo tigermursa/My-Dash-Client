@@ -20,7 +20,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       exit={{ opacity: 0, y: -20 }}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      className="group p-6 bg-white w-full max-w-[350px]  mx-auto  dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+      className="group p-6 bg-white w-full max-w-[400px]  mx-auto  dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
     >
       <div className="flex flex-col h-full  justify-center items-center">
         {/* Header Section */}
