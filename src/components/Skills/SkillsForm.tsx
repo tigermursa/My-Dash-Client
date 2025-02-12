@@ -2,14 +2,7 @@ import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
-
-// Define the type for the form data. For creation, _id is absent.
-export interface SkillFormData {
-  _id?: string;
-  skillName: string;
-  category: "frontend" | "backend" | "tool" | "plan-to-learn";
-  level: "beginner" | "medium" | "advanced";
-}
+import { SkillFormData } from "../../types/SkillTypes";
 
 interface SkillFormProps {
   isOpen: boolean;
