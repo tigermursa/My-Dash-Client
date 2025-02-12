@@ -9,7 +9,7 @@ import {
   useDeleteProject,
   CreateProject,
   Project,
-} from "../lib/projectApi"; // Adjust the path as needed
+} from "../lib/projectApi";
 import useAuth from "../hooks/useAuth";
 
 // We'll use CreateProject as our form input type
@@ -42,6 +42,9 @@ const Projects = () => {
       status: "planned",
     },
   });
+  interface ApiResponse {
+    projects: Project[];
+  }
 
   // Opens the modal for creating a new project or updating an existing one
   const openModal = (project?: Project) => {
@@ -96,8 +99,8 @@ const Projects = () => {
         Error fetching projects.
       </div>
     );
-
-  const projects = data.projects;
+  //  const experiences = (data as unknown as ApiResponse)?.experiences || [];
+  const projects = (data as unknown as ApiResponse)?.projects || [];
 
   return (
     <div className="min-h-screen p-4 md:p-8 bg-gray-50 dark:bg-gray-900">
@@ -313,7 +316,7 @@ const Projects = () => {
 
       {/* Projects List */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects?.map((project) => (
+        {projects?.map((project: Project) => (
           <motion.div
             key={project._id}
             initial={{ opacity: 0, y: 20 }}

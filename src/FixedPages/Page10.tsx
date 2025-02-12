@@ -23,6 +23,7 @@ interface Experience {
 interface ApiResponse {
   experiences: Experience[];
 }
+
 const Experience = () => {
   const { user } = useAuth();
   const userId = user?._id as string;
@@ -44,7 +45,6 @@ const Experience = () => {
   // Fetch experiences
   const { data, isLoading, isError, refetch } = useGetAllExperiences(userId);
 
-  //const bookmarks = (data as unknown as ApiResponse)?.bookmarks || [];
   const experiences = (data as unknown as ApiResponse)?.experiences || [];
 
   // API mutations
