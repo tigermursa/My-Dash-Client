@@ -109,17 +109,17 @@ const Projects: React.FC = () => {
     (data as unknown as ApiResponse)?.projects || [];
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen p-4 md:p-8 bg-gray-50 dark:bg-gray-900  mt-20 md:mt-10 lg:mt-0">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+        <h1 className=" text-lg md:text-2xl hidden md:block  2xl:text-3xl font-bold text-gray-800 dark:text-white">
           My Projects
         </h1>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => openModal()}
-          className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 px-6 py-3 bg-primary_one text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           <Icon icon="mdi:plus" className="text-xl" />
           Add Project
