@@ -52,14 +52,15 @@ export default function Sidebar() {
       {/* Desktop Sidebar */}
       <aside className="hidden w-64 bg-gray-50 dark:bg-primarydarkbg shadow-md lg:flex flex-col transition-colors duration-200 m-5 border dark:border-primary_one rounded-3xl">
         <div className="p-4 ">
-          <div className="flex justify-center items-center gap-1">
+          <div className="flex justify-start items-center gap-1">
             <div className="flex items-center  gap-1">
-              <img
-                src="/my-dash-logo.png"
-                alt="User"
-                className="w-8 h-8 rounded-full object-cover"
+              <Icon
+                icon="simple-icons:ericsson"
+                width="30"
+                height="30"
+                className=" text-primary_one"
               />
-              <h1 className="text-2xl  bebas-neue-regular text-gray-900 dark:text-white">
+              <h1 className="text-4xl  bebas-neue-regular text-gray-900 dark:text-white">
                 My D<span className="text-primary_one">a</span>sh
               </h1>
             </div>
