@@ -69,7 +69,7 @@ const Dates = () => {
   if (isError) return <div className="text-red-500">Error fetching events</div>;
 
   return (
-    <div className="min-h-screen p-4 md:p-8 dark:bg-gray-900 bg-gray-100 rounded-3xl">
+    <div className="min-h-screen p-4 md:p-8 dark:bg-gray-900 bg-gray-100 rounded-3xl  mt-20 md:mt-10 lg:mt-0">
       {/* Add Date Button */}
       <motion.div
         className="mb-8 flex justify-end"
@@ -102,7 +102,7 @@ const Dates = () => {
       </AnimatePresence>
 
       {dateEvents.length !== 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {dateEvents.map((event) => (
             <EventCard
               key={event._id}

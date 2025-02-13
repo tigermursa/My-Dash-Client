@@ -28,9 +28,9 @@ const EventCard: React.FC<DateEventCardProps> = ({
       exit={{ opacity: 0, y: -20 }}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      className="group p-4 rounded-xl w-max bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all border border-gray-200 dark:border-gray-700"
+      className="group p-4 rounded-xl w-max mx-auto bg-white  dark:bg-gray-800/25 shadow-sm hover:shadow-md transition-all border border-gray-200 dark:border-gray-700"
     >
-      <div className="flex justify-between items-start gap-3">
+      <div className="flex justify-between items-start gap-3 ">
         {/* Event Name and Date */}
         <div className="flex-1">
           <div className="flex items-center gap-2">
