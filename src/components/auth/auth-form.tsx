@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaChrome, FaFacebook } from "react-icons/fa";
+import { FaChrome } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { signinUser, signupUser } from "../../lib/authApi";
 import { responseType } from "../../types/AuthTypes";
@@ -150,28 +150,22 @@ export default function AuthForm({ type }: AuthFormProps) {
               : "Sign up"}
           </button>
         </form>
-        <div className="relative">
+        <div className="relative hidden">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-600"></div>
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
+          <div className="relative  justify-center text-xs uppercase hidden">
             <span className="bg-gray-800 px-2 text-gray-400">
               Or continue with
             </span>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className=" hidden">
           <button
             onClick={() => handleSocialLogin("Google")}
-            className="flex items-center justify-center px-4 py-2 border border-gray-600 rounded-md text-gray-200 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            className="flex items-center justify-center w-full px-4 py-2 border border-gray-600 rounded-md text-gray-200 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
           >
             <FaChrome className="mr-2 h-4 w-4" /> Google
-          </button>
-          <button
-            onClick={() => handleSocialLogin("Facebook")}
-            className="flex items-center justify-center px-4 py-2 border border-gray-600 rounded-md text-gray-200 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-          >
-            <FaFacebook className="mr-2 h-4 w-4" /> Facebook
           </button>
         </div>
       </div>
@@ -190,7 +184,7 @@ export default function AuthForm({ type }: AuthFormProps) {
         {type === "sign-in" && (
           <Link
             to="/forgot-password"
-            className="text-sm text-red-500 hover:underline"
+            className="text-sm text-red-500 hover:underline hidden"
           >
             Forgot password?
           </Link>
