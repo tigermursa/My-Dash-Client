@@ -58,7 +58,7 @@ export default function AuthForm({ type }: AuthFormProps) {
   };
 
   return (
-    <div className="w-full max-w-md bg-gray-800 shadow-md rounded-lg">
+    <div className="w-full max-w-md bg-gray-800/20 shadow-md rounded-lg">
       <div className="p-6 space-y-4">
         <div className="space-y-1">
           <div className="flex justify-center items-center gap-1">
@@ -96,7 +96,7 @@ export default function AuthForm({ type }: AuthFormProps) {
                 type="text"
                 placeholder="Mursalin"
                 required
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary_one focus:border-transparent"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -115,7 +115,7 @@ export default function AuthForm({ type }: AuthFormProps) {
               type="email"
               placeholder="mursalin@example.com"
               required
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary_one focus:border-transparent"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -133,14 +133,14 @@ export default function AuthForm({ type }: AuthFormProps) {
               type="password"
               placeholder="••••••••"
               required
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary_one focus:border-transparent"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+            className="w-full py-2 px-4 bg-primary_one hover:bg-red-700 text-white font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-primary_one focus:ring-offset-2 focus:ring-offset-gray-800"
             disabled={loading}
           >
             {loading
@@ -169,14 +169,14 @@ export default function AuthForm({ type }: AuthFormProps) {
           </button>
         </div>
       </div>
-      <div className="px-6 py-4 bg-gray-700 rounded-b-lg flex flex-wrap items-center justify-between gap-2">
+      <div className="px-6 py-4  rounded-b-lg flex flex-wrap items-center justify-between gap-2">
         <div className="text-sm text-gray-400">
           {type === "sign-in"
             ? "Don't have an account? "
             : "Already have an account? "}
           <Link
             to={type === "sign-in" ? "/sign-up" : "/sign-in"}
-            className="text-red-500 hover:underline"
+            className="text-primary_one hover:underline"
           >
             {type === "sign-in" ? "Sign up" : "Sign in"}
           </Link>
@@ -184,7 +184,7 @@ export default function AuthForm({ type }: AuthFormProps) {
         {type === "sign-in" && (
           <Link
             to="/forgot-password"
-            className="text-sm text-red-500 hover:underline hidden"
+            className="text-sm text-primary_one hover:underline hidden"
           >
             Forgot password?
           </Link>
