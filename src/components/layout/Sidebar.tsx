@@ -143,7 +143,7 @@ export default function Sidebar() {
       </header>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 dark:bg-primary_one shadow-md lg:hidden transition-colors duration-200">
+      <nav className="fixed bottom-0 left-0 right-0 dark:bg-primary_one shadow-md lg:hidden transition-colors duration-200 z-50">
         <div className="overflow-x-auto scrollbar-hide">
           <ul className="flex whitespace-nowrap py-2">
             {navItems.map((item) => (
