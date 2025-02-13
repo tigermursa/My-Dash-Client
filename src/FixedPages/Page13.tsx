@@ -11,6 +11,7 @@ import useAuth from "../hooks/useAuth";
 import { DateEvent } from "../types/EventTypes";
 import EventForm from "../components/Event/EventForm";
 import EventCard from "../components/Event/EventCard";
+import { toast } from "react-toastify";
 
 interface ApiResponse {
   dateEvents: DateEvent[];
@@ -50,6 +51,7 @@ const Dates = () => {
       });
     } else {
       await createMutation.mutateAsync(formData);
+      toast.success("Created Successfully");
     }
     setIsModalOpen(false);
     refetch();
@@ -59,6 +61,7 @@ const Dates = () => {
   const handleDeleteEvent = async (id: string) => {
     await deleteMutation.mutateAsync({ id, userId });
     refetch();
+    toast.success("Deleted");
   };
 
   if (isLoading)
@@ -98,17 +101,26 @@ const Dates = () => {
         )}
       </AnimatePresence>
 
-      {/* Dates List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {dateEvents.map((event) => (
-          <EventCard
-            key={event._id}
-            event={event}
-            onEdit={() => openModal(event)}
-            onDelete={() => handleDeleteEvent(event._id!)}
+      {dateEvents.length !== 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {dateEvents.map((event) => (
+            <EventCard
+              key={event._id}
+              event={event}
+              onEdit={() => openModal(event)}
+              onDelete={() => handleDeleteEvent(event._id!)}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center p-4 h-screen">
+          <Icon
+            icon="mdi:alert-circle-outline"
+            className="text-4xl text-gray-500"
           />
-        ))}
-      </div>
+          <p className="mt-2 text-lg text-gray-500">You did't add any date</p>
+        </div>
+      )}
     </div>
   );
 };

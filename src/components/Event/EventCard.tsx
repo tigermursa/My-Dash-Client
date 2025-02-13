@@ -28,7 +28,7 @@ const EventCard: React.FC<DateEventCardProps> = ({
       exit={{ opacity: 0, y: -20 }}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      className="group p-4 rounded-xl bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all border border-gray-200 dark:border-gray-700"
+      className="group p-4 rounded-xl w-max bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all border border-gray-200 dark:border-gray-700"
     >
       <div className="flex justify-between items-start gap-3">
         {/* Event Name and Date */}
@@ -39,7 +39,7 @@ const EventCard: React.FC<DateEventCardProps> = ({
               {event.eventName}
             </h3>
           </div>
-          <p className=" text-4xl md:text-7xl font-bold text-gray-600 dark:text-primary_one mt-1">
+          <p className=" text-4xl xl:text-5xl text-nowrap 2xl:text-7xl font-bold text-gray-600 dark:text-primary_one mt-1">
             {formattedDate}
           </p>
         </div>
