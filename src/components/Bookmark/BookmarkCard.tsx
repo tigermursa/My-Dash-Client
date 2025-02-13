@@ -21,7 +21,7 @@ const BookmarksCard: React.FC<BookmarksCardProps> = ({
       exit={{ opacity: 0, y: -20 }}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      className="group p-4 rounded-xl bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700"
+      className="group p-4 rounded-xl bg-white dark:bg-gray-800/25 shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700"
     >
       <div className="flex flex-col h-full">
         {/* Header Section */}
