@@ -128,11 +128,11 @@ const Experience: React.FC = () => {
     );
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen p-4 md:p-8 bg-gray-50 dark:bg-gray-900/25 mt-20 md:mt-10 lg:mt-0">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
+          <h1 className="text-3xl hidden md:block font-bold text-gray-800 dark:text-white">
             Work Experience
           </h1>
           <div className="flex items-center gap-4">
@@ -150,7 +150,7 @@ const Experience: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex items-center gap-2 px-6 py-3 bg-primary_one text-white rounded-lg hover:bg-blue-700 transition-colors"
               onClick={() => openModal()}
             >
               <Icon icon="mdi:plus" className="text-xl" />

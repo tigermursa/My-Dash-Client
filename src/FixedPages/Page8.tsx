@@ -99,13 +99,13 @@ const JobTracker: React.FC = () => {
       initial="hidden"
       animate="show"
       variants={staggerContainer(0.1, 0.2)}
-      className="p-6 dark:bg-gray-900 min-h-screen"
+      className="p-6 dark:bg-gray-900 min-h-screen mt-20 md:mt-10 lg:mt-0"
     >
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <motion.h1
             variants={fadeIn("down", 0.2)}
-            className="text-3xl font-bold bg-gradient-to-r from-primary_one to-primary_one bg-clip-text text-transparent"
+            className="text-3xl font-bold bg-gradient-to-r from-primary_one to-primary_one bg-clip-text text-transparent  hidden md:block"
           >
             <Icon
               icon="mdi:briefcase"

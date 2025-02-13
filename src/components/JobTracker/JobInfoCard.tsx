@@ -45,7 +45,7 @@ const JobInfoCard: React.FC<JobInfoCardProps> = ({ job, onEdit, onDelete }) => {
   return (
     <motion.div
       variants={fadeIn("up", 0.2)}
-      className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl border border-primary_one/20 relative"
+      className="bg-white dark:bg-gray-800/25 p-6 rounded-xl shadow-xl border border-primary_one/20 relative"
     >
       <div className="absolute top-2 right-2 flex gap-2">
         <button
