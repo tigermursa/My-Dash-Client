@@ -72,7 +72,7 @@ const Bookmarks = () => {
     return <div className="text-red-500">Error fetching bookmarks</div>;
 
   return (
-    <div className="min-h-screen p-4 md:p-8 dark:bg-gray-900 bg-gray-100 rounded-3xl mt-20 md:mt-10 lg:mt-0">
+    <div className=" h-full p-4 md:p-8 dark:bg-gray-900 bg-gray-100 rounded-3xl mt-20 md:mt-10 lg:mt-0">
       {/* Add Bookmark Button */}
       <motion.div
         className="mb-8 flex justify-end"

@@ -145,7 +145,7 @@ const Skills = () => {
       initial="hidden"
       animate="show"
       variants={staggerContainer(0.1, 0.2)}
-      className="p-6 dark:bg-gray-900 min-h-screen"
+      className="p-6 dark:bg-gray-900 h-full"
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}

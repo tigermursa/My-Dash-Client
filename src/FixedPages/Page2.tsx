@@ -3,7 +3,7 @@ import TodoApp from "../components/GoalsAddons/Todo";
 
 const Page2 = () => {
   return (
-    <div className="flex justify-between flex-col sm:flex-row h-full dark:bg-gray-900 mt-20 md:mt-10 lg:mt-0">
+    <div className="flex justify-between flex-col sm:flex-row h-full dark:bg-gray-900 mt-20 md:mt-10 lg:mt-0 ">
       {/* Main TodoApp Section */}
       <div className="w-full sm:w-[78%] h-full  mx-auto">
         <div className="h-full overflow-y-auto scrollbar-none">

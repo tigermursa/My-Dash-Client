@@ -128,7 +128,7 @@ const Experience: React.FC = () => {
     );
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-gray-50 dark:bg-gray-900/25 mt-20 md:mt-10 lg:mt-0">
+    <div className=" h-full p-4 md:p-8 bg-gray-50 dark:bg-gray-900/25 mt-20 md:mt-10 lg:mt-0">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
