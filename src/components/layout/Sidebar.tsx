@@ -133,17 +133,15 @@ export default function Sidebar() {
       </aside>
 
       {/* Mobile Header */}
-      <header className="fixed top-0 left-0 right-0 bg-white dark:bg-primary_one shadow-md lg:hidden transition-colors duration-200 z-10">
+      <header className="fixed top-0 left-0 right-0 bg-primary_one shadow-md lg:hidden transition-colors duration-200 z-10">
         <div className="p-4 flex justify-between items-center">
-          <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
-            Dashboard
-          </h1>
+          <h1 className="text-xl font-semibold text-white">Dashboard</h1>
           <ThemeToggle />
         </div>
       </header>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 dark:bg-primary_one shadow-md lg:hidden transition-colors duration-200 z-50">
+      <nav className="fixed bottom-0 left-0 right-0 bg-primary_one shadow-md lg:hidden transition-colors duration-200 z-50">
         <div className="overflow-x-auto scrollbar-hide">
           <ul className="flex whitespace-nowrap py-2">
             {navItems.map((item) => (
@@ -152,8 +150,8 @@ export default function Sidebar() {
                   to={item.href}
                   className={`flex flex-col items-center p-2 transition-colors duration-200 ${
                     pathname === item.href
-                      ? "text-gray-200 bg-gray-500/75 rounded-lg"
-                      : "text-gray-600 dark:text-gray-200"
+                      ? " text-white dark:text-gray-200 bg-gray-500/75 rounded-lg"
+                      : "text-gray-200 "
                   }`}
                 >
                   <Icon icon={item.icon} className="h-6 w-6" />

@@ -81,7 +81,7 @@ const GenericEditor: React.FC<GenericEditorProps> = ({
   const handleClear = () => clearMutation.mutate();
 
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-gray-100 lg:rounded-3xl overflow-hidden mt-20 md:mt-10 lg:mt-0 ">
+    <div className="flex flex-col items-center justify-center h-full bg-gray-100 lg:rounded-3xl overflow-hidden mt-16 md:mt-10 lg:mt-0 ">
       <div className="w-full h-full bg-white dark:bg-gray-950 shadow-lg  relative">
         <div className="flex justify-start items-center px-4 pt-2">
           <h2 className="text-sm font-bold text-gray-950 dark:text-white flex items-center me-2">
