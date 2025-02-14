@@ -9,7 +9,6 @@ export default function App() {
 
   useEffect(() => {
     updateFavicon(themeColor);
-    console.log("Updated favicon color:", themeColor);
   }, [themeColor]);
 
   return (
