@@ -8,7 +8,7 @@ const ColorPicker = () => {
     "#ff6347", // Tomato (red-orange)
     "#32cd32", // Lime green
     "#ff1493", // Deep pink
-    "#ffdc00", // Bright yellow (yellow-gold)
+    "#d4a700", // Bright yellow (yellow-gold)
     "#8a2be2", // Blue violet (adds a nice purple tone)
   ];
   const savedColor = localStorage.getItem("primaryColor") || "#00bfff";
