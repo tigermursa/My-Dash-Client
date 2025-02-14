@@ -65,20 +65,23 @@ const Settings = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 dark:bg-gray-900  text-gray-800 dark:text-gray-100">
-      <div className="p-6 flex justify-between items-center">
-        <h1 className="text-xl font-semibold flex items-center gap-1">
+    <div className=" bg-gray-50 dark:bg-gray-900  text-gray-800 dark:text-gray-100  mt-20 md:mt-10 lg:mt-0 ">
+      <div className=" flex justify-between items-center ">
+        <h1 className="p-2 text-xl font-semibold flex items-center gap-1">
           Settings Page{" "}
           <span className="animate-spin">
             <Icon icon="mdi:cog" className="h-6 w-6" />
           </span>
         </h1>
-        <ThemeToggle />
+        <div className=" hidden lg:block">
+          <ThemeToggle />
+        </div>
+
         <ColorPicker />
       </div>
 
-      <div className="p-6 bg-gray-50 dark:bg-gray-900">
-        <div className="rounded-3xl border border-gray-600 overflow-hidden">
+      <div className=" bg-gray-50 dark:bg-gray-900 mt-3">
+        <div className="md:rounded-3xl md:border  border-gray-600 overflow-hidden">
           <table className="min-w-full table-auto text-sm">
             <thead>
               <tr className="bg-gray-200 dark:bg-gray-700">
