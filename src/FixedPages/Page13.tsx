@@ -113,12 +113,12 @@ const Dates = () => {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center p-4 h-screen">
+        <div className="flex flex-col items-center justify-center p-4 h-full">
           <Icon
             icon="mdi:alert-circle-outline"
-            className="text-4xl text-gray-500"
+            className="text-4xl text-gray-400"
           />
-          <p className="mt-2 text-lg text-gray-500">You did't add any date</p>
+          <p className="mt-2 text-lg text-gray-400">You did't add any date</p>
         </div>
       )}
     </div>

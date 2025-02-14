@@ -103,16 +103,29 @@ const Bookmarks = () => {
       </AnimatePresence>
 
       {/* Bookmarks List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {bookmarks.map((bookmark) => (
-          <BookmarksCard
-            key={bookmark._id}
-            bookmark={bookmark}
-            onEdit={() => openModal(bookmark)}
-            onDelete={() => handleDeleteBookmark(bookmark._id!)}
+
+      {bookmarks.length! == 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {bookmarks.map((bookmark) => (
+            <BookmarksCard
+              key={bookmark._id}
+              bookmark={bookmark}
+              onEdit={() => openModal(bookmark)}
+              onDelete={() => handleDeleteBookmark(bookmark._id!)}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center p-4 h-full">
+          <Icon
+            icon="mdi:alert-circle-outline"
+            className="text-4xl text-gray-400"
           />
-        ))}
-      </div>
+          <p className="mt-2 text-lg text-gray-400">
+            You did't add any bookmark
+          </p>
+        </div>
+      )}
     </div>
   );
 };
