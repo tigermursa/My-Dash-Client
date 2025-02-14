@@ -160,16 +160,28 @@ const Experience: React.FC = () => {
         </div>
 
         {/* Experience List */}
-        <div className="space-y-6">
-          {experiences.map((exp) => (
-            <ExperienceCard
-              key={exp._id}
-              experience={exp}
-              onEdit={openModal}
-              onDelete={handleDelete}
+        {experiences.length !== 0 ? (
+          <div className="space-y-6">
+            {experiences.map((exp) => (
+              <ExperienceCard
+                key={exp._id}
+                experience={exp}
+                onEdit={openModal}
+                onDelete={handleDelete}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center p-4 h-full">
+            <Icon
+              icon="mdi:alert-circle-outline"
+              className="text-4xl text-gray-400"
             />
-          ))}
-        </div>
+            <p className="mt-2 text-lg text-gray-400">
+              You did't add any experience
+            </p>
+          </div>
+        )}
 
         {/* Modal for Experience Form */}
         <AnimatePresence>

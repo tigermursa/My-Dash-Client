@@ -134,7 +134,7 @@ const JobTracker: React.FC = () => {
           </div>
         )}
 
-        {!loading && !error && (
+        {applications.length !== 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {applications?.map((app) => (
               <JobInfoCard
@@ -144,6 +144,16 @@ const JobTracker: React.FC = () => {
                 onDelete={handleDelete}
               />
             ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center p-4 h-full">
+            <Icon
+              icon="mdi:alert-circle-outline"
+              className="text-4xl text-gray-400"
+            />
+            <p className="mt-2 text-lg text-gray-400">
+              You did't add any job application
+            </p>
           </div>
         )}
 

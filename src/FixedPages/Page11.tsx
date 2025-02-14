@@ -167,16 +167,28 @@ const Projects: React.FC = () => {
       </AnimatePresence>
 
       {/* Projects List */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((project: CreateProject) => (
-          <ProjectCard
-            key={project._id}
-            project={project}
-            onEdit={openModal}
-            onDelete={handleDelete}
+      {projects?.length !== 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project: CreateProject) => (
+            <ProjectCard
+              key={project._id}
+              project={project}
+              onEdit={openModal}
+              onDelete={handleDelete}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center p-4 h-full">
+          <Icon
+            icon="mdi:alert-circle-outline"
+            className="text-4xl text-gray-400"
           />
-        ))}
-      </div>
+          <p className="mt-2 text-lg text-gray-400">
+            You did't add any project
+          </p>
+        </div>
+      )}
     </div>
   );
 };
