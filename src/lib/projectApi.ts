@@ -1,11 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateProject } from "../types/ProjectTypes";
+const BASE_URL_FROM_ENV = import.meta.env.VITE_BASE_URL;
 
 export interface Project extends CreateProject {
   _id: string;
 }
 
-const BASE_URL = "http://localhost:5000/api/v10/project";
+const BASE_URL = `${BASE_URL_FROM_ENV}/api/v10/project`;
 
 // Generic API request function
 async function apiRequest<T>(

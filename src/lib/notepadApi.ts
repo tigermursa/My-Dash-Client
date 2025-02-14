@@ -1,6 +1,7 @@
 import { ApiOptions } from "../types/AuthTypes";
+const BASE_URL_FROM_ENV = import.meta.env.VITE_BASE_URL;
 
-const baseURL = "http://localhost:5000/api/v4/notepad";
+const baseURL = `${BASE_URL_FROM_ENV}/api/v4/notepad`;
 
 // Centralized API request handler
 const apiRequest = async <T>(

@@ -1,13 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateExperience } from "../types/ExperienceType";
 
-// Define the Experience interfaces
+const BASE_URL_FROM_ENV = import.meta.env.VITE_BASE_URL;
 
 export interface Experience extends CreateExperience {
   _id: string;
 }
 
-const BASE_URL = "http://localhost:5000/api/v9/experience";
+const BASE_URL = `${BASE_URL_FROM_ENV}/api/v9/experience`;
 
 // Generic API request function
 async function apiRequest<T>(

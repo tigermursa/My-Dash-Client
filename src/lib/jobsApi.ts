@@ -5,8 +5,9 @@ import {
   JobResponseGet,
 } from "../types/JobsTypes";
 import { ApiOptions } from "../types/SkillTypes";
+const BASE_URL_FROM_ENV = import.meta.env.VITE_BASE_URL;
 
-const jobsBaseURL = "http://localhost:5000/api/v6/jobs";
+const jobsBaseURL = `${BASE_URL_FROM_ENV}/api/v6/jobs`;
 
 const apiRequest = async <T>(
   endpoint: string,

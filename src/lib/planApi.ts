@@ -1,6 +1,7 @@
 import { AllTasks } from "../types/PlanTypes";
+const BASE_URL_FROM_ENV = import.meta.env.VITE_BASE_URL;
 
-const BASE_URL = "http://localhost:5000/api/v3/plan";
+const BASE_URL = `${BASE_URL_FROM_ENV}/api/v3/plan`;
 
 type TaskBody = {
   userID: string;

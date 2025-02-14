@@ -1,6 +1,7 @@
 import { ApiOptions, ApiResponse, NavItem } from "../types/NavTypes";
+const BASE_URL_FROM_ENV = import.meta.env.VITE_BASE_URL;
 
-const baseURL = "http://localhost:5000/api/v1/nav-items";
+const baseURL = `${BASE_URL_FROM_ENV}/api/v1/nav-items`;
 
 // Centralized API request handler
 const apiRequest = async <T>(

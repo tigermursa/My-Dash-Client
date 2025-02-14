@@ -1,13 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateBookmark } from "../types/BookmarksTypes";
 
+const BASE_URL_FROM_ENV = import.meta.env.VITE_BASE_URL;
+
 // Define the bookmark interfaces
 
 export interface Bookmark extends CreateBookmark {
   _id: string;
 }
 
-const BASE_URL = "http://localhost:5000/api/v7/bookmarks";
+const BASE_URL = `${BASE_URL_FROM_ENV}/api/v7/bookmarks`;
 
 // Generic API request function
 async function apiRequest<T>(

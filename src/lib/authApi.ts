@@ -1,6 +1,7 @@
 import { ApiOptions, GetUserResponse, IUser } from "../types/AuthTypes";
+const BASE_URL_FROM_ENV = import.meta.env.VITE_BASE_URL;
 
-const baseURL = "http://localhost:5000/api/v2/user";
+const baseURL = `${BASE_URL_FROM_ENV}/api/v2/user`;
 
 // Centralized API request handler
 const apiRequest = async <T>(
