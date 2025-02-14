@@ -1,3 +1,5 @@
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 import {
   ApiOptions,
   Skill,
@@ -5,7 +7,7 @@ import {
   SkillRequestPayload,
 } from "../types/SkillTypes";
 
-const baseURL = "http://localhost:5000/api/v5/skills";
+const baseURL = `${BASE_URL}/api/v5/skills`;
 
 const apiRequest = async <T>(
   endpoint: string,
