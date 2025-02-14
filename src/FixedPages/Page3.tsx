@@ -6,7 +6,7 @@ import {
 } from "../lib/notepadApi";
 
 const Page3 = () => (
-  <div className="border-[2px] h-full border-gray-400 rounded-3xl">
+  <div className="md:border-[2px] h-full md:border-gray-400 rounded-3xl">
     <GenericEditor
       title="Notepad"
       icon="ph:pencil-line-bold"
