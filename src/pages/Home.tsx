@@ -95,7 +95,7 @@ const Home = () => {
     );
 
   return (
-    <div className="p-6 dark:bg-gray-900 min-h-screen">
+    <div className="p-6 dark:bg-gray-900  h-full">
       <h1 className="text-3xl font-bold mb-8 text-center dark:text-primary_one">
         <Icon icon="mdi:chart-box" className="inline mr-2 text-primary_one" />
         <span className="bg-gradient-to-r from-primary_one to-primary_one bg-clip-text text-transparent">

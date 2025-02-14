@@ -15,8 +15,8 @@ export default function Sidebar() {
 
   // Fetching nav items from the backend with React Query
   const { data, error, isLoading } = useQuery({
-    queryKey: ["navitems", user?._id], // Use user ID as part of the query key
-    queryFn: () => fetchNavItemsByUser(user?._id as string), // Function that calls the API
+    queryKey: ["navitems", user?._id],
+    queryFn: () => fetchNavItemsByUser(user?._id as string),
     staleTime: 5 * 60 * 1000, // 5 minutes
     refetchOnWindowFocus: false,
     refetchOnMount: "always",

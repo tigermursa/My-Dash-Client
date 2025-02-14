@@ -24,7 +24,7 @@ const ColorPicker = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4  p-4  ">
+    <div className="p-2">
       <h3 className="text-sm font-semibold mb-2 dark:text-white">
         Choose Theme Color
       </h3>
@@ -33,7 +33,7 @@ const ColorPicker = () => {
           <button
             key={color}
             onClick={() => changeColor(color as string)}
-            className={`w-8 h-8 rounded-full border-2`}
+            className={` w-4 h-4 lg:w-8 lg:h-8 rounded-full lg:border-2`}
             style={{ backgroundColor: color }}
           />
         ))}
