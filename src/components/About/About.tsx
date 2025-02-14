@@ -20,9 +20,9 @@ const About = () => {
   };
 
   return (
-    <div className="h-[100%] flex items-center justify-center container-about  rounded-3xl z-10">
+    <div className="h-full flex items-center justify-center container-about  md:rounded-3xl z-10">
       <motion.div
-        className="max-w-2xl w-full p-6 md:p-8 rounded-xl bg-primary_one/10 backdrop-blur-sm md:border border-primary_one"
+        className="max-w-2xl w-full p-6 md:p-8 rounded-xl  h-full md:h-auto backdrop-blur-sm md:border border-primary_one"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
