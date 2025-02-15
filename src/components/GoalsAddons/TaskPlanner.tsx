@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Icon } from "@iconify/react";
 import useAuth from "../../hooks/useAuth";
 import { taskAPI } from "../../lib/planApi";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { AllTasks } from "../../types/PlanTypes";
 import { toast } from "react-toastify";
 import SimpleLoader from "../Ui/Loader/SimpleLoader";
@@ -33,7 +33,7 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
   } = useQuery<AllTasks[]>({
     queryKey: ["tasks", storageKey, userId],
     queryFn: () => taskAPI.getTasks(userId),
-    enabled: !!user?._id,
+    enabled: !!userId,
     select: (data) => data.filter((task) => task.title === storageKey),
   });
 
@@ -205,8 +205,15 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
     }
   };
 
-  const pendingTasks = tasks.filter((task) => !task.isCompleted).length;
-  const completedTasks = tasks.length - pendingTasks;
+  // Using useMemo to memoize computed values
+  const pendingTasks = useMemo(
+    () => tasks.filter((task) => !task.isCompleted).length,
+    [tasks]
+  );
+  const completedTasks = useMemo(
+    () => tasks.length - pendingTasks,
+    [tasks, pendingTasks]
+  );
 
   if (isLoading)
     return (
