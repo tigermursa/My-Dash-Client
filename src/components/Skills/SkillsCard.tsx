@@ -10,72 +10,45 @@ interface SkillCardProps {
 }
 
 const SkillCard: React.FC<SkillCardProps> = ({ skill, onEdit, onDelete }) => {
-  // Determine the icon for a given skill name.
-  const getSkillIcon = (skillName: string) => {
-    const icons: Record<string, string> = {
-      react: "mdi:react",
-      "node.js": "mdi:nodejs",
-      typescript: "mdi:language-typescript",
-      python: "mdi:language-python",
-      graphql: "mdi:graphql",
-      aws: "mdi:aws",
-      docker: "mdi:docker",
-    };
-    return icons[skillName.toLowerCase()] || "mdi:code-brackets";
-  };
-
-  // Render star icons based on proficiency level.
-  const getLevelStars = (level: string) => {
-    const starCount = { beginner: 1, medium: 2, advanced: 3 }[level] ?? 1;
-    return Array.from({ length: 3 }).map((_, i) => (
-      <Icon
-        key={i}
-        icon={i < starCount ? "mdi:star" : "mdi:star-outline"}
-        className={`text-lg ${
-          i < starCount ? "text-yellow-400" : "text-gray-300"
-        }`}
-      />
-    ));
-  };
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg group hover:bg-gradient-to-r from-primary_one/5 to-primary_one/5 transition-all"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="grid grid-cols-12 items-center gap-4 px-4 py-3 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
     >
-      <div className="flex items-center gap-4">
-        <div className="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-          <Icon
-            icon={getSkillIcon(skill.skillName)}
-            className="text-2xl text-primary_one"
-          />
-        </div>
-        <div className="flex-1">
-          <h3 className="font-semibold dark:text-gray-200">
-            {skill.skillName}
-          </h3>
-          {skill.category !== "plan-to-learn" && (
-            <div className="flex items-center gap-1 mt-1">
-              {getLevelStars(skill.level)}
-            </div>
-          )}
-        </div>
-        <div className="flex gap-2">
-          <button
-            onClick={onEdit}
-            className="text-gray-400 hover:text-primary_one transition-colors"
-          >
-            <Icon icon="mdi:pencil" className="text-lg" />
-          </button>
-          <button
-            onClick={onDelete}
-            className="text-gray-400 hover:text-red-500 transition-colors"
-          >
-            <Icon icon="mdi:delete" className="text-lg" />
-          </button>
-        </div>
+      {/* Name */}
+      <div className="col-span-4">
+        <span className="font-medium dark:text-gray-200 truncate">
+          {skill.skillName}
+        </span>
+      </div>
+      {/* Category */}
+      <div className="col-span-4">
+        <span className="text-sm text-gray-600 dark:text-gray-400 capitalize">
+          {skill.category}
+        </span>
+      </div>
+      {/* Level */}
+      <div className="col-span-2">
+        <span className="text-sm text-gray-600 dark:text-gray-400 capitalize">
+          {skill.level}
+        </span>
+      </div>
+      {/* Actions */}
+      <div className="col-span-2 flex justify-end gap-3">
+        <button
+          onClick={onEdit}
+          className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+        >
+          <Icon icon="ph:pencil-simple-line" className="text-lg" />
+        </button>
+        <button
+          onClick={onDelete}
+          className="text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+        >
+          <Icon icon="ph:trash-simple" className="text-lg" />
+        </button>
       </div>
     </motion.div>
   );

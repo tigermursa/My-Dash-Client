@@ -105,18 +105,13 @@ const Skills = () => {
     level: "medium",
   };
 
-  // Map editingSkill to the expected SkillFormData type
+  // Determine initial form values for editing or creating
   const formInitialValues: SkillFormData = editingSkill
     ? {
         _id: editingSkill._id,
         skillName: editingSkill.skillName,
-        // Cast or map the category and level to the literal types
-        category: editingSkill.category as
-          | "frontend"
-          | "backend"
-          | "tool"
-          | "plan-to-learn",
-        level: editingSkill.level as "beginner" | "medium" | "advanced",
+        category: editingSkill.category as SkillFormData["category"],
+        level: editingSkill.level as SkillFormData["level"],
       }
     : defaultFormValues;
 
@@ -132,14 +127,6 @@ const Skills = () => {
     );
   }
 
-  // Define the available categories
-  const categories: Skill["category"][] = [
-    "frontend",
-    "backend",
-    "tool",
-    "plan-to-learn",
-  ];
-
   return (
     <motion.div
       initial="hidden"
@@ -152,7 +139,7 @@ const Skills = () => {
         <div className="flex justify-between items-center mb-8">
           <motion.h1
             variants={fadeIn("down", 0.2)}
-            className="text-3xl hidden md:block font-bold bg-gradient-to-r from-primary_one to-primary_one bg-clip-text text-transparent"
+            className="text-3xl font-bold bg-gradient-to-r from-primary_one to-primary_one bg-clip-text text-transparent"
           >
             <Icon icon="mdi:brain" className="inline mr-2 text-primary_one" />
             Technical Expertise
@@ -173,55 +160,42 @@ const Skills = () => {
           </motion.button>
         </div>
 
-        {/* Skill Categories and Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories.map((category) => (
-            <motion.div
-              key={category}
-              variants={fadeIn("up", 0.4)}
-              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl border border-primary_one/20"
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-primary_one/10 rounded-lg">
-                  <Icon
-                    icon={
-                      category === "frontend"
-                        ? "mdi:monitor"
-                        : category === "backend"
-                        ? "mdi:server"
-                        : category === "tool"
-                        ? "mdi:tools"
-                        : category === "plan-to-learn"
-                        ? "mdi:book-arrow-right"
-                        : "mdi:code-braces"
-                    }
-                    className="text-3xl text-primary_one"
-                  />
-                </div>
-                <h2 className="text-xl font-semibold dark:text-primary_one">
-                  {category === "plan-to-learn"
-                    ? "Plan to Learn"
-                    : `${category} Stack`}
-                </h2>
-              </div>
-              <div className="grid gap-4">
-                {skills
-                  .filter((skill) => skill.category === category)
-                  .map((skill) => (
-                    <SkillCard
-                      key={skill._id}
-                      skill={skill}
-                      onEdit={() => {
-                        setEditingSkill(skill);
-                        setIsModalOpen(true);
-                      }}
-                      onDelete={() => handleDeleteSkill(skill._id)}
-                    />
-                  ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {/* Skills Table */}
+        <motion.div
+          variants={fadeIn("up", 0.4)}
+          className="border rounded-lg overflow-hidden dark:border-gray-700"
+        >
+          {/* Table Header */}
+          <div className="grid grid-cols-12 gap-4 px-4 py-2 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+            <div className="col-span-4 text-xs font-medium text-gray-500">
+              Name
+            </div>
+            <div className="col-span-4 text-xs font-medium text-gray-500">
+              Category
+            </div>
+            <div className="col-span-2 text-xs font-medium text-gray-500">
+              Level
+            </div>
+            <div className="col-span-2 text-xs text-end font-medium text-gray-500">
+              Action
+            </div>
+          </div>
+
+          {/* Skills List */}
+          <AnimatePresence>
+            {skills.map((skill) => (
+              <SkillCard
+                key={skill._id}
+                skill={skill}
+                onEdit={() => {
+                  setEditingSkill(skill);
+                  setIsModalOpen(true);
+                }}
+                onDelete={() => handleDeleteSkill(skill._id)}
+              />
+            ))}
+          </AnimatePresence>
+        </motion.div>
 
         {/* Modal Form */}
         <AnimatePresence>
