@@ -90,7 +90,7 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
       );
       return { previousTasks };
     },
-    onError: (error, taskId, context) => {
+    onError: (error, _taskId, context) => {
       if (context?.previousTasks) {
         queryClient.setQueryData<AllTasks[]>(
           ["tasks", storageKey, userId],
@@ -98,6 +98,7 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
         );
       }
       toast.error("Error updating task!");
+      console.log(error);
     },
     onSettled: () => {
       queryClient.invalidateQueries({
@@ -136,13 +137,14 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
       );
       return { previousTasks };
     },
-    onError: (error, taskId, context) => {
+    onError: (error, _taskId, context) => {
       if (context?.previousTasks) {
         queryClient.setQueryData<AllTasks[]>(
           ["tasks", storageKey, userId],
           context.previousTasks
         );
       }
+      console.log(error);
       toast.error("Error updating task!");
     },
     onSettled: () => {
@@ -179,13 +181,14 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
       );
       return { previousTasks };
     },
-    onError: (error, taskId, context) => {
+    onError: (error, _taskId, context) => {
       if (context?.previousTasks) {
         queryClient.setQueryData<AllTasks[]>(
           ["tasks", storageKey, userId],
           context.previousTasks
         );
       }
+      console.log(error);
       toast.error("Error deleting task!");
     },
     onSettled: () => {
