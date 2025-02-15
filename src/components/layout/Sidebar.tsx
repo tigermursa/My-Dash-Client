@@ -7,6 +7,7 @@ import useAuth from "../../hooks/useAuth";
 import { NavItem } from "../../types/NavTypes";
 import LogoutButton from "../Ui/Buttons/LogoutButton/LogoutButton";
 import ThemeToggle from "../ThemeToggle";
+import SimpleLoader from "../Ui/Loader/SimpleLoader";
 
 export default function Sidebar() {
   const location = useLocation();
@@ -26,7 +27,11 @@ export default function Sidebar() {
 
   // Handle loading and error states
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <aside className=" w-64 bg-gray-50 dark:bg-primarydarkbg shadow-md lg:flex flex-col transition-colors duration-200 m-5 border dark:border-primary_one rounded-3xl">
+        <SimpleLoader />
+      </aside>
+    );
   }
 
   if (error instanceof Error) {

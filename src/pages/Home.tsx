@@ -17,6 +17,7 @@ import useAuth from "../hooks/useAuth";
 import { taskAPI } from "../lib/planApi";
 import { AllTasks } from "../types/PlanTypes";
 import { Icon } from "@iconify/react";
+import SimpleLoader from "../components/Ui/Loader/SimpleLoader";
 
 // Updated color scheme based on your tailwind config
 const COLORS = [
@@ -86,7 +87,7 @@ const Home = () => {
   if (isLoading)
     return (
       <div className="text-center p-8 text-primary_one">
-        Loading statistics...
+        <SimpleLoader />
       </div>
     );
   if (isError)

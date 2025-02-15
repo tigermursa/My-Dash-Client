@@ -12,6 +12,7 @@ import { DateEvent } from "../types/EventTypes";
 import EventForm from "../components/Event/EventForm";
 import EventCard from "../components/Event/EventCard";
 import { toast } from "react-toastify";
+import SimpleLoader from "../components/Ui/Loader/SimpleLoader";
 
 interface ApiResponse {
   dateEvents: DateEvent[];
@@ -65,7 +66,11 @@ const Dates = () => {
   };
 
   if (isLoading)
-    return <div className="text-primary_one dark:text-white">Loading...</div>;
+    return (
+      <div>
+        <SimpleLoader />
+      </div>
+    );
   if (isError) return <div className="text-red-500">Error fetching events</div>;
 
   return (
