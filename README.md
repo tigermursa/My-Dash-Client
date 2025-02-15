@@ -7,3 +7,5 @@ To do :
 5. Have to fix the theme issue planning to add the theme data in user info
 6. streaks and book list remove from backend
 7. Found some loading related issue will fix them soon
+8. Have to update the auth form
+9. have to work with the todo page state
