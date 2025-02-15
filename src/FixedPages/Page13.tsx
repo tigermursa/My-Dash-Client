@@ -42,7 +42,7 @@ const Dates = () => {
     }
     setIsModalOpen(true);
   };
-
+  console.log("date", data);
   // Handle form submission for create/update.
   const handleFormSubmit = async (formData: DateEvent) => {
     if (selectedEvent) {
@@ -107,7 +107,7 @@ const Dates = () => {
       </AnimatePresence>
 
       {dateEvents.length !== 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 ">
           {dateEvents.map((event) => (
             <EventCard
               key={event._id}
