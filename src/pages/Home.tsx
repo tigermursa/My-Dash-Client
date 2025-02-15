@@ -262,9 +262,15 @@ const Home = () => {
                 <p className="text-sm text-primary_one dark:text-primary_one">
                   Completed: {category.completed}
                 </p>
-                <p className="text-sm text-primary_one dark:text-red-600">
-                  Pending: {category.pending}
-                </p>
+                {category.pending ? (
+                  <p className="text-sm text-primary_one dark:text-red-600">
+                    Pending: {category.pending}
+                  </p>
+                ) : (
+                  <p className="text-sm text-primary_one dark:text-green-600">
+                    Pending: {category.pending}
+                  </p>
+                )}
               </div>
               <Icon
                 icon={
