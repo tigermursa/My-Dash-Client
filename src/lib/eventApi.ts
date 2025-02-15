@@ -7,7 +7,7 @@ export interface Event extends CreateEvent {
   _id: string;
 }
 
-const BASE_URL = `${BASE_URL_FROM_ENV}/api/v8/events"`;
+const BASE_URL = `${BASE_URL_FROM_ENV}/api/v8/events`;
 
 async function apiRequest<T>(
   endpoint: string,

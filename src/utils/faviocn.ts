@@ -12,7 +12,7 @@ export function updateFavicon(color: string): void {
   const svgString = generateFaviconSvg(color);
   const encoded = encodeURIComponent(svgString)
     .replace(/'/g, "%27")
-    .replace(/"/g, "%22");
+    .replace(/"/g, "%29");
   const dataUrl = `data:image/svg+xml,${encoded}`;
   let link = document.querySelector(
     'link[rel="icon"]'
