@@ -21,6 +21,7 @@ export default function AuthForm({ type }: AuthFormProps) {
     e.preventDefault();
     setError(null);
     setLoading(true);
+
     try {
       let response: responseType | null = null;
 
@@ -28,15 +29,16 @@ export default function AuthForm({ type }: AuthFormProps) {
         const user = await signupUser({ username: name, email, password });
         response = {
           ...user,
-          message: "Signup successful", // Add a default message
+          message: "Signup successful", // default message
         };
         toast.success("Welcome to MyDash!");
       } else {
         const user = await signinUser({ email, password });
         response = {
           ...user,
-          message: "Signin successful", // Add a default message
+          message: "Signin successful", // default message
         };
+        console.log(response.message);
         toast.success("Welcome back to MyDash!");
       }
 
@@ -45,9 +47,26 @@ export default function AuthForm({ type }: AuthFormProps) {
       }
 
       navigate("/");
-    } catch (error) {
-      console.error("Auth API Error:", error);
-      setError("Error calling the auth API");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error(error);
+      // Set a default error message
+      let errorMessage = "Error calling the auth API";
+
+      // Check if the error response has additional details (common with Axios)
+      if (error.response && error.response.data) {
+        if (typeof error.response.data === "string") {
+          errorMessage = error.response.data;
+        } else if (error.response.data.message) {
+          errorMessage = error.response.data.message;
+        } else if (Array.isArray(error.response.data)) {
+          errorMessage = error.response.data.join(", ");
+        }
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
