@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import "./About.css";
+
 const About = () => {
   // Animation variants
   const containerVariants = {
@@ -20,21 +21,24 @@ const About = () => {
   };
 
   return (
-    <div className="h-full flex items-center justify-center container-about  md:rounded-3xl z-10">
+    <div className="h-full flex items-center justify-center container-about md:rounded-3xl z-10">
       <motion.div
-        className="max-w-2xl w-full p-6 md:p-8 rounded-xl  h-full md:h-auto backdrop-blur-sm md:border border-primary_one"
+        className="motion-container max-w-2xl m-0 md:m-5 w-full p-6 md:p-8 rounded-xl md:h-auto backdrop-blur-sm 2xl:border border-primary_one"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {/* Header */}
-        <motion.div className="text-center mb-6" variants={itemVariants}>
+        <motion.div
+          className="text-center mb-6 about-header"
+          variants={itemVariants}
+        >
           <Icon
             icon="mdi:help-circle-outline"
             className="text-6xl text-primary_one mx-auto"
           />
           <motion.h1
-            className="text-3xl font-bold text-primary_one mt-4"
+            className=" text-xl 2xl:text-3xl font-bold text-primary_one mt-4"
             variants={itemVariants}
           >
             Welcome to Mydash
@@ -45,7 +49,10 @@ const About = () => {
         </motion.div>
 
         {/* Description */}
-        <motion.div className="space-y-4" variants={itemVariants}>
+        <motion.div
+          className="space-y-4 about-description"
+          variants={itemVariants}
+        >
           <motion.p className="dark:text-white" variants={itemVariants}>
             Mydash is designed to help you stay organized, track your goals, and
             manage your tasks efficiently. Whether you're working on projects,
