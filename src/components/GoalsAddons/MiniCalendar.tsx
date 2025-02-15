@@ -11,7 +11,7 @@ const MiniCalendar = () => {
   const [date, setDate] = useState<Value>(new Date());
 
   return (
-    <div className="mini-calendar ">
+    <div className="mini-calendar">
       <Calendar
         value={date}
         onChange={setDate as (value: Value) => void}
@@ -28,6 +28,10 @@ const MiniCalendar = () => {
           if (date.getDay() === 5) return "red-day"; // Fridays
           return "blue-day";
         }}
+        // Format header to show only the month
+        formatMonthYear={(locale, date) =>
+          date.toLocaleDateString(locale, { month: "long" })
+        }
       />
     </div>
   );
