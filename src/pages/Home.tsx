@@ -105,7 +105,7 @@ const Home = () => {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="bg-primary_one/10 dark:bg-primary_one/30 p-4 rounded-lg border border-primary_one/20">
+        <div className="bg-primary_one/10 dark:bg-primary_one/30 p-4 rounded-lg border border-primary_one">
           <h3 className="text-primary_one dark:text-primary_one">
             <Icon icon="mdi:check-circle" className="inline mr-2" />
             Completed Tasks
@@ -114,7 +114,7 @@ const Home = () => {
             {totals.completed}
           </p>
         </div>
-        <div className="bg-primary_one/10 dark:bg-primary_one/30 p-4 rounded-lg border border-primary_one/20">
+        <div className="bg-primary_one/10 dark:bg-primary_one/30 p-4 rounded-lg border border-primary_one">
           <h3 className="text-primary_one dark:text-gray-50">
             <Icon icon="mdi:alert-circle" className="inline mr-2" />
             Pending Tasks
@@ -123,7 +123,7 @@ const Home = () => {
             {totals.pending}
           </p>
         </div>
-        <div className="bg-primary_one/10 dark:bg-primary_one/30 p-4 rounded-lg border border-primary_one/20">
+        <div className="bg-primary_one/10 dark:bg-primary_one/30 p-4 rounded-lg border border-primary_one">
           <h3 className="text-primary_one dark:text-yellow-500">
             <Icon icon="mdi:star" className="inline mr-2" />
             Important Tasks
@@ -137,7 +137,7 @@ const Home = () => {
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Task Distribution Pie Chart */}
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-primary_one/20">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-primary_one">
           <h2 className="text-xl font-semibold mb-4 dark:text-primary_one">
             <Icon
               icon="mdi:chart-pie"
@@ -184,7 +184,7 @@ const Home = () => {
         </div>
 
         {/* Progress Bar Chart */}
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-primary_one/20">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-primary_one">
           <h2 className="text-xl font-semibold mb-4 dark:text-primary_one">
             <Icon
               icon="mdi:chart-bar"
@@ -202,6 +202,7 @@ const Home = () => {
               />
               <YAxis tick={{ fill: "#3cbc78" }} stroke="#3cbc78" />
               <Tooltip
+                cursor={false}
                 contentStyle={{
                   backgroundColor: "#1e232f",
                   border: "1px solid #3cbc78",
@@ -220,12 +221,14 @@ const Home = () => {
                 fill="#3cbc78"
                 name="Completed Tasks"
                 radius={[4, 4, 0, 0]}
+                barSize={10}
               />
               <Bar
                 dataKey="pending"
                 fill="#49e7a5"
                 name="Pending Tasks"
                 radius={[4, 4, 0, 0]}
+                barSize={10}
               />
             </BarChart>
           </ResponsiveContainer>
