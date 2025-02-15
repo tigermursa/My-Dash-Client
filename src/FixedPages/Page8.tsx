@@ -4,7 +4,6 @@ import { Icon } from "@iconify/react";
 import { JobApplication } from "../types/JobsTypes";
 import { fetchJobs, createJob, updateJob, deleteJob } from "../lib/jobsApi";
 import useAuth from "../hooks/useAuth";
-
 import { fadeIn, staggerContainer } from "../utils/motions";
 import JobInfoCard from "../components/JobTracker/JobInfoCard";
 import JobForm from "../components/JobTracker/JobForm";
@@ -21,77 +20,55 @@ const JobTracker: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load the job applications
-  useEffect(() => {
-    const loadApplications = async () => {
-      try {
-        setLoading(true);
-        const jobs = await fetchJobs(userId);
-        setApplications(jobs);
-        setError(null);
-      } catch (err) {
-        console.error(err);
-        setError("Failed to load applications. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (userId) {
-      loadApplications();
+  const loadApplications = async () => {
+    try {
+      setLoading(true);
+      const jobs = await fetchJobs(userId);
+      setApplications(jobs);
+      setError(null);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load applications. Please try again later.");
+    } finally {
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    if (userId) loadApplications();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
-  // Handles the form submission for create/update
   const handleFormSubmit = async (data: JobApplication) => {
     try {
-      // Add userId (and ensure appliedDate is an ISO string) before sending
       const payload = { ...data, userId };
 
       if (editingJob) {
-        const updatedJob = await updateJob(editingJob._id!, payload);
-        setApplications((prev) =>
-          prev.map((job) => (job?._id === updatedJob?._id ? updatedJob : job))
-        );
+        await updateJob(editingJob._id!, payload);
+        toast.success("Application updated successfully!");
       } else {
-        const newJob = await createJob(payload);
-        setApplications((prev) => [...prev, newJob]);
+        await createJob(payload);
+        toast.success("Application created successfully!");
       }
 
+      await loadApplications();
       setIsModalOpen(false);
       setEditingJob(null);
     } catch (err) {
       console.error(err);
-      setError("Failed to save application. Please try again.");
+      toast.error("Failed to save application. Please try again.");
     }
   };
 
-  // Delete a job application
   const handleDelete = async (jobId: string) => {
     try {
       await deleteJob(userId, jobId);
-      setApplications((prev) => prev.filter((job) => job._id !== jobId));
-      toast.success("Deleted Application");
+      await loadApplications();
+      toast.success("Application deleted successfully!");
     } catch (err) {
       console.error(err);
-      setError("Failed to delete application. Please try again.");
+      toast.error("Failed to delete application. Please try again.");
     }
-  };
-
-  // Helpers to open/close the modal
-  const openAddModal = () => {
-    setEditingJob(null);
-    setIsModalOpen(true);
-  };
-
-  const openEditModal = (job: JobApplication) => {
-    setEditingJob(job);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setEditingJob(null);
   };
 
   return (
@@ -99,13 +76,13 @@ const JobTracker: React.FC = () => {
       initial="hidden"
       animate="show"
       variants={staggerContainer(0.1, 0.2)}
-      className="p-6 dark:bg-gray-900 h-full mt-20 md:mt-10 lg:mt-0 "
+      className="p-6 dark:bg-gray-900 h-full mt-20 md:mt-10 lg:mt-0"
     >
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <motion.h1
             variants={fadeIn("down", 0.2)}
-            className="text-3xl font-bold bg-gradient-to-r from-primary_one to-primary_one bg-clip-text text-transparent  hidden md:block"
+            className="text-3xl font-bold bg-gradient-to-r from-primary_one to-primary_one bg-clip-text text-transparent hidden md:block"
           >
             <Icon
               icon="mdi:briefcase"
@@ -115,7 +92,7 @@ const JobTracker: React.FC = () => {
           </motion.h1>
           <motion.button
             variants={fadeIn("left", 0.4)}
-            onClick={openAddModal}
+            onClick={() => setIsModalOpen(true)}
             className="bg-primary_one hover:bg-primary_one text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2 group"
           >
             <Icon
@@ -134,13 +111,16 @@ const JobTracker: React.FC = () => {
           </div>
         )}
 
-        {applications.length !== 0 ? (
+        {applications.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {applications?.map((app) => (
+            {applications.map((app) => (
               <JobInfoCard
-                key={app?._id}
+                key={app._id}
                 job={app}
-                onEdit={openEditModal}
+                onEdit={(job) => {
+                  setEditingJob(job);
+                  setIsModalOpen(true);
+                }}
                 onDelete={handleDelete}
               />
             ))}
@@ -152,7 +132,7 @@ const JobTracker: React.FC = () => {
               className="text-4xl text-gray-400"
             />
             <p className="mt-2 text-lg text-gray-400">
-              You did't add any job application
+              You haven't added any job applications
             </p>
           </div>
         )}
@@ -161,8 +141,10 @@ const JobTracker: React.FC = () => {
           {isModalOpen && (
             <JobForm
               onSubmit={handleFormSubmit}
-              onCancel={closeModal}
-              // Pass editingJob (or an empty object for new) so the form fields are prefilled for edits
+              onCancel={() => {
+                setIsModalOpen(false);
+                setEditingJob(null);
+              }}
               defaultValues={editingJob || {}}
               isEditing={Boolean(editingJob)}
             />
