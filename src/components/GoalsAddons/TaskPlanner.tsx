@@ -5,10 +5,16 @@ import { taskAPI } from "../../lib/planApi";
 import { useState } from "react";
 import { AllTasks } from "../../types/PlanTypes";
 import { toast } from "react-toastify";
+import SimpleLoader from "../Ui/Loader/SimpleLoader";
 
 interface TaskPlannerProps {
   title: string;
   storageKey: "todo" | "week" | "month" | "year";
+}
+
+// Type for the context returned from onMutate
+interface OptimisticUpdateContext {
+  previousTasks: AllTasks[] | undefined;
 }
 
 const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
@@ -16,23 +22,26 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
   const queryClient = useQueryClient();
   const [newTask, setNewTask] = useState("");
 
+  // Use userId or an empty string if not available
+  const userId = user?._id || "";
+
   // Fetch tasks from API
   const {
     data: tasks = [],
     isLoading,
     isError,
   } = useQuery<AllTasks[]>({
-    queryKey: ["tasks", storageKey, user?._id],
-    queryFn: () => taskAPI.getTasks(user?._id || ""),
+    queryKey: ["tasks", storageKey, userId],
+    queryFn: () => taskAPI.getTasks(userId),
     enabled: !!user?._id,
     select: (data) => data.filter((task) => task.title === storageKey),
   });
 
-  // Create task mutation
-  const createMutation = useMutation({
+  // Create task mutation (no optimistic update here)
+  const createMutation = useMutation<AllTasks, Error, string>({
     mutationFn: (text: string) =>
       taskAPI.createTask({
-        userID: user?._id || "",
+        userID: userId,
         task: {
           text,
           title: storageKey,
@@ -41,50 +50,152 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks", storageKey] });
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", storageKey, userId],
+      });
       toast.success("Task created successfully!");
     },
     onError: (error: Error) => alert(error.message),
   });
 
-  // Toggle task completion
-  const toggleMutation = useMutation({
+  // Toggle task completion with optimistic update
+  const toggleMutation = useMutation<
+    AllTasks,
+    Error,
+    string,
+    OptimisticUpdateContext
+  >({
     mutationFn: (taskId: string) =>
       taskAPI.toggleComplete({
-        userID: user?._id || "",
+        userID: userId,
         taskId,
       }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks", storageKey] });
+    onMutate: async (taskId: string) => {
+      await queryClient.cancelQueries({
+        queryKey: ["tasks", storageKey, userId],
+      });
+      const previousTasks = queryClient.getQueryData<AllTasks[]>([
+        "tasks",
+        storageKey,
+        userId,
+      ]);
+      queryClient.setQueryData<AllTasks[]>(
+        ["tasks", storageKey, userId],
+        (old) =>
+          old?.map((task) =>
+            task.id === taskId
+              ? { ...task, isCompleted: !task.isCompleted }
+              : task
+          ) || []
+      );
+      return { previousTasks };
     },
-    onError: (error: Error) => alert(error.message),
+    onError: (error, taskId, context) => {
+      if (context?.previousTasks) {
+        queryClient.setQueryData<AllTasks[]>(
+          ["tasks", storageKey, userId],
+          context.previousTasks
+        );
+      }
+      toast.error("Error updating task!");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", storageKey, userId],
+      });
+    },
   });
 
-  // Toggle important mutation
-  const toggleImportantMutation = useMutation({
+  // Toggle important mutation with optimistic update
+  const toggleImportantMutation = useMutation<
+    AllTasks,
+    Error,
+    string,
+    OptimisticUpdateContext
+  >({
     mutationFn: (taskId: string) =>
       taskAPI.toggleImportant({
-        userID: user?._id || "",
+        userID: userId,
         taskId,
       }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks", storageKey] });
+    onMutate: async (taskId: string) => {
+      await queryClient.cancelQueries({
+        queryKey: ["tasks", storageKey, userId],
+      });
+      const previousTasks = queryClient.getQueryData<AllTasks[]>([
+        "tasks",
+        storageKey,
+        userId,
+      ]);
+      queryClient.setQueryData<AllTasks[]>(
+        ["tasks", storageKey, userId],
+        (old) =>
+          old?.map((task) =>
+            task.id === taskId ? { ...task, important: !task.important } : task
+          ) || []
+      );
+      return { previousTasks };
     },
-    onError: (error: Error) => alert(error.message),
+    onError: (error, taskId, context) => {
+      if (context?.previousTasks) {
+        queryClient.setQueryData<AllTasks[]>(
+          ["tasks", storageKey, userId],
+          context.previousTasks
+        );
+      }
+      toast.error("Error updating task!");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", storageKey, userId],
+      });
+    },
   });
 
-  // Delete task mutation
-  const deleteMutation = useMutation({
+  // Delete task mutation with optimistic update
+  const deleteMutation = useMutation<
+    void,
+    Error,
+    string,
+    OptimisticUpdateContext
+  >({
     mutationFn: (taskId: string) =>
       taskAPI.deleteTask({
-        userID: user?._id || "",
+        userID: userId,
         taskId,
       }),
+    onMutate: async (taskId: string) => {
+      await queryClient.cancelQueries({
+        queryKey: ["tasks", storageKey, userId],
+      });
+      const previousTasks = queryClient.getQueryData<AllTasks[]>([
+        "tasks",
+        storageKey,
+        userId,
+      ]);
+      queryClient.setQueryData<AllTasks[]>(
+        ["tasks", storageKey, userId],
+        (old) => old?.filter((task) => task.id !== taskId) || []
+      );
+      return { previousTasks };
+    },
+    onError: (error, taskId, context) => {
+      if (context?.previousTasks) {
+        queryClient.setQueryData<AllTasks[]>(
+          ["tasks", storageKey, userId],
+          context.previousTasks
+        );
+      }
+      toast.error("Error deleting task!");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", storageKey, userId],
+      });
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks", storageKey] });
       toast.success("Task deleted successfully!");
     },
-    onError: (error: Error) => toast.error(error.message),
   });
 
   const addTask = () => {
@@ -97,7 +208,12 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
   const pendingTasks = tasks.filter((task) => !task.isCompleted).length;
   const completedTasks = tasks.length - pendingTasks;
 
-  if (isLoading) return <div className="p-4 text-center">Loading tasks...</div>;
+  if (isLoading)
+    return (
+      <div className="p-4 text-center">
+        <SimpleLoader />
+      </div>
+    );
   if (isError)
     return (
       <div className="p-4 text-center text-red-500">Error loading tasks</div>
@@ -113,18 +229,17 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
         <span className="flex gap-1 text-lg items-center">
           <Icon
             icon="mdi:receipt-text-pending"
-            className=" text-gray-800 dark:text-gray-100"
+            className="text-gray-800 dark:text-gray-100"
           />{" "}
-          Pending:
-          <span>{pendingTasks}</span>
+          Pending: <span>{pendingTasks}</span>
         </span>
 
         <span className="flex gap-1 text-lg items-center">
           <Icon
             icon="fluent-mdl2:completed-solid"
-            className=" text-green-800 dark:text-green-400"
-          />
-          Completed :<span> {completedTasks}</span>
+            className="text-green-800 dark:text-green-400"
+          />{" "}
+          Completed: <span>{completedTasks}</span>
         </span>
       </div>
 
@@ -163,6 +278,7 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
                   : "border-gray-200 dark:border-gray-700"
               }`}
             >
+              {/* Complete button */}
               <button
                 onClick={() => toggleMutation.mutate(task.id)}
                 className={`w-6 h-6 mr-3 flex items-center justify-center border rounded-md transition-colors ${
@@ -170,12 +286,13 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
                     ? "bg-green-500 border-green-500"
                     : "border-gray-300 dark:border-gray-500 hover:border-green-500"
                 }`}
-                disabled={toggleMutation.isPending}
+                disabled={createMutation.isPending}
               >
                 {task.isCompleted && (
                   <Icon icon="mdi:check" width={16} className="text-white" />
                 )}
               </button>
+
               <span
                 className={`flex-grow ${
                   task.isCompleted
@@ -185,20 +302,24 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
               >
                 {task.text}
               </span>
+
+              {/* Toggle important button */}
               <button
                 onClick={() => toggleImportantMutation.mutate(task.id)}
                 className="text-yellow-400 hover:text-yellow-500 ml-2 p-1"
-                disabled={toggleImportantMutation.isPending}
+                disabled={createMutation.isPending}
               >
                 <Icon
                   icon={task.important ? "mdi:star" : "mdi:star-outline"}
                   width={20}
                 />
               </button>
+
+              {/* Delete button */}
               <button
                 onClick={() => deleteMutation.mutate(task.id)}
                 className="text-red-500 hover:text-red-700 ml-2 p-1 rounded-full hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"
-                disabled={deleteMutation.isPending}
+                disabled={createMutation.isPending}
               >
                 <Icon icon="mdi:delete-outline" width={20} />
               </button>
