@@ -1,11 +1,12 @@
 import { Icon } from "@iconify/react";
 import { Link, useLocation } from "react-router-dom";
-import ThemeToggle from "../ThemeToggle";
+
 import { fetchNavItemsByUser } from "../../lib/navItemsApi";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import { NavItem } from "../../types/NavTypes";
 import LogoutButton from "../Ui/Buttons/LogoutButton/LogoutButton";
+import ThemeToggle from "../ThemeToggle";
 
 export default function Sidebar() {
   const location = useLocation();
