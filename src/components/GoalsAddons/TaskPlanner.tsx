@@ -80,8 +80,9 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
       );
       return { previousTasks };
     },
-    onError: (error, text, context) => {
+    onError: (error, _text, context) => {
       if (context?.previousTasks) {
+        console.log(error);
         queryClient.setQueryData<AllTasks[]>(
           ["tasks", storageKey, userId],
           context.previousTasks
@@ -133,6 +134,7 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
     },
     onError: (error, _taskId, context) => {
       if (context?.previousTasks) {
+        console.log(error);
         queryClient.setQueryData<AllTasks[]>(
           ["tasks", storageKey, userId],
           context.previousTasks
