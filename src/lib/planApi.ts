@@ -72,4 +72,15 @@ export const taskAPI = {
       body: JSON.stringify(payload),
     });
   },
+
+  updateTaskText: async (payload: {
+    userID: string;
+    taskId: string;
+    text: string;
+  }): Promise<AllTasks> => {
+    return handleRequest("/tasks/text", {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    });
+  },
 };

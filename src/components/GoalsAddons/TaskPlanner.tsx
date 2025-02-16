@@ -12,7 +12,7 @@ interface TaskPlannerProps {
   storageKey: "todo" | "week" | "month" | "year";
 }
 
-// Type for the context returned from onMutate
+// Context type for optimistic updates
 interface OptimisticUpdateContext {
   previousTasks: AllTasks[] | undefined;
 }
@@ -21,11 +21,14 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [newTask, setNewTask] = useState("");
+  // States to handle editing a task’s text
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+  const [editingText, setEditingText] = useState("");
 
   // Use userId or an empty string if not available
   const userId = user?._id || "";
 
-  // Fetch tasks from API
+  // Fetch tasks from API filtered by storageKey
   const {
     data: tasks = [],
     isLoading,
@@ -37,8 +40,13 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
     select: (data) => data.filter((task) => task.title === storageKey),
   });
 
-  // Create task mutation (no optimistic update here)
-  const createMutation = useMutation<AllTasks, Error, string>({
+  // Create task mutation with optimistic update
+  const createMutation = useMutation<
+    AllTasks,
+    Error,
+    string,
+    OptimisticUpdateContext
+  >({
     mutationFn: (text: string) =>
       taskAPI.createTask({
         userID: userId,
@@ -49,13 +57,46 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
           isCompleted: false,
         },
       }),
+    onMutate: async (text: string) => {
+      await queryClient.cancelQueries({
+        queryKey: ["tasks", storageKey, userId],
+      });
+      const previousTasks = queryClient.getQueryData<AllTasks[]>([
+        "tasks",
+        storageKey,
+        userId,
+      ]);
+      // Create a temporary task for immediate UI feedback
+      const newTaskOptimistic: AllTasks = {
+        id: "temp-" + Math.random().toString(36).substr(2, 9),
+        text,
+        title: storageKey,
+        important: false,
+        isCompleted: false,
+      };
+      queryClient.setQueryData<AllTasks[]>(
+        ["tasks", storageKey, userId],
+        (old) => (old ? [...old, newTaskOptimistic] : [newTaskOptimistic])
+      );
+      return { previousTasks };
+    },
+    onError: (error, text, context) => {
+      if (context?.previousTasks) {
+        queryClient.setQueryData<AllTasks[]>(
+          ["tasks", storageKey, userId],
+          context.previousTasks
+        );
+      }
+      toast.error("Error creating task!");
+    },
     onSuccess: () => {
+      toast.success("Task created successfully!");
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: ["tasks", storageKey, userId],
       });
-      toast.success("Task created successfully!");
     },
-    onError: (error: Error) => alert(error.message),
   });
 
   // Toggle task completion with optimistic update
@@ -98,7 +139,6 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
         );
       }
       toast.error("Error updating task!");
-      console.log(error);
     },
     onSettled: () => {
       queryClient.invalidateQueries({
@@ -107,7 +147,7 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
     },
   });
 
-  // Toggle important mutation with optimistic update
+  // Toggle important flag with optimistic update
   const toggleImportantMutation = useMutation<
     AllTasks,
     Error,
@@ -139,12 +179,12 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
     },
     onError: (error, _taskId, context) => {
       if (context?.previousTasks) {
+        console.log(error);
         queryClient.setQueryData<AllTasks[]>(
           ["tasks", storageKey, userId],
           context.previousTasks
         );
       }
-      console.log(error);
       toast.error("Error updating task!");
     },
     onSettled: () => {
@@ -183,12 +223,12 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
     },
     onError: (error, _taskId, context) => {
       if (context?.previousTasks) {
+        console.log(error);
         queryClient.setQueryData<AllTasks[]>(
           ["tasks", storageKey, userId],
           context.previousTasks
         );
       }
-      console.log(error);
       toast.error("Error deleting task!");
     },
     onSettled: () => {
@@ -201,6 +241,52 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
     },
   });
 
+  // Update task text mutation with optimistic update
+  const updateTextMutation = useMutation<
+    AllTasks,
+    Error,
+    { taskId: string; text: string },
+    OptimisticUpdateContext
+  >({
+    mutationFn: ({ taskId, text }) =>
+      taskAPI.updateTaskText({ userID: userId, taskId, text }),
+    onMutate: async ({ taskId, text }) => {
+      await queryClient.cancelQueries({
+        queryKey: ["tasks", storageKey, userId],
+      });
+      const previousTasks = queryClient.getQueryData<AllTasks[]>([
+        "tasks",
+        storageKey,
+        userId,
+      ]);
+      queryClient.setQueryData<AllTasks[]>(
+        ["tasks", storageKey, userId],
+        (old) =>
+          old?.map((task) => (task.id === taskId ? { ...task, text } : task)) ||
+          []
+      );
+      return { previousTasks };
+    },
+    onError: (error, _variables, context) => {
+      if (context?.previousTasks) {
+        console.log(error);
+        queryClient.setQueryData<AllTasks[]>(
+          ["tasks", storageKey, userId],
+          context.previousTasks
+        );
+      }
+      toast.error("Error updating task text!");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", storageKey, userId],
+      });
+    },
+    onSuccess: () => {
+      toast.success("Task text updated successfully!");
+    },
+  });
+
   const addTask = () => {
     if (newTask.trim()) {
       createMutation.mutate(newTask.trim());
@@ -208,7 +294,31 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
     }
   };
 
-  // Using useMemo to memoize computed values
+  // Start editing a task's text
+  const startEditing = (taskId: string, currentText: string) => {
+    setEditingTaskId(taskId);
+    setEditingText(currentText);
+  };
+
+  // Cancel editing mode
+  const cancelEditing = () => {
+    setEditingTaskId(null);
+    setEditingText("");
+  };
+
+  // Save the updated text
+  const saveEditing = () => {
+    if (editingTaskId && editingText.trim()) {
+      updateTextMutation.mutate({
+        taskId: editingTaskId,
+        text: editingText.trim(),
+      });
+      setEditingTaskId(null);
+      setEditingText("");
+    }
+  };
+
+  // Compute pending and completed task counts
   const pendingTasks = useMemo(
     () => tasks.filter((task) => !task.isCompleted).length,
     [tasks]
@@ -243,7 +353,6 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
           />{" "}
           Pending: <span>{pendingTasks}</span>
         </span>
-
         <span className="flex gap-1 text-lg items-center">
           <Icon
             icon="fluent-mdl2:completed-solid"
@@ -303,15 +412,54 @@ const TaskPlanner: React.FC<TaskPlannerProps> = ({ title, storageKey }) => {
                 )}
               </button>
 
-              <span
-                className={`flex-grow ${
-                  task.isCompleted
-                    ? "line-through text-gray-400"
-                    : "text-gray-700 dark:text-gray-300"
-                }`}
-              >
-                {task.text}
-              </span>
+              {/* Task text display or editing input */}
+              {editingTaskId === task.id ? (
+                <input
+                  type="text"
+                  value={editingText}
+                  onChange={(e) => setEditingText(e.target.value)}
+                  onKeyPress={(e) => e.key === "Enter" && saveEditing()}
+                  className="flex-grow p-2 border border-gray-300 rounded-md focus:outline-none dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                />
+              ) : (
+                <span
+                  className={`flex-grow ${
+                    task.isCompleted
+                      ? "line-through text-gray-400"
+                      : "text-gray-700 dark:text-gray-300"
+                  }`}
+                >
+                  {task.text}
+                </span>
+              )}
+
+              {/* Edit button or Save/Cancel controls */}
+              {editingTaskId === task.id ? (
+                <>
+                  <button
+                    onClick={saveEditing}
+                    className="ml-2 p-1 text-green-500 hover:text-green-600"
+                    disabled={updateTextMutation.isPending}
+                  >
+                    <Icon icon="mdi:check-bold" width={20} />
+                  </button>
+                  <button
+                    onClick={cancelEditing}
+                    className="ml-2 p-1 text-red-500 hover:text-red-600"
+                    disabled={updateTextMutation.isPending}
+                  >
+                    <Icon icon="mdi:close-thick" width={20} />
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => startEditing(task.id, task.text)}
+                  className="ml-2 p-1 text-blue-500 hover:text-blue-600"
+                  disabled={createMutation.isPending}
+                >
+                  <Icon icon="mdi:pencil-outline" width={20} />
+                </button>
+              )}
 
               {/* Toggle important button */}
               <button
