@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaChrome } from "react-icons/fa";
+import { FaChrome, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { signinUser, signupUser } from "../../lib/authApi";
 import { responseType } from "../../types/AuthTypes";
@@ -10,11 +10,17 @@ interface AuthFormProps {
 }
 
 export default function AuthForm({ type }: AuthFormProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // Pre-fill credentials for tester on sign-in
+  const [email, setEmail] = useState(
+    type === "sign-in" ? "testuser@example.com" : ""
+  );
+  const [password, setPassword] = useState(
+    type === "sign-in" ? "Password123@" : ""
+  );
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,16 +35,15 @@ export default function AuthForm({ type }: AuthFormProps) {
         const user = await signupUser({ username: name, email, password });
         response = {
           ...user,
-          message: "Signup successful", // default message
+          message: "Signup successful",
         };
         toast.success("Welcome to MyDash!");
       } else {
         const user = await signinUser({ email, password });
         response = {
           ...user,
-          message: "Signin successful", // default message
+          message: "Signin successful",
         };
-        console.log(response.message);
         toast.success("Welcome back to MyDash!");
       }
 
@@ -50,10 +55,8 @@ export default function AuthForm({ type }: AuthFormProps) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error(error);
-      // Set a default error message
       let errorMessage = "Error calling the auth API";
 
-      // Check if the error response has additional details (common with Axios)
       if (error.response && error.response.data) {
         if (typeof error.response.data === "string") {
           errorMessage = error.response.data;
@@ -139,23 +142,35 @@ export default function AuthForm({ type }: AuthFormProps) {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2 relative">
             <label
               htmlFor="password"
               className="block text-sm font-medium text-gray-200"
             >
               Password
             </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="••••••••"
-              required
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary_one focus:border-transparent"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                required
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary_one focus:border-transparent pr-10"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white focus:outline-none"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <FaEyeSlash className="h-5 w-5" />
+                ) : (
+                  <FaEye className="h-5 w-5" />
+                )}
+              </button>
+            </div>
           </div>
           <button
             type="submit"
@@ -173,13 +188,13 @@ export default function AuthForm({ type }: AuthFormProps) {
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-600"></div>
           </div>
-          <div className="relative  justify-center text-xs uppercase hidden">
+          <div className="relative justify-center text-xs uppercase hidden">
             <span className="bg-gray-800 px-2 text-gray-400">
               Or continue with
             </span>
           </div>
         </div>
-        <div className=" hidden">
+        <div className="hidden">
           <button
             onClick={() => handleSocialLogin("Google")}
             className="flex items-center justify-center w-full px-4 py-2 border border-gray-600 rounded-md text-gray-200 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
@@ -188,7 +203,7 @@ export default function AuthForm({ type }: AuthFormProps) {
           </button>
         </div>
       </div>
-      <div className="px-6 py-4  rounded-b-lg flex flex-wrap items-center justify-between gap-2">
+      <div className="px-6 py-4 rounded-b-lg flex flex-wrap items-center justify-between gap-2">
         <div className="text-sm text-gray-400">
           {type === "sign-in"
             ? "Don't have an account? "
