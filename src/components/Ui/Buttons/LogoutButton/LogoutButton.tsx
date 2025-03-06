@@ -30,7 +30,7 @@ export default function LogoutButton() {
         className="rounded hover:scale-110 transition disabled:opacity-50  mt-1"
       >
         {mutation.isPending ? (
-          "Logging out..."
+          "...."
         ) : (
           <svg
             xmlns="http://www.w3.org/2000/svg"
