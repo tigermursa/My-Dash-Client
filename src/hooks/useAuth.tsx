@@ -21,6 +21,7 @@ const useAuth = () => {
         _id: data.data._id,
         username: data.data.username,
         email: data.data.email,
+        role: data.data.role,
       }
     : null;
 

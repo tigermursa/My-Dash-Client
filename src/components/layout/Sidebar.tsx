@@ -41,7 +41,9 @@ export default function Sidebar() {
 
   const navData: NavItem[] = data?.data ?? [];
 
-  const navItems = navData.filter((item) => item.isShow);
+  const navItems = navData.filter(
+    (item) => item.isShow && (item.name !== "My Duty" || user?.role === "admin")
+  );
 
   // Group navItems by 'group' key
   const groupedNavItems: Record<string, NavItem[]> = navItems.reduce(
@@ -72,7 +74,7 @@ export default function Sidebar() {
             </div>
           </div>
         </div>
-        <nav className="px-2 flex-1 overflow-y-auto scrollbar-hide">
+        <nav className="px-2 flex-1 overflow-y-auto scrollbar-hide ">
           {Object.entries(groupedNavItems).map(([group, items], index, arr) => (
             <div key={group} className="mt-4">
               {/* Group Title */}
