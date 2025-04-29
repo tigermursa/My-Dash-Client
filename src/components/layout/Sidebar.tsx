@@ -111,11 +111,20 @@ export default function Sidebar() {
         {/* user info */}
         <div className="p-4 flex items-center space-x-4 border-t border-gray-600">
           <div className="relative">
-            <img
-              src="https://cdn.pixabay.com/photo/2024/03/15/19/51/ai-generated-8635685_960_720.png"
-              alt="User"
-              className="w-12 h-12 rounded-full object-cover border-2 border-primary_one"
-            />
+            {user?.role === "admin" ? (
+              <img
+                src="https://res.cloudinary.com/dvwmhlyd6/image/upload/v1737659925/ih651x0p8ojr5zrhogjq.png"
+                alt="User"
+                className="w-12 h-12 rounded-full object-cover border-2 border-primary_one"
+              />
+            ) : (
+              <img
+                src="https://cdn.pixabay.com/photo/2024/03/15/19/51/ai-generated-8635685_960_720.png"
+                alt="User"
+                className="w-12 h-12 rounded-full object-cover border-2 border-primary_one"
+              />
+            )}
+
             {user?.role && (
               <span className="absolute -top-3 left-4 rotate-12">
                 <Icon
