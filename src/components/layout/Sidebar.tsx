@@ -110,16 +110,29 @@ export default function Sidebar() {
         </nav>
         {/* user info */}
         <div className="p-4 flex items-center space-x-4 border-t border-gray-600">
-          <img
-            src="https://cdn.pixabay.com/photo/2024/03/15/19/51/ai-generated-8635685_960_720.png"
-            alt="User"
-            className="w-12 h-12 rounded-full object-cover border-2 border-primary_one"
-          />
+          <div className="relative">
+            <img
+              src="https://cdn.pixabay.com/photo/2024/03/15/19/51/ai-generated-8635685_960_720.png"
+              alt="User"
+              className="w-12 h-12 rounded-full object-cover border-2 border-primary_one"
+            />
+            {user?.role && (
+              <span className="absolute -top-3 left-4 rotate-12">
+                <Icon
+                  icon="lucide:crown"
+                  className="h-4 w-4 text-yellow-400 dark:text-yellow-400"
+                />
+              </span>
+            )}
+          </div>
+
           <div className="flex items-center space-x-2 truncate ">
             {user ? (
-              <span className="text-base truncate font-semibold text-gray-900 dark:text-white ">
-                {user?.username}
-              </span>
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-base truncate font-semibold text-gray-900 dark:text-white ">
+                  {user?.username}
+                </span>
+              </div>
             ) : (
               <span className="text-xl truncate font-semibold text-gray-900 dark:text-white">
                 Nazuku
