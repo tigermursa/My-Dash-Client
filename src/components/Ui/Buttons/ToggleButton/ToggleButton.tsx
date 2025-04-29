@@ -4,7 +4,7 @@ import "./ToggleButton.css";
 
 interface ToggleButtonProps {
   itemId: string; // The ID of the item whose isShow status will be toggled
-  initialIsShow: boolean; // The initial state of isShow
+  initialIsShow: boolean; // The initial state of isShow]
   refetch: () => void;
 }
 

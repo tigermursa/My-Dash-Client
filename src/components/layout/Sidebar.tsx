@@ -8,6 +8,7 @@ import { NavItem } from "../../types/NavTypes";
 import LogoutButton from "../Ui/Buttons/LogoutButton/LogoutButton";
 import ThemeToggle from "../ThemeToggle";
 import SimpleLoader from "../Ui/Loader/SimpleLoader";
+import MiniLoader from "../Ui/Loader/MiniLoader";
 
 export default function Sidebar() {
   const location = useLocation();
@@ -86,7 +87,7 @@ export default function Sidebar() {
                 <Link
                   key={item.id}
                   to={item.href}
-                  className={`mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md transition-colors duration-200 ${
+                  className={`mt-1 group flex  items-center px-2 py-2 text-base leading-6 font-medium rounded-md transition-colors duration-200 ${
                     pathname === item.href
                       ? "bg-gray-100 dark:bg-gray-200 dark:bg-opacity-10 text-gray-900 dark:text-white"
                       : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white"
@@ -96,7 +97,7 @@ export default function Sidebar() {
                     icon={item.icon}
                     className="mr-4 h-6 w-6 text-primary_one dark:text-primary_one"
                   />
-                  {item.name}
+                  {isLoading ? <MiniLoader /> : <p> {item.name}</p>}
                 </Link>
               ))}
 
