@@ -4,7 +4,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import {
-  getContentIdea,
+  getContentIdeaForIdeaTSX,
   updateContentIdea,
   clearContentIdea,
 } from "../../lib/notepadApi";
@@ -17,7 +17,7 @@ const Idea: React.FC = () => {
 
   const { data } = useQuery<{ contentIdea: string }, Error>({
     queryKey: ["notepad", user?._id],
-    queryFn: () => getContentIdea(user?._id as string),
+    queryFn: () => getContentIdeaForIdeaTSX(user?._id as string),
     enabled: !!user?._id,
     staleTime: 0,
     refetchOnWindowFocus: true,

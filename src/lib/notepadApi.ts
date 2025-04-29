@@ -38,6 +38,16 @@ export const getContentNotePad = async (userId: string) => {
   return { content: response.contentNotePad };
 };
 
+export const getContentNotePadForNotepadTSX = async (userId: string) => {
+  const response = await apiRequest<{ contentNotePad: string }>(
+    `/notepad/${userId}`,
+    {
+      method: "GET",
+    }
+  );
+  return { contentNotePad: response.contentNotePad };
+};
+
 export const getContentIdea = async (userId: string) => {
   const response = await apiRequest<{ contentIdea: string }>(
     `/idea/${userId}`,
@@ -46,6 +56,16 @@ export const getContentIdea = async (userId: string) => {
     }
   );
   return { content: response.contentIdea };
+};
+
+export const getContentIdeaForIdeaTSX = async (userId: string) => {
+  const response = await apiRequest<{ contentIdea: string }>(
+    `/idea/${userId}`,
+    {
+      method: "GET",
+    }
+  );
+  return { contentIdea: response.contentIdea };
 };
 
 export const updateContentNotePad = async (

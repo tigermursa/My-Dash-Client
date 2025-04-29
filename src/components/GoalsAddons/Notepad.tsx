@@ -4,7 +4,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import {
-  getContentNotePad,
+  getContentNotePadForNotepadTSX,
   updateContentNotePad,
   clearContentNotePad,
 } from "../../lib/notepadApi";
@@ -17,7 +17,7 @@ const Notepad: React.FC = () => {
 
   const { data } = useQuery<{ contentNotePad: string }, Error>({
     queryKey: ["notepad", user?._id],
-    queryFn: () => getContentNotePad(user?._id as string),
+    queryFn: () => getContentNotePadForNotepadTSX(user?._id as string),
     enabled: !!user?._id,
     staleTime: 0,
     refetchOnWindowFocus: true,
