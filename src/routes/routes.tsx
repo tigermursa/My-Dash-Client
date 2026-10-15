@@ -99,6 +99,10 @@ const router = createBrowserRouter([
         path: "/settings",
         element: <Settings />,
       },
+      {
+        path: "/time",
+        element: <Settings />,
+      },
     ],
   },
   {
